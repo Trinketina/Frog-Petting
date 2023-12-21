@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "frog-petting",
+	"version": "${version}",
+	"name": "Pet the Frog",
+	"description": "A mod that lets you squish and pet frogs. That's it.",
+	"authors": [
+		"Trinketina"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/frog-petting/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "net.trinketina.frogpetting.FrogPettingMod"
+		],
+		"client": [
+			"net.trinketina.frogpetting.FrogPettingModClient"
+		],
+		"fabric-datagen": [
+			"net.trinketina.frogpetting.FrogPettingModDataGenerator"
+		]
+	},
+	"mixins": [
+      "frog-petting.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.22",
+		"minecraft": "=1.20.X",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
