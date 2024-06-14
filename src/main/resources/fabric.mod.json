@@ -8,8 +8,8 @@
 		"Trinketina"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/frog-petting/",
+		"sources": "https://github.com/Trinketina/Frog-Petting-1.20.X/"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/frog-petting/icon.png",
@@ -20,19 +20,15 @@
 		],
 		"client": [
 			"net.trinketina.frogpetting.FrogPettingModClient"
-		],
-		"fabric-datagen": [
-			"net.trinketina.frogpetting.FrogPettingModDataGenerator"
 		]
 	},
 	"mixins": [
       "frog-petting.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.14.22",
-		"minecraft": "=1.20.X",
-		"java": ">=17",
-		"fabric-api": "*"
+		"fabricloader": ">=0.15.11",
+		"minecraft": "=1.21.X",
+		"java": ">=21"
 	},
 	"suggests": {
 		"another-mod": "*"
