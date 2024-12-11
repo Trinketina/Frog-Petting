@@ -1,5 +1,4 @@
 package net.trinketina.frogpetting;
-
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
