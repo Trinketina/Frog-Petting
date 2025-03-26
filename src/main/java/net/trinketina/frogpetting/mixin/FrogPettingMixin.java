@@ -2,10 +2,9 @@ package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.VariantHolder;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.FrogEntity;
-import net.minecraft.entity.passive.FrogVariant;
+import net.minecraft.entity.passive.FrogVariants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -21,7 +20,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(FrogEntity.class)
 public abstract class FrogPettingMixin
     extends AnimalEntity
-        implements VariantHolder<FrogVariant> {
+        implements FrogVariants {
     @Shadow @Final public AnimationState croakingAnimationState;
 
     protected FrogPettingMixin(EntityType<? extends AnimalEntity> entityType, World world) {
@@ -38,7 +37,7 @@ public abstract class FrogPettingMixin
             this.croakingAnimationState.start(this.age-10);
             playAmbientSound();
 
-            getWorld().addParticle(ParticleTypes.HEART,this.getX()+Math.random()*.1,this.getY()+Math.random()*.5+.3,this.getZ()+Math.random()*.1,0.0D, 0.2D, 0.0D);
+            getWorld().addParticleClient(ParticleTypes.HEART,this.getX()+Math.random()*.1,this.getY()+Math.random()*.5+.3,this.getZ()+Math.random()*.1,0.0D, 0.2D, 0.0D);
 
             FrogPettingModClient.LOGGER.info(" Croaked Frog");
             return ActionResult.SUCCESS;
