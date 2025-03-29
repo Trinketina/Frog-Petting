@@ -3,7 +3,8 @@
 	"package": "net.trinketina.frogpetting.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"FrogPettingMixin"
+		"FrogEntityPetting",
+		"PettingMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -18,18 +18,18 @@ import org.spongepowered.asm.mixin.Shadow;
 
 
 @Mixin(FrogEntity.class)
-public abstract class FrogPettingMixin
+public abstract class FrogEntityPetting
     extends AnimalEntity
         implements FrogVariants {
     @Shadow @Final public AnimationState croakingAnimationState;
 
-    protected FrogPettingMixin(EntityType<? extends AnimalEntity> entityType, World world) {
+    protected FrogEntityPetting(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        FrogPettingModClient.LOGGER.info(" Trying to Croak Frog");
+        FrogPettingModClient.LOGGER.info("Trying to Croak Frog");
         ItemStack itemStack = player.getStackInHand(hand);
         //check whether the hand is empty
         if(itemStack == ItemStack.EMPTY) {
@@ -39,7 +39,7 @@ public abstract class FrogPettingMixin
 
             getWorld().addParticleClient(ParticleTypes.HEART,this.getX()+Math.random()*.1,this.getY()+Math.random()*.5+.3,this.getZ()+Math.random()*.1,0.0D, 0.2D, 0.0D);
 
-            FrogPettingModClient.LOGGER.info(" Croaked Frog");
+            FrogPettingModClient.LOGGER.info("Croaked Frog");
             return ActionResult.SUCCESS;
         }
         //runs through the other interactions if petting the frog fails
