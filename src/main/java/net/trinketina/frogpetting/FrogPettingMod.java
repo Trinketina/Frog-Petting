@@ -17,7 +17,5 @@ public class FrogPettingMod implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		//LOGGER.info("Croaking Frogs please wait...");
-
-
 	}
 }
