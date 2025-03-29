@@ -3,9 +3,11 @@
 	"package": "net.trinketina.frogpetting.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"FrogEntityPetting",
-		"AllayEntityPetting",
-		"PettingMixin"
+		"PettingMixin",
+		"PettableAllay",
+		"PettableBee",
+		"PettableCat",
+		"PettableFrog"
 	],
 	"injectors": {
 		"defaultRequire": 1
