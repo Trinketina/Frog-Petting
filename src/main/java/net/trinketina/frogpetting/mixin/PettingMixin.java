@@ -26,6 +26,8 @@ public abstract class PettingMixin
     extends LivingEntity implements PettableInterface {
     protected int last_pet = -100;
 
+    public abstract boolean uniqueRequirements();
+
     @Override public float getOffset() {
         return default_offset;
     }

@@ -7,7 +7,12 @@
 		"PettableAllay",
 		"PettableBee",
 		"PettableCat",
-		"PettableFrog"
+		"PettableCow",
+		"PettableDolphin",
+		"PettableFrog",
+		"PettableGoat",
+		"PettablePanda",
+		"PettableTurtle"
 	],
 	"injectors": {
 		"defaultRequire": 1
