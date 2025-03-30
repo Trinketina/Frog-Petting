@@ -6,6 +6,8 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.passive.FrogVariants;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
 import org.spongepowered.asm.mixin.Final;
@@ -21,10 +23,10 @@ public abstract class PettableFrog
     @Unique
     protected double vertical_particle_offset = .5d;
 
-    @Override public void uniqueInteraction() {
+    @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         //plays the croaking animation, age decreased slightly to make the animation start at a later step
         this.croakingAnimationState.start(this.age-10);
-        super.uniqueInteraction();
+        super.uniqueInteraction(player, hand);
     }
     @Override public double getOffset() {
         return vertical_particle_offset;

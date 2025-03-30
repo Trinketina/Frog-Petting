@@ -8,6 +8,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.PandaEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -24,9 +25,10 @@ public abstract class PettablePanda extends AnimalEntity implements PettableInte
     @Unique
     protected double vertical_particle_offset = 1.5d;
 
-    @Override public void uniqueInteraction() {
-        playAmbientSound();
-    }
+    /*@Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
+        this.getWorld().playSoundFromEntityClient(this, getAmbientSound(), SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+
+    }*/
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking();}
     @Override public double getOffset() {
         return vertical_particle_offset;

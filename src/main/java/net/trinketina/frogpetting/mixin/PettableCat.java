@@ -3,7 +3,10 @@ package net.trinketina.frogpetting.mixin;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,12 +22,12 @@ public abstract class PettableCat
     @Unique
     protected double vertical_particle_offset = .4d;
 
-    @Override public void uniqueInteraction() {
+    @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         //tells the cat to purr
         if (Math.random() > .2f)
-            this.playSound(SoundEvents.ENTITY_CAT_PURR);
+            this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_CAT_PURR, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
         else
-            this.playSound(SoundEvents.ENTITY_CAT_PURREOW);
+            this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_CAT_PURREOW, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getOffset() {
         return vertical_particle_offset;
