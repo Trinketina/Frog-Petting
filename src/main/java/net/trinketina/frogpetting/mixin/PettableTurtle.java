@@ -13,13 +13,13 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(TurtleEntity.class)
 public abstract class PettableTurtle extends PettingMixin implements PettableInterface {
     @Unique
-    protected float vertical_particle_offset = .4f;
+    protected double vertical_particle_offset = .4d;
 
     @Override public void uniqueInteraction() {
         super.uniqueInteraction();
     }
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking();}
-    @Override public float getOffset() {
+    @Override public double getOffset() {
         return vertical_particle_offset;
     }
 

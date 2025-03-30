@@ -14,12 +14,12 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(GoatEntity.class)
 public abstract class PettableGoat extends PettingMixin implements Angerable, Flutterer, PettableInterface {
     @Unique
-    protected float vertical_particle_offset = 1f;
+    protected double vertical_particle_offset = 1d;
 
     @Override public void uniqueInteraction() {
         super.uniqueInteraction();
     }
-    @Override public float getOffset() {
+    @Override public double getOffset() {
         return vertical_particle_offset;
     }
 

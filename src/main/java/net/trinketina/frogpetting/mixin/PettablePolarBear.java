@@ -1,31 +1,31 @@
 package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Flutterer;
-import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-/*@Mixin(.class)*/
-public abstract class BasicPettable extends PettingMixin implements PettableInterface {
+@Mixin(PolarBearEntity.class)
+public abstract class PettablePolarBear extends PettingMixin implements PettableInterface {
     @Unique
-    protected double vertical_particle_offset = .4d;
+    protected double vertical_particle_offset = 10d;
 
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     @Override public void uniqueInteraction() {
-        super.uniqueInteraction();
+        this.playSound(SoundEvents.ENTITY_POLAR_BEAR_AMBIENT_BABY);
+        //playAmbientSound();
     }
     @Override public double getOffset() {
         return vertical_particle_offset;
     }
 
-    protected BasicPettable(EntityType<? extends AnimalEntity> entityType, World world) {
+    protected PettablePolarBear(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
 }

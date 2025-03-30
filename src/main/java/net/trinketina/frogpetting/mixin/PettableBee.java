@@ -15,12 +15,12 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(BeeEntity.class)
 public abstract class PettableBee extends PettingMixin implements Angerable, Flutterer, PettableInterface {
     @Unique
-    protected float vertical_particle_offset = .4f;
+    protected double vertical_particle_offset = .4d;
 
     @Override public void uniqueInteraction() {
-        this.playSound(SoundEvents.ENTITY_BEE_POLLINATE, 1.0F, 1.0F);
+        this.playSound(SoundEvents.ENTITY_BEE_POLLINATE);
     }
-    @Override public float getOffset() {
+    @Override public double getOffset() {
         return vertical_particle_offset;
     }
 

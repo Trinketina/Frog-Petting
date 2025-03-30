@@ -19,14 +19,14 @@ public abstract class PettableFrog
     extends PettingMixin
         implements FrogVariants, PettableInterface {
     @Unique
-    protected float vertical_particle_offset = .5f;
+    protected double vertical_particle_offset = .5d;
 
     @Override public void uniqueInteraction() {
         //plays the croaking animation, age decreased slightly to make the animation start at a later step
         this.croakingAnimationState.start(this.age-10);
         super.uniqueInteraction();
     }
-    @Override public float getOffset() {
+    @Override public double getOffset() {
         return vertical_particle_offset;
     }
 

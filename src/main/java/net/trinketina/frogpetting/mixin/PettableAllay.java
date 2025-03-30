@@ -21,7 +21,7 @@ public abstract class PettableAllay
 
 
     @Unique
-    protected float vertical_particle_offset = .4f;
+    protected double vertical_particle_offset = .4d;
 
     @Override public void uniqueInteraction() {
         //makes the Allay dance!
@@ -31,7 +31,7 @@ public abstract class PettableAllay
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {
         return !this.isHoldingItem() && super.uniqueRequirements(player, hand);
     }
-    @Override public float getOffset() {
+    @Override public double getOffset() {
         return vertical_particle_offset;
     }
 

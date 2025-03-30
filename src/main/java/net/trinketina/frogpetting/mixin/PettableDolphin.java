@@ -15,12 +15,12 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(DolphinEntity.class)
 public abstract class PettableDolphin extends PettingMixin implements Angerable, Flutterer, PettableInterface {
     @Unique
-    protected float vertical_particle_offset = .5f;
+    protected double vertical_particle_offset = .5d;
 
     @Override public void uniqueInteraction() {
         this.playSound(SoundEvents.ENTITY_DOLPHIN_PLAY, 1.0F, 1.0F);
     }
-    @Override public float getOffset() {
+    @Override public double getOffset() {
         return vertical_particle_offset;
     }
 

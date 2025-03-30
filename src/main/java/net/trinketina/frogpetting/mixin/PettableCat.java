@@ -17,7 +17,7 @@ public abstract class PettableCat
 
 
     @Unique
-    protected float vertical_particle_offset = .4f;
+    protected double vertical_particle_offset = .4d;
 
     @Override public void uniqueInteraction() {
         //tells the cat to purr
@@ -26,7 +26,7 @@ public abstract class PettableCat
         else
             this.playSound(SoundEvents.ENTITY_CAT_PURREOW);
     }
-    @Override public float getOffset() {
+    @Override public double getOffset() {
         return vertical_particle_offset;
     }
 

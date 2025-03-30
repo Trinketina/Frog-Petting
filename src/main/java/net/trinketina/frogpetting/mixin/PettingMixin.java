@@ -28,7 +28,7 @@ public abstract class PettingMixin
 
     public abstract boolean uniqueRequirements();
 
-    @Override public float getOffset() {
+    @Override public double getOffset() {
         return default_offset;
     }
     @Override public void uniqueInteraction() { playAmbientSound(); }
