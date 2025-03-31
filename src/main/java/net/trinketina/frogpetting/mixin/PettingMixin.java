@@ -25,6 +25,7 @@ import net.trinketina.frogpetting.config.PettingConfig;
 import org.joml.Vector2d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -36,6 +37,7 @@ import java.util.logging.Logger;
 @Mixin(MobEntity.class)
 public abstract class PettingMixin
     extends LivingEntity implements PettableInterface {
+    @Unique
     protected int last_pet = -100;
 
     public abstract boolean uniqueRequirements();

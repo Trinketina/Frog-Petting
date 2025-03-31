@@ -2,14 +2,14 @@
 	"schemaVersion": 1,
 	"id": "frog-petting",
 	"version": "${version}",
-	"name": "Pet the Frog",
-	"description": "A mod that lets you squish and pet frogs. That's it.",
+	"name": "Pet Frogs (And More!)",
+	"description": "A mod that lets you squish and pet all the animals you could want!",
 	"authors": [
 		"Trinketina"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/frog-petting/",
-		"sources": "https://github.com/Trinketina/Frog-Petting-1.20.X/"
+		"sources": "https://github.com/Trinketina/Frog-Petting/"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/frog-petting/icon.png",
