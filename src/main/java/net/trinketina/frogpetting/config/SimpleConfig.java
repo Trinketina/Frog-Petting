@@ -230,7 +230,13 @@ public class SimpleConfig {
             return def;
         }
     }
-
+    public float getOrDefault( String key, float def ) {
+        try {
+            return Float.parseFloat( get(key) );
+        } catch (Exception e) {
+            return def;
+        }
+    }
     /**
      * If any error occurred during loading or reading from the config
      * a 'broken' flag is set, indicating that the config's state

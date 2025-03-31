@@ -5,6 +5,7 @@
 	"mixins": [
 		"PettingMixin",
 		"PettableAllay",
+		"PettableBat",
 		"PettableBee",
 		"PettableCamel",
 		"PettableCat",

@@ -2,6 +2,8 @@ package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.control.JumpControl;
+import net.minecraft.entity.ai.control.LookControl;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -14,11 +16,13 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.FrogPettingModClient;
 import net.trinketina.frogpetting.PettableInterface;
 import net.trinketina.frogpetting.config.PettingConfig;
+import org.joml.Vector2d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -58,10 +62,10 @@ public abstract class PettingMixin
             if (!getWorld().isClient) {
                 this.last_pet = this.age;
                 cir.setReturnValue(ActionResult.SUCCESS);
+                return;
             }
             //runs the custom interactions, if any are present
             uniqueInteraction(player, hand);
-            //player.playSound(getAmbientSound());
             Vec3d rotation = this.getRotationVecClient();
             this.getWorld().addParticleClient(ParticleTypes.HEART,
                     this.getX()+Math.random()*.1 + (getForwardOffset() * rotation.getX()),
@@ -77,11 +81,14 @@ public abstract class PettingMixin
         return;
     }
     @Shadow public ActionResult interactMob(PlayerEntity player, Hand hand) {return ActionResult.PASS;}
-    @Shadow public boolean hasSaddleEquipped() {return false;}
-    @Shadow public SoundEvent getAmbientSound() {return null;}
-    @Shadow public boolean canBeLeashed() {
-        return !(this instanceof Monster);
-    }
+    @Shadow public abstract boolean hasSaddleEquipped();
+    @Shadow public abstract SoundEvent getAmbientSound();
+    @Shadow public abstract boolean canBeLeashed();
+
+    @Shadow protected JumpControl jumpControl;
+
+    @Shadow public abstract LookControl getLookControl();
+
     protected PettingMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }

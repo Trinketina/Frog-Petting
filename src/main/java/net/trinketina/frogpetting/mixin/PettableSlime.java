@@ -10,6 +10,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
+import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -22,14 +23,14 @@ public abstract class PettableSlime extends PettingMixin implements PettableInte
         return !player.isSneaking() && this.isSmall();
     }
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        this.targetStretch = -.8f;
+        this.targetStretch = PettingConfig.SLIME_SQUISHINESS;
         this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_SLIME_SQUISH, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;
     }
 
-    @Shadow public boolean isSmall() { return true; }
+    @Shadow public abstract boolean isSmall();
     @Shadow public float targetStretch;
 
     protected PettableSlime(EntityType<? extends AnimalEntity> entityType, World world) {

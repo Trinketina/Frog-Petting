@@ -53,10 +53,8 @@ public abstract class PettableAllay
 
     @Shadow @Final private static TrackedData<Boolean> DANCING;
 
-    @Shadow public boolean isHoldingItem() {
-        return !this.getStackInHand(Hand.MAIN_HAND).isEmpty();
-    }
-    @Shadow public void setDancing(boolean dancing) {}
+    @Shadow public abstract boolean isHoldingItem();
+    @Shadow public abstract void setDancing(boolean dancing);
     protected PettableAllay(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }

@@ -22,7 +22,9 @@ abstract class PettableCamel extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = 2.5d;
     @Unique
-    protected double vertical_sitting_particle_offset = .7d;
+    protected double vertical_sitting_particle_offset = 1.4d;
+    @Unique
+    protected double forward_particle_offset = 1.6d;
 
     //@Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
@@ -34,7 +36,8 @@ abstract class PettableCamel extends PettingMixin implements PettableInterface {
             return vertical_sitting_particle_offset;
         return vertical_particle_offset;
     }
-    //@Override public double getForwardOffset() {return horizontal_particle_offset;}
+    @Override public double getForwardOffset() {return forward_particle_offset;}
+
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (this.age > last_pet + PettingConfig.COOLDOWN*2 ) {
@@ -47,7 +50,7 @@ abstract class PettableCamel extends PettingMixin implements PettableInterface {
         return;
     }
 
-    @Shadow public boolean isSitting() {return false;}
+    @Shadow public abstract boolean isSitting();
     @Shadow public final AnimationState idlingAnimationState = new AnimationState();
     protected PettableCamel(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);

@@ -11,6 +11,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(GoatEntity.class)
@@ -19,11 +20,16 @@ public abstract class PettableGoat extends PettingMixin implements Angerable, Fl
     protected double vertical_particle_offset = 1d;
 
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
+        //preparingRam = true;
+        headPitch = 10;
         super.uniqueInteraction(player, hand);
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;
     }
+
+    @Shadow private boolean preparingRam;
+    @Shadow private int headPitch;
 
     protected PettableGoat(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);

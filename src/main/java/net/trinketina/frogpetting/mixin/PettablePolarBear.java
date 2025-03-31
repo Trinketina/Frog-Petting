@@ -16,6 +16,8 @@ import org.spongepowered.asm.mixin.Unique;
 public abstract class PettablePolarBear extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = 1.5d;
+    @Unique
+    protected double forward_particle_offset = 1d;
 
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
@@ -23,6 +25,9 @@ public abstract class PettablePolarBear extends PettingMixin implements Pettable
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;
+    }
+    @Override public double getForwardOffset() {
+        return forward_particle_offset;
     }
 
     protected PettablePolarBear(EntityType<? extends AnimalEntity> entityType, World world) {
