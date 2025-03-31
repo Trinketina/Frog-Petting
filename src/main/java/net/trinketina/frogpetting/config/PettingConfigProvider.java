@@ -32,7 +32,7 @@ public class PettingConfigProvider implements SimpleConfig.DefaultConfig {
         configContents += "\n";
     }
     public void addSeparator() {
-        configContents += "--------------------------\n";
+        configContents += "#--------------------------\n";
     }
 
     @Override

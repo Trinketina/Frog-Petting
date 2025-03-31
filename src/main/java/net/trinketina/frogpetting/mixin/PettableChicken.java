@@ -8,6 +8,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.trinketina.frogpetting.PettableInterface;
+import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -19,7 +20,11 @@ public abstract class PettableChicken extends PettingMixin implements PettableIn
 
     //@Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        maxWingDeviation = 1f;
+        if (PettingConfig.ENABLE_CHICKEN_UNIQUE) {
+            this.flapProgress = 0;
+            this.flapSpeed = 1;
+            this.maxWingDeviation = 1;
+        }
 
         super.uniqueInteraction(player, hand);
     }
@@ -28,6 +33,10 @@ public abstract class PettableChicken extends PettingMixin implements PettableIn
     }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
     @Shadow public float maxWingDeviation;
+    @Shadow public float flapSpeed;
+
+    @Shadow public float flapProgress;
+
     protected PettableChicken(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }

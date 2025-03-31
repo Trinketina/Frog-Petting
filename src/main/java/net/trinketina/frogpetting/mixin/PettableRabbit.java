@@ -10,6 +10,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
+import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -26,7 +27,8 @@ public abstract class PettableRabbit extends PettingMixin implements PettableInt
 
     //@Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        this.startJump();
+        if (PettingConfig.ENABLE_RABBIT_UNIQUE)
+            this.startJump();
         this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_RABBIT_JUMP, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {

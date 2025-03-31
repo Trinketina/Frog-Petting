@@ -9,6 +9,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
+import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,7 +24,8 @@ public abstract class PettableCat
     protected double vertical_particle_offset = .4d;
 
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        headDownAnimation = 1f;
+        if (PettingConfig.ENABLE_CAT_UNIQUE)
+            headDownAnimation = 1f;
         //tells the cat to purr
         if (Math.random() > .2f)
             this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_CAT_PURR, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());

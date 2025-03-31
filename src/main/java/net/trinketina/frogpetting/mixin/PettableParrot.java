@@ -24,9 +24,11 @@ public abstract class PettableParrot extends PettingMixin implements PettableInt
 
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return player.isSneaking();}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        this.flapProgress = 0;
-        this.flapSpeed = 1;
-        this.maxWingDeviation = 1;
+        if (PettingConfig.ENABLE_PARROT_UNIQUE) {
+            this.flapProgress = 0;
+            this.flapSpeed = 1;
+            this.maxWingDeviation = 1;
+        }
         super.uniqueInteraction(player, hand);
     }
     @Override public double getVerticalOffset() {

@@ -12,6 +12,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
+import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -22,7 +23,8 @@ public abstract class PettableBee extends PettingMixin implements Angerable, Flu
     protected double vertical_particle_offset = .4d;
 
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        currentPitch = 2f;
+        if (PettingConfig.ENABLE_BEE_UNIQUE)
+            currentPitch = 2f;
         this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_BEE_POLLINATE, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {

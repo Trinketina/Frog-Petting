@@ -31,8 +31,10 @@ public abstract class PettableAllay
 
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         //makes the Allay dance!
-        pettedDancing = true;
-        this.dataTracker.set(DANCING, pettedDancing);
+        if (PettingConfig.ENABLE_ALLAY_UNIQUE) {
+            pettedDancing = true;
+            this.dataTracker.set(DANCING, pettedDancing);
+        }
         super.uniqueInteraction(player, hand);
     }
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {

@@ -28,7 +28,8 @@ abstract class PettableCamel extends PettingMixin implements PettableInterface {
 
     //@Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        idlingAnimationState.start(this.age - 50);
+        if (PettingConfig.ENABLE_CAMEL_UNIQUE)
+            idlingAnimationState.start(this.age - 50);
         super.uniqueInteraction(player, hand);
     }
     @Override public double getVerticalOffset() {
