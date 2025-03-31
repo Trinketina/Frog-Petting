@@ -23,7 +23,7 @@ public abstract class PettableDolphin extends PettingMixin implements Angerable,
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_DOLPHIN_PLAY, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
-    @Override public double getOffset() {
+    @Override public double getVerticalOffset() {
         return vertical_particle_offset;
     }
 

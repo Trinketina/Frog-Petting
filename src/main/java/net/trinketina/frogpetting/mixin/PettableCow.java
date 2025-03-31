@@ -22,7 +22,7 @@ public abstract class PettableCow extends PettingMixin implements PettableInterf
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         super.uniqueInteraction(player, hand);
     }
-    @Override public double getOffset() {
+    @Override public double getVerticalOffset() {
         return vertical_particle_offset;
     }
 

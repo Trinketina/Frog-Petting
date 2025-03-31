@@ -21,7 +21,7 @@ public abstract class PettableGoat extends PettingMixin implements Angerable, Fl
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         super.uniqueInteraction(player, hand);
     }
-    @Override public double getOffset() {
+    @Override public double getVerticalOffset() {
         return vertical_particle_offset;
     }
 

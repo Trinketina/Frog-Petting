@@ -30,7 +30,7 @@ public abstract class PettablePanda extends AnimalEntity implements PettableInte
 
     }*/
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking();}
-    @Override public double getOffset() {
+    @Override public double getVerticalOffset() {
         return vertical_particle_offset;
     }
 

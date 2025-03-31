@@ -12,7 +12,16 @@
 		"PettableFrog",
 		"PettableGoat",
 		"PettablePanda",
-		"PettableTurtle"
+		"PettablePig",
+		"PettablePolarBear",
+		"PettableRabbit",
+		"PettableRideables",
+		"PettableSheep",
+		"PettableSlime",
+		"PettableSniffer",
+		"PettableStrider",
+		"PettableTurtle",
+		"PettableWolf"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -28,7 +28,7 @@ public abstract class PettableFrog
         this.croakingAnimationState.start(this.age-10);
         super.uniqueInteraction(player, hand);
     }
-    @Override public double getOffset() {
+    @Override public double getVerticalOffset() {
         return vertical_particle_offset;
     }
 
