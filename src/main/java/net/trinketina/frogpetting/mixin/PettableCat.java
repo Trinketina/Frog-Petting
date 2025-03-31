@@ -23,6 +23,7 @@ public abstract class PettableCat
     protected double vertical_particle_offset = .4d;
 
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
+        headDownAnimation = 1f;
         //tells the cat to purr
         if (Math.random() > .2f)
             this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_CAT_PURR, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
@@ -32,7 +33,7 @@ public abstract class PettableCat
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;
     }
-
+    @Shadow private float headDownAnimation;
     protected PettableCat(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
     }
