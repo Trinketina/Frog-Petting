@@ -47,7 +47,9 @@ public abstract class PettingMixin
     }
     @Override public double getForwardOffset() {return default_forward_offset;}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        this.getWorld().playSoundFromEntityClient(this, getAmbientSound(), SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        if (this.getAmbientSound() == null) return;
+
+        this.getWorld().playSoundFromEntityClient(this, this.getAmbientSound(), SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking() && this.canBeLeashed();}
 
@@ -90,7 +92,7 @@ public abstract class PettingMixin
     @Shadow protected JumpControl jumpControl;
 
     @Shadow public abstract LookControl getLookControl();
-
+    
     protected PettingMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }

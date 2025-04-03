@@ -43,10 +43,9 @@ public abstract class PettablePlayers extends LivingEntity implements PettableIn
 
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     public void onInteract(Entity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        FrogPettingModClient.LOGGER.info("trying to pet " + this.getType().toString());
         ItemStack itemStack = this.getStackInHand(hand);
-
         if (entity.isPlayer() && itemStack.isEmpty() && !this.isSpectator() && !this.isSneaking()) {
+            FrogPettingModClient.LOGGER.info("trying to pet " + this.getType().toString());
             if (this.age < last_pet + PettingConfig.COOLDOWN) {
                 return;
             }
