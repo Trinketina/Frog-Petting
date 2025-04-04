@@ -1,8 +1,9 @@
 package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AbstractCowEntity;
+//import net.minecraft.entity.passive.AbstractCowEntity;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -10,7 +11,7 @@ import net.trinketina.frogpetting.PettableInterface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(AbstractCowEntity.class)
+@Mixin(CowEntity.class)
 public abstract class PettableCow extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = 1.5d;

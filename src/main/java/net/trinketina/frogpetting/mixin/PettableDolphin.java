@@ -20,7 +20,7 @@ public abstract class PettableDolphin extends PettingMixin implements Angerable,
     protected double vertical_particle_offset = .5d;
 
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_DOLPHIN_PLAY, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_DOLPHIN_PLAY, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;

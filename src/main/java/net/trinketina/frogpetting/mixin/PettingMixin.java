@@ -40,7 +40,7 @@ public abstract class PettingMixin
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         if (this.getAmbientSound() == null) return;
 
-        this.getWorld().playSoundFromEntityClient(this, this.getAmbientSound(), SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        this.getWorld().playSoundFromEntity(this, this.getAmbientSound(), SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking() && this.canBeLeashed();}
 
@@ -62,7 +62,7 @@ public abstract class PettingMixin
             //runs the custom interactions, if any are present
             uniqueInteraction(player, hand);
             Vec3d rotation = this.getRotationVecClient();
-            this.getWorld().addParticleClient(ParticleTypes.HEART,
+            this.getWorld().addParticle(ParticleTypes.HEART,
                     this.getX()+Math.random()*.1 + (getForwardOffset() * rotation.getX()),
                     this.getY()+Math.random()*.5 + getVerticalOffset(),
                     this.getZ()+Math.random()*.1 + (getForwardOffset() * rotation.getZ()),
@@ -76,7 +76,7 @@ public abstract class PettingMixin
         return;
     }
     @Shadow public ActionResult interactMob(PlayerEntity player, Hand hand) {return ActionResult.PASS;}
-    @Shadow public abstract boolean hasSaddleEquipped();
+    //@Shadow public abstract boolean hasSaddleEquipped();
     @Shadow public abstract SoundEvent getAmbientSound();
     @Shadow public abstract boolean canBeLeashed();
 

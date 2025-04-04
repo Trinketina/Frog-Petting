@@ -27,7 +27,7 @@ public abstract class PettableSlime extends PettingMixin implements PettableInte
         if (PettingConfig.ENABLE_SLIME_UNIQUE) {
             this.targetStretch = PettingConfig.SLIME_SQUISHINESS;
         }
-        this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_SLIME_SQUISH, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_SLIME_SQUISH, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;

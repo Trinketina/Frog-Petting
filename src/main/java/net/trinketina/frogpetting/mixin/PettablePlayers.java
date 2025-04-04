@@ -52,7 +52,7 @@ public abstract class PettablePlayers extends LivingEntity implements PettableIn
             }*/
 
             Vec3d rotation = entity.getRotationVecClient();
-            entity.getWorld().addParticleClient(ParticleTypes.HEART,
+            entity.getWorld().addParticle(ParticleTypes.HEART,
                     entity.getX()+Math.random()*.1 + (getForwardOffset() * rotation.getX()),
                     entity.getY()+Math.random()*.5 + getVerticalOffset(),
                     entity.getZ()+Math.random()*.1 + (getForwardOffset() * rotation.getZ()),

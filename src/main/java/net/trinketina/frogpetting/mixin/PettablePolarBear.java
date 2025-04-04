@@ -21,7 +21,7 @@ public abstract class PettablePolarBear extends PettingMixin implements Pettable
 
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_POLAR_BEAR_AMBIENT_BABY, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_POLAR_BEAR_AMBIENT_BABY, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;

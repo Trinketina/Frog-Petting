@@ -25,7 +25,7 @@ public abstract class PettableRabbit extends PettingMixin implements PettableInt
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         if (PettingConfig.ENABLE_RABBIT_UNIQUE)
             this.startJump();
-        this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_RABBIT_JUMP, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_RABBIT_JUMP, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;
