@@ -2,7 +2,6 @@ package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.AllayEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;

@@ -14,6 +14,7 @@ import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+
 @Mixin(SlimeEntity.class)
 public abstract class PettableSlime extends PettingMixin implements PettableInterface, Monster {
     @Unique
