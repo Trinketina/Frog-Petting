@@ -1,13 +1,12 @@
-/*package net.trinketina.frogpetting.mixin;
+package net.trinketina.frogpetting.mixin.compat1_21_5;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
-import net.trinketina.frogpetting.mixin.compat1_21_0.PettingMixin;
 import org.spongepowered.asm.mixin.Unique;
 
-*//*@Mixin(.class)*//*
+/*@Mixin(.class)*/
 public abstract class BasicPettable extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = .4d;
@@ -21,4 +20,4 @@ public abstract class BasicPettable extends PettingMixin implements PettableInte
     protected BasicPettable(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
-}*/
+}
