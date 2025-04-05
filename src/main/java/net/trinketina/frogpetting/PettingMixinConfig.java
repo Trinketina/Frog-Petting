@@ -46,9 +46,13 @@ public class PettingMixinConfig implements IMixinConfigPlugin
         {
             return false;
         }
+        String compat = "compat"+VersionUtils.MAJOR + VersionUtils.MINOR + VersionUtils.PATCH;
+        if (mixinClassName.contains(compat)) {
+            return  true;
+        }
 
 
-        return true;
+        return false;
     }
 
     @Override

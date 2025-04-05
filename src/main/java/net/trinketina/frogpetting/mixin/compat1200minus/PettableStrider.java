@@ -1,4 +1,4 @@
-package net.trinketina.frogpetting.mixin.compat1215;
+package net.trinketina.frogpetting.mixin.compat1200minus;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
