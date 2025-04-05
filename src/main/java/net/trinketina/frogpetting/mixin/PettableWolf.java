@@ -45,7 +45,7 @@ public abstract class PettableWolf extends PettingMixin implements PettableInter
             super.uniqueInteraction(player, hand);
             return;
         }
-        this.getWorld().playSoundFromEntity(this, wolf_sound, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        this.getWorld().playSoundFromEntity(player, this, wolf_sound, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;

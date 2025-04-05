@@ -26,7 +26,7 @@ public abstract class PettableSniffer extends PettingMixin implements PettableIn
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         if (PettingConfig.ENABLE_SNIFFER_UNIQUE)
             this.sniffingAnimationState.start(this.age);
-        this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_SNIFFER_HAPPY, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        this.getWorld().playSoundFromEntity(player, this, SoundEvents.ENTITY_SNIFFER_HAPPY, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;

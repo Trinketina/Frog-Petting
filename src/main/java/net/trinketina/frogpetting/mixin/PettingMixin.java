@@ -39,8 +39,7 @@ public abstract class PettingMixin
     @Override public double getForwardOffset() {return default_forward_offset;}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         if (this.getAmbientSound() == null) return;
-
-        this.getWorld().playSoundFromEntity(this, this.getAmbientSound(), SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        this.getWorld().playSoundFromEntity(player,this, this.getAmbientSound(), SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking() && this.canBeLeashedBy(player);}
 
