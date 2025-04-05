@@ -1,4 +1,4 @@
-package net.trinketina.frogpetting.mixin;
+package net.trinketina.frogpetting.mixin.compat1215;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;

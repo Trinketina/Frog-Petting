@@ -1,8 +1,10 @@
-package net.trinketina.frogpetting.mixin;
+package net.trinketina.frogpetting.mixin.compat1215;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.Flutterer;
+import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -14,26 +16,23 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(RabbitEntity.class)
-public abstract class PettableRabbit extends PettingMixin implements PettableInterface {
+@Mixin(BeeEntity.class)
+public abstract class PettableBee extends PettingMixin implements Angerable, Flutterer, PettableInterface {
     @Unique
     protected double vertical_particle_offset = .4d;
-    @Unique
-    protected float jump_pos = 0;
 
-    //@Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
-        if (PettingConfig.ENABLE_RABBIT_UNIQUE)
-            this.startJump();
-        this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_RABBIT_JUMP, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+        if (PettingConfig.ENABLE_BEE_UNIQUE)
+            currentPitch = 2f;
+        this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_BEE_POLLINATE, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     @Override public double getVerticalOffset() {
         return vertical_particle_offset;
     }
 
-    @Shadow public abstract void startJump();;
+    @Shadow private float currentPitch;
 
-    protected PettableRabbit(EntityType<? extends AnimalEntity> entityType, World world) {
+    protected PettableBee(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
 }

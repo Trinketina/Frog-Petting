@@ -1,11 +1,10 @@
-package net.trinketina.frogpetting.mixin;
+package net.trinketina.frogpetting.mixin.compat1215;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
 //import net.minecraft.entity.passive.WolfSoundVariant;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;

@@ -1,4 +1,4 @@
-package net.trinketina.frogpetting.mixin;
+package net.trinketina.frogpetting.mixin.compat1215;
 
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.EntityType;

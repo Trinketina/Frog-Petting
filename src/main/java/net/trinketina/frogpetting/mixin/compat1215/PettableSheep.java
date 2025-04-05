@@ -1,4 +1,4 @@
-package net.trinketina.frogpetting.mixin;
+package net.trinketina.frogpetting.mixin.compat1215;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -9,8 +9,6 @@ import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-
-import java.util.Optional;
 
 @Mixin(SheepEntity.class)
 public abstract class PettableSheep extends PettingMixin implements PettableInterface {
