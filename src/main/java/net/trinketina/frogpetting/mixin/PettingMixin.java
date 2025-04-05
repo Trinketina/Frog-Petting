@@ -42,7 +42,7 @@ public abstract class PettingMixin
 
         this.getWorld().playSoundFromEntity(this, this.getAmbientSound(), SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
-    @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking() && this.canBeLeashed();}
+    @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking() && this.canBeLeashedBy(player);}
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
@@ -78,7 +78,7 @@ public abstract class PettingMixin
     @Shadow public ActionResult interactMob(PlayerEntity player, Hand hand) {return ActionResult.PASS;}
     //@Shadow public abstract boolean hasSaddleEquipped();
     @Shadow public abstract SoundEvent getAmbientSound();
-    @Shadow public abstract boolean canBeLeashed();
+    @Shadow public abstract boolean canBeLeashedBy(PlayerEntity player);
 
     @Shadow protected JumpControl jumpControl;
 
