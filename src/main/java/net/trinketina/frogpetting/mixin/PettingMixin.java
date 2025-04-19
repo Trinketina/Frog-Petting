@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import net.trinketina.frogpetting.FrogPettingModClient;
 import net.trinketina.frogpetting.PettableInterface;
 import net.trinketina.frogpetting.config.PettingConfig;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -46,7 +47,12 @@ public abstract class PettingMixin
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
 
-        FrogPettingModClient.LOGGER.info("trying to pet " + this.getType().toString());
+        String entity = this.getType().toString();
+        FrogPettingModClient.LOGGER.info("trying to pet " + entity);
+        if (PettingConfig.IGNORED_MOBS.contains(entity)) {
+            FrogPettingModClient.LOGGER.info(entity + " is ignored");
+            return;
+        }
         ItemStack itemStack = player.getStackInHand(hand);
         //check whether the hand is empty
         if(itemStack.isEmpty() && uniqueRequirements(player, hand)) {
