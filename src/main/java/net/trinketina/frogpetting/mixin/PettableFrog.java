@@ -4,7 +4,6 @@ import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.FrogEntity;
-import net.minecraft.entity.passive.FrogVariants;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;

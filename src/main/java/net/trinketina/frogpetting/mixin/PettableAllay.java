@@ -45,7 +45,7 @@ public abstract class PettableAllay
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void onTick(CallbackInfo ci) {
-        if(this.getWorld().isClient && this.age > this.last_pet + 10) {
+        if(this.getWorld().isClient && this.age > this.last_pet_age + 10) {
             pettedDancing = false;
             this.dataTracker.set(DANCING, pettedDancing);
         }

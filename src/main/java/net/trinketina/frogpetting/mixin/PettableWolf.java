@@ -83,21 +83,9 @@ public abstract class PettableWolf extends PettingMixin implements PettableInter
     }
 
     @Shadow private RegistryEntry<WolfSoundVariant> getSoundVariant() {return null;}
-    @Shadow public void setBegging(boolean begging) {}
-
-    @Shadow private float begAnimationProgress;
-
     @Shadow private float shakeProgress;
-
-    @Shadow private boolean furWet;
-
-    @Shadow private boolean canShakeWaterOff;
-
     @Shadow private float lastShakeProgress;
 
-    /*@Shadow private boolean furWet;
-
-                        @Shadow private float shakeProgress;*/
     protected PettableWolf(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
