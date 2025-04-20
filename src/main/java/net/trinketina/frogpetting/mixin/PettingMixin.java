@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PettingMixin
     extends LivingEntity implements PettableInterface {
     @Unique
-    protected int last_pet = -100;
+    protected int last_pet_age = -100;
 
     public abstract boolean uniqueRequirements();
 
@@ -47,18 +47,25 @@ public abstract class PettingMixin
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
 
-        FrogPettingModClient.LOGGER.info("trying to pet " + this.getType().toString());
+        String entity_string = this.getType().toString();
+        //FrogPettingModClient.LOGGER.info("trying to pet " + entity_string);
+
         ItemStack itemStack = player.getStackInHand(hand);
         //check whether the hand is empty
         if(itemStack.isEmpty() && uniqueRequirements(player, hand)) {
-            if (this.age < last_pet + PettingConfig.COOLDOWN) {
+            if (this.age < last_pet_age + PettingConfig.COOLDOWN) {
+                return;
+            }
+            if (PettingConfig.IGNORED_MOBS.contains(entity_string)) {
+                FrogPettingModClient.LOGGER.info("petting " + entity_string + " is ignored");
                 return;
             }
             if (!getWorld().isClient) {
-                this.last_pet = this.age;
+                this.last_pet_age = this.age;
                 cir.setReturnValue(ActionResult.SUCCESS);
                 return;
             }
+            FrogPettingModClient.LOGGER.info("trying to pet " + entity_string);
             //runs the custom interactions, if any are present
             uniqueInteraction(player, hand);
             Vec3d rotation = this.getRotationVecClient();
@@ -67,7 +74,7 @@ public abstract class PettingMixin
                     this.getY()+Math.random()*.5 + getVerticalOffset(),
                     this.getZ()+Math.random()*.1 + (getForwardOffset() * rotation.getZ()),
                     0.0D, 0.2D, 0.0D);
-            last_pet = this.age;
+            last_pet_age = this.age;
 
             FrogPettingModClient.LOGGER.info("success");
             cir.setReturnValue(ActionResult.SUCCESS);

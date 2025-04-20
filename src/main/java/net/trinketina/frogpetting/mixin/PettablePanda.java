@@ -33,8 +33,7 @@ public abstract class PettablePanda extends PettingMixin implements PettableInte
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (cir.getReturnValue() == ActionResult.SUCCESS) return;
 
-        super.interactMob(player, hand);
-        cir.setReturnValue(ActionResult.SUCCESS);
+        cir.setReturnValue(super.interactMob(player, hand));
     }
 
 

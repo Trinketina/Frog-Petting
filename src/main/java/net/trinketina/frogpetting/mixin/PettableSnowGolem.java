@@ -35,8 +35,7 @@ public abstract class PettableSnowGolem extends PettingMixin implements Pettable
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (cir.getReturnValue() != ActionResult.PASS) return;
 
-        super.interactMob(player, hand);
-        cir.setReturnValue(ActionResult.SUCCESS);
+        cir.setReturnValue(super.interactMob(player, hand));
         return;
     }
 
