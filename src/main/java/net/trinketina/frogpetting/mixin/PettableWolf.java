@@ -1,6 +1,7 @@
 package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.Tameable;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
 //import net.minecraft.entity.passive.WolfSoundVariant;
@@ -9,10 +10,12 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.trinketina.frogpetting.FrogPettingModClient;
 import net.trinketina.frogpetting.PettableInterface;
 import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,9 +24,10 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(WolfEntity.class)
-public abstract class PettableWolf extends PettingMixin implements PettableInterface {
+public abstract class PettableWolf extends PettingMixin implements PettableInterface, Tameable {
     @Unique
     protected double vertical_particle_offset = .4d;
     @Unique
@@ -31,6 +35,8 @@ public abstract class PettableWolf extends PettingMixin implements PettableInter
 
     //@Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
+        FrogPettingModClient.LOGGER.info("interact wolf");
+
         if (PettingConfig.ENABLE_WOLF_UNIQUE && !pet_shaking) {
             pet_shaking = true;
             shakeProgress = .1f;
@@ -51,6 +57,17 @@ public abstract class PettableWolf extends PettingMixin implements PettableInter
         return vertical_particle_offset;
     }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
+    @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
+    public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        if (this.age > last_pet_age + PettingConfig.COOLDOWN*2 && !PettingConfig.IGNORED_MOBS.contains(this.getType().toString())) {
+
+            ActionResult pet_result = super.interactMob(player, hand);
+            if (pet_result != ActionResult.SUCCESS)
+                return;
+            cir.setReturnValue(ActionResult.SUCCESS);
+        }
+        return;
+    }
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void onTick(CallbackInfo ci) {
@@ -82,22 +99,9 @@ public abstract class PettableWolf extends PettingMixin implements PettableInter
         }
     }
 
-    //@Shadow private RegistryEntry<WolfSoundVariant> getSoundVariant() {return null;}
-    @Shadow public void setBegging(boolean begging) {}
-
-    @Shadow private float begAnimationProgress;
-
     @Shadow private float shakeProgress;
 
-    @Shadow private boolean furWet;
-
-    @Shadow private boolean canShakeWaterOff;
-
     @Shadow private float lastShakeProgress;
-
-    /*@Shadow private boolean furWet;
-
-                        @Shadow private float shakeProgress;*/
     protected PettableWolf(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }

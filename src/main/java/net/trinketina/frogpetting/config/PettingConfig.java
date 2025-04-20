@@ -67,7 +67,7 @@ public class PettingConfig {
         configs.addSeparator();
         configs.addComment("Disable interactions for some mobs");
         configs.addSeparator();
-        configs.addKeyValuePair(new Pair<>("ignored-mobs", "\"\""), "ignored mobs separated by commas (ex: entity.minecraft.wolf,entity.minecraft.parrot)");
+        configs.addKeyValuePair(new Pair<>("ignored-mobs", "\"\""), "ignored mobs separated by commas (ex: \"entity.minecraft.wolf, entity.minecraft.parrot\")");
         //--
     }
 
