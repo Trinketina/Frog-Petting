@@ -31,7 +31,6 @@ public abstract class PettingMixin
     @Unique
     protected int last_pet_age = -100;
 
-    public abstract boolean uniqueRequirements();
 
     @Override public double getVerticalOffset() {
         return default_vertical_offset;
