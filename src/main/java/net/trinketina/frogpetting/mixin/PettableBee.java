@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(BeeEntity.class)
-public abstract class PettableBee extends PettingMixin implements Angerable, Flutterer, PettableInterface {
+public abstract class PettableBee extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = .4d;
 

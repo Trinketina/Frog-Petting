@@ -19,8 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
 @Mixin(AllayEntity.class)
-public abstract class PettableAllay
-    extends PettingMixin implements PettableInterface {
+public abstract class PettableAllay extends PettingMixin implements PettableInterface {
 
 
     @Unique
