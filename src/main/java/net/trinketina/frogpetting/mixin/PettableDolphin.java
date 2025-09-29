@@ -12,10 +12,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.PettableInterface;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(DolphinEntity.class)
-public abstract class PettableDolphin extends PettingMixin implements Angerable, Flutterer, PettableInterface {
+public abstract class PettableDolphin extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = .5d;
 
