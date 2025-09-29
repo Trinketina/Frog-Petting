@@ -39,9 +39,6 @@ public abstract class PettableAllay
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {
         return !this.isHoldingItem() && super.uniqueRequirements(player, hand);
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void onTick(CallbackInfo ci) {

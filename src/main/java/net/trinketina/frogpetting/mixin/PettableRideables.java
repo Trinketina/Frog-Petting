@@ -36,10 +36,6 @@ public abstract class PettableRideables extends PettingMixin implements Pettable
         return;
     }
 
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
-
     protected PettableRideables(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }

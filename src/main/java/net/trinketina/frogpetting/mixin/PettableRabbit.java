@@ -27,9 +27,6 @@ public abstract class PettableRabbit extends PettingMixin implements PettableInt
             this.startJump();
         this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_RABBIT_JUMP, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
 
     @Shadow public abstract void startJump();;
 

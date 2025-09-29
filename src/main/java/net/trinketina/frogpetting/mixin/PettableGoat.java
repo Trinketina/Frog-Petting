@@ -26,9 +26,6 @@ public abstract class PettableGoat extends PettingMixin implements PettableInter
             headPitch = 10;
         super.uniqueInteraction(player, hand);
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
 
     @Shadow private boolean preparingRam;
     @Shadow private int headPitch;

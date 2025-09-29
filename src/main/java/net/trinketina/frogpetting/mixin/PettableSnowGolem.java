@@ -24,11 +24,6 @@ public abstract class PettableSnowGolem extends PettingMixin implements Pettable
 
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking();}
     //@Override public void uniqueInteraction(PlayerEntity player, Hand hand) {super.uniqueInteraction(player, hand);}
-    @Override public double getVerticalOffset() {
-        if (isShearable())
-            return vertical_particle_offset;
-        return vertical_sheared_particle_offset;
-    }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
 
     @Inject(method = "interactMob", at = @At("RETURN"), cancellable = true)

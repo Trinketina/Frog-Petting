@@ -24,9 +24,6 @@ public abstract class PettableOcelot extends PettingMixin implements PettableInt
             this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_CAT_PURR, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
         else
             this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_CAT_PURREOW, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());    }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
     protected PettableOcelot(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);

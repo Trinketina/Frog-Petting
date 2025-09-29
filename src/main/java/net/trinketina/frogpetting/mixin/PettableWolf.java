@@ -47,9 +47,6 @@ public abstract class PettableWolf extends PettingMixin implements PettableInter
         }
         this.getWorld().playSoundFromEntityClient(this, wolf_sound, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
 
     @Inject(method = "tick", at = @At("HEAD"))

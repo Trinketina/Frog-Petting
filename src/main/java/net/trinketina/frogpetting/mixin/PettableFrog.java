@@ -27,9 +27,6 @@ public abstract class PettableFrog extends PettingMixin implements PettableInter
             this.croakingAnimationState.start(this.age-10);
         super.uniqueInteraction(player, hand);
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
 
     @Shadow @Final public AnimationState croakingAnimationState;
     protected PettableFrog(EntityType<? extends AnimalEntity> entityType, World world) {

@@ -32,12 +32,11 @@ abstract class PettableCamel extends PettingMixin implements PettableInterface {
             idlingAnimationState.start(this.age - 50);
         super.uniqueInteraction(player, hand);
     }
-    @Override public double getVerticalOffset() {
+/*    @Override public double getVerticalOffset() {
         if (isSitting())
             return vertical_sitting_particle_offset;
         return vertical_particle_offset;
-    }
-    @Override public double getForwardOffset() {return forward_particle_offset;}
+    }*/
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {

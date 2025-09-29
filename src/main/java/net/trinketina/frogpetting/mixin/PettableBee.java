@@ -26,9 +26,6 @@ public abstract class PettableBee extends PettingMixin implements PettableInterf
             currentPitch = 2f;
         this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_BEE_POLLINATE, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
 
     @Shadow private float currentPitch;
 

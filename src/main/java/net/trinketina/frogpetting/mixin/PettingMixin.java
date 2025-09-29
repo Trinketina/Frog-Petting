@@ -29,21 +29,17 @@ public abstract class PettingMixin
     @Unique
     protected int last_pet_age = -100;
 
-    @Override public double getVerticalOffset() {
-        return default_vertical_offset;
-    }
-    @Override public double getForwardOffset() {return default_forward_offset;}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         if (this.getAmbientSound() == null) return;
 
         this.getWorld().playSoundFromEntityClient(this, this.getAmbientSound(), SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
-    @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking() && this.canBeLeashed();}
+    @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking();}
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
 
-        String entity_string = this.getType().toString();
+        String entity_string = this.getSavedEntityId();
         //FrogPettingModClient.LOGGER.info("trying to pet " + entity_string);
 
         ItemStack itemStack = player.getStackInHand(hand);

@@ -5,7 +5,6 @@
 	"mixins": [
 		"PettingMixin",
 		"PettableAllay",
-		"PettableBat",
 		"PettableBee",
 		"PettableCamel",
 		"PettableCat",
@@ -17,7 +16,6 @@
 		"PettableOcelot",
 		"PettablePanda",
 		"PettableParrot",
-		"PettablePig",
 		"PettablePlayers",
 		"PettablePolarBear",
 		"PettableRabbit",

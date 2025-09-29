@@ -27,9 +27,6 @@ public abstract class PettableChicken extends PettingMixin implements PettableIn
 
         super.uniqueInteraction(player, hand);
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
     @Shadow public float maxWingDeviation;
     @Shadow public float flapSpeed;

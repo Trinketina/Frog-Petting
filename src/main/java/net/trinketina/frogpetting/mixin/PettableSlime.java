@@ -29,9 +29,6 @@ public abstract class PettableSlime extends PettingMixin implements PettableInte
         }
         this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_SLIME_SQUISH, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
 
     @Shadow public abstract boolean isSmall();
     @Shadow public float targetStretch;
