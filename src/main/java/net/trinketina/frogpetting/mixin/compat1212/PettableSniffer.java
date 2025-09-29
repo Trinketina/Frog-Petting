@@ -28,10 +28,6 @@ public abstract class PettableSniffer extends PettingMixin implements PettableIn
             this.sniffingAnimationState.start(this.age);
         this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_SNIFFER_HAPPY, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
-    @Override public double getForwardOffset() {return forward_particle_offset;}
 
     @Shadow public final AnimationState sniffingAnimationState = new AnimationState();
 

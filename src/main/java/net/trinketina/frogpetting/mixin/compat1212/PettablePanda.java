@@ -25,16 +25,12 @@ public abstract class PettablePanda extends PettingMixin implements PettableInte
         super.uniqueInteraction(player, hand);
     }
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking();}
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
 
     @Inject(method = "interactMob", at = @At("RETURN"), cancellable = true)
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (cir.getReturnValue() == ActionResult.SUCCESS) return;
 
-        super.interactMob(player, hand);
-        cir.setReturnValue(ActionResult.SUCCESS);
+        cir.setReturnValue(super.interactMob(player, hand));
     }
 
 

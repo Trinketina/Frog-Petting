@@ -1,6 +1,9 @@
 package net.trinketina.frogpetting.config;
 import com.mojang.datafixers.util.Pair;
-import net.trinketina.frogpetting.FrogPettingMod;
+import net.trinketina.frogpetting.PettingMain;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class PettingConfig {
     //SimpleConfig CONFIG = SimpleConfig.of( "petting-config" ).provider( this::provider ).request();
@@ -23,6 +26,7 @@ public class PettingConfig {
     public static boolean ENABLE_SLIME_UNIQUE;
     public static boolean ENABLE_SNIFFER_UNIQUE;
     public static boolean ENABLE_WOLF_UNIQUE;
+    public static List<String> IGNORED_MOBS;
 
     public static SimpleConfig CONFIG;
     private static PettingConfigProvider configs;
@@ -31,7 +35,7 @@ public class PettingConfig {
         configs = new PettingConfigProvider();
         createConfigs();
 
-        CONFIG = SimpleConfig.of(FrogPettingMod.MOD_ID + "-config").provider(configs).request();
+        CONFIG = SimpleConfig.of(PettingMain.MOD_ID + "-config").provider(configs).request();
 
         assignConfigs();
     }
@@ -59,7 +63,12 @@ public class PettingConfig {
         configs.addKeyValuePair(new Pair<>("slime-unique", true), "slime squish");
         configs.addKeyValuePair(new Pair<>("sniffer-unique", true), "sniffer sniff");
         configs.addKeyValuePair(new Pair<>("wolf-unique", true), "wolf shake");
-
+        //courtesy of erengeez
+        configs.addSeparator();
+        configs.addComment("Disable interactions for some mobs");
+        configs.addSeparator();
+        configs.addKeyValuePair(new Pair<>("ignored-mobs", "\"\""), "ignored mobs separated by commas (ex: \"minecraft:wolf, minecraft:parrot\")");
+        //--
     }
 
     private static void assignConfigs() {
@@ -78,6 +87,8 @@ public class PettingConfig {
         ENABLE_SLIME_UNIQUE = CONFIG.getOrDefault("slime-unique", true);
         ENABLE_SNIFFER_UNIQUE = CONFIG.getOrDefault("sniffer-unique", true);
         ENABLE_WOLF_UNIQUE = CONFIG.getOrDefault("wolf-unique", true);
+
+        IGNORED_MOBS = Arrays.asList(CONFIG.getOrDefault("ignored-mobs","\"\"").split("\\s*,\\s*"));
         //System.out.println("All " + configs.getConfigsList().size() + " have been set properly");
     }
 }

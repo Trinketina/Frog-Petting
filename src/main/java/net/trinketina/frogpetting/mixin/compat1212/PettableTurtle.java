@@ -19,9 +19,6 @@ public abstract class PettableTurtle extends PettingMixin implements PettableInt
         super.uniqueInteraction(player, hand);
     }
     @Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return !player.isSneaking();}
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
 
     protected PettableTurtle(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);

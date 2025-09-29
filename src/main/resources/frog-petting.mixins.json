@@ -1,0 +1,37 @@
+{
+	"required": true,
+	"package": "net.trinketina.frogpetting.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"PettingMixin",
+		"PettableAllay",
+		"PettableBee",
+		"PettableCamel",
+		"PettableCat",
+		"PettableChicken",
+		"PettableCow",
+		"PettableDolphin",
+		"PettableFrog",
+		"PettableGoat",
+		"PettableOcelot",
+		"PettablePanda",
+		"PettableParrot",
+		"PettablePlayers",
+		"PettablePolarBear",
+		"PettableRabbit",
+		"PettableRideables",
+		"PettableSheep",
+		"PettableSlime",
+		"PettableSniffer",
+		"PettableSnowGolem",
+		"PettableStrider",
+		"PettableTurtle",
+		"PettableWolf"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+    "overwrites": {
+      "requireAnnotations": true
+    }
+}

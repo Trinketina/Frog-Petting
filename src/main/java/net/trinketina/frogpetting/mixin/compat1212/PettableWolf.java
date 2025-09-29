@@ -1,10 +1,11 @@
-package net.trinketina.frogpetting.mixin.compat1212;
+package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
-//import net.minecraft.entity.passive.WolfSoundVariant;
+import net.minecraft.entity.passive.WolfSoundVariant;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -36,18 +37,15 @@ public abstract class PettableWolf extends PettingMixin implements PettableInter
         }
         SoundEvent wolf_sound;
         if (Math.random() > .7f)
-            wolf_sound = SoundEvents.ENTITY_WOLF_AMBIENT; // this.getSoundVariant().value().ambientSound().value();
+            wolf_sound = this.getSoundVariant().value().ambientSound().value();
         else
-            wolf_sound = SoundEvents.ENTITY_WOLF_PANT; // this.getSoundVariant().value().pantSound().value();
+            wolf_sound = this.getSoundVariant().value().pantSound().value();
 
         if (wolf_sound == null) {
             super.uniqueInteraction(player, hand);
             return;
         }
-        this.getWorld().playSoundFromEntity(this, wolf_sound, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
-    }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
+        this.getWorld().playSoundFromEntityClient(this, wolf_sound, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
 
@@ -81,22 +79,10 @@ public abstract class PettableWolf extends PettingMixin implements PettableInter
         }
     }
 
-    //@Shadow private RegistryEntry<WolfSoundVariant> getSoundVariant() {return null;}
-    @Shadow public void setBegging(boolean begging) {}
-
-    @Shadow private float begAnimationProgress;
-
+    @Shadow private RegistryEntry<WolfSoundVariant> getSoundVariant() {return null;}
     @Shadow private float shakeProgress;
-
-    @Shadow private boolean furWet;
-
-    @Shadow private boolean canShakeWaterOff;
-
     @Shadow private float lastShakeProgress;
 
-    /*@Shadow private boolean furWet;
-
-                        @Shadow private float shakeProgress;*/
     protected PettableWolf(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }

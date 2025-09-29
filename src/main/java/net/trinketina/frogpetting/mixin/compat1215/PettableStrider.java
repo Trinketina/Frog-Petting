@@ -24,9 +24,6 @@ public abstract class PettableStrider extends PettingMixin implements PettableIn
         return super.uniqueRequirements(player, hand);
     }
     //@Override public void uniqueInteraction(PlayerEntity player, Hand hand) {super.uniqueInteraction(player, hand);}
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
     protected PettableStrider(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);

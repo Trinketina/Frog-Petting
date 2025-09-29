@@ -17,9 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 
 
 @Mixin(FrogEntity.class)
-public abstract class PettableFrog
-    extends PettingMixin
-        implements PettableInterface {
+public abstract class PettableFrog extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = .5d;
 
@@ -28,9 +26,6 @@ public abstract class PettableFrog
         if (PettingConfig.ENABLE_FROG_UNIQUE)
             this.croakingAnimationState.start(this.age-10);
         super.uniqueInteraction(player, hand);
-    }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
     }
 
     @Shadow @Final public AnimationState croakingAnimationState;

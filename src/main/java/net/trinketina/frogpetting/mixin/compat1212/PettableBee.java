@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(BeeEntity.class)
-public abstract class PettableBee extends PettingMixin implements Angerable, Flutterer, PettableInterface {
+public abstract class PettableBee extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = .4d;
 
@@ -25,9 +25,6 @@ public abstract class PettableBee extends PettingMixin implements Angerable, Flu
         if (PettingConfig.ENABLE_BEE_UNIQUE)
             currentPitch = 2f;
         this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_BEE_POLLINATE, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
-    }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
     }
 
     @Shadow private float currentPitch;

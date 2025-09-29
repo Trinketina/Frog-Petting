@@ -21,12 +21,6 @@ public abstract class PettableCow extends PettingMixin implements PettableInterf
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         super.uniqueInteraction(player, hand);
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
-    @Override public double getForwardOffset() {
-        return forward_particle_offset;
-    }
 
     protected PettableCow(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);

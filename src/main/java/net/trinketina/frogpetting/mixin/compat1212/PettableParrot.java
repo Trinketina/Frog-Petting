@@ -30,14 +30,11 @@ public abstract class PettableParrot extends PettingMixin implements PettableInt
         }
         super.uniqueInteraction(player, hand);
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (this.age > last_pet + PettingConfig.COOLDOWN*2 ) {
+        if (this.age > last_pet_age + PettingConfig.COOLDOWN*2 ) {
 
             ActionResult pet_result = super.interactMob(player, hand);
             if (pet_result != ActionResult.SUCCESS)

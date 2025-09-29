@@ -11,6 +11,4 @@ public interface PettableInterface {
     void uniqueInteraction(PlayerEntity player, Hand hand);
     boolean uniqueRequirements(PlayerEntity player, Hand hand);
 
-    double getVerticalOffset();
-    double getForwardOffset();
 }

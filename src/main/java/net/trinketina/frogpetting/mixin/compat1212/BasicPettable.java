@@ -13,10 +13,7 @@ public abstract class BasicPettable extends PettingMixin implements PettableInte
 
     //@Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return super.uniqueRequirements(player, hand);}
     //@Override public void uniqueInteraction(PlayerEntity player, Hand hand) {super.uniqueInteraction(player, hand);}
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
-    //@Override public double getForwardOffset() {return horizontal_particle_offset;}
+
     protected BasicPettable(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }

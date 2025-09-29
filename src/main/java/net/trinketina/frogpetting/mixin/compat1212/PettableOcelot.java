@@ -1,4 +1,4 @@
-package net.trinketina.frogpetting.mixin.compat1212;
+package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -21,12 +21,9 @@ public abstract class PettableOcelot extends PettingMixin implements PettableInt
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {
         //tells the cat to purr
         if (Math.random() > .2f)
-            this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_CAT_PURR, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
+            this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_CAT_PURR, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
         else
-            this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_CAT_PURREOW, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());    }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
+            this.getWorld().playSoundFromEntityClient(this, SoundEvents.ENTITY_CAT_PURREOW, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());    }
     //@Override public double getForwardOffset() {return horizontal_particle_offset;}
     protected PettableOcelot(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);

@@ -11,23 +11,26 @@
 		"homepage": "https://modrinth.com/mod/frog-petting/",
 		"sources": "https://github.com/Trinketina/Frog-Petting/"
 	},
-	"license": "CC0-1.0",
 	"icon": "assets/frog-petting/icon.png",
 	"environment": "*",
 	"entrypoints": {
+		"fabric-datagen": [
+			"net.trinketina.frogpetting.PettingDataGen"
+		],
 		"main": [
-          "net.trinketina.frogpetting.FrogPettingMod"
+			"net.trinketina.frogpetting.PettingMain"
 		],
 		"client": [
-			"net.trinketina.frogpetting.FrogPettingModClient"
+			"net.trinketina.frogpetting.PettingClient"
 		]
 	},
 	"mixins": [
-      "frog-petting.json"
+      "frog-petting.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.15.11",
-		"minecraft": ">=1.20",
-		"java": ">=17"
+		"fabricloader": ">=0.17.2",
+        "fabric-api": "*",
+		"minecraft": ">=1.21.5",
+		"java": ">=21"
 	}
 }

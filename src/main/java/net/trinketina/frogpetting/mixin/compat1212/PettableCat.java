@@ -32,9 +32,6 @@ public abstract class PettableCat
         else
             this.getWorld().playSoundFromEntity(this, SoundEvents.ENTITY_CAT_PURREOW, SoundCategory.AMBIENT, this.getSoundVolume(), this.getSoundPitch());
     }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
     @Shadow private float headDownAnimation;
     protected PettableCat(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);

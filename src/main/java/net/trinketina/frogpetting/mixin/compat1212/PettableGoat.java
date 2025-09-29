@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(GoatEntity.class)
-public abstract class PettableGoat extends PettingMixin implements Angerable, Flutterer, PettableInterface {
+public abstract class PettableGoat extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = 1d;
 
@@ -25,9 +25,6 @@ public abstract class PettableGoat extends PettingMixin implements Angerable, Fl
         if (PettingConfig.ENABLE_GOAT_UNIQUE)
             headPitch = 10;
         super.uniqueInteraction(player, hand);
-    }
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
     }
 
     @Shadow private boolean preparingRam;

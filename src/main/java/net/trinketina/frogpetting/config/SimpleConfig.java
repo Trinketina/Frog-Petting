@@ -126,7 +126,7 @@ public class SimpleConfig {
     // Modification by Kaupenjoe
     private void parseConfigEntry( String entry, int line ) {
         if( !entry.isEmpty() && !entry.startsWith( "#" ) ) {
-            String[] parts = entry.replace(" ","").split("=", 2);
+            String[] parts = entry.replace(" ","").replace("\"","").split("=", 2);
             if( parts.length == 2 ) {
                 // Recognizes comments after a value
                 String temp = parts[1].split("#")[0];
