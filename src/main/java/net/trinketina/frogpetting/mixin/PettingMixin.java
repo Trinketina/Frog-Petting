@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MobEntity.class)
 public abstract class PettingMixin
-    extends LivingEntity implements PettableInterface {
+        extends LivingEntity implements PettableInterface {
     @Unique
     protected int last_pet_age = -100;
 
@@ -65,8 +65,8 @@ public abstract class PettingMixin
             double forward_offset = default_forward_offset;
             double vertical_offset = default_vertical_offset;
             if (PettingClient.OFFSETS.containsKey(entity_string)) {
-                forward_offset = PettingClient.OFFSETS.get(entity_string)[0];
-                vertical_offset = PettingClient.OFFSETS.get(entity_string)[1];
+                forward_offset = PettingClient.OFFSETS.get(entity_string).offset[0];
+                vertical_offset = PettingClient.OFFSETS.get(entity_string).offset[1];
             }
 
             this.getWorld().addParticleClient(ParticleTypes.HEART,
@@ -87,7 +87,7 @@ public abstract class PettingMixin
     @Shadow public abstract SoundEvent getAmbientSound();
     @Shadow public abstract boolean canBeLeashed();
 
-    
+
     protected PettingMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }

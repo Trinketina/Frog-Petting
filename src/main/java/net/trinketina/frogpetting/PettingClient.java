@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class PettingClient implements ClientModInitializer {
     public static int cooldown;
-    public static HashMap<String, double[]> OFFSETS = new HashMap<>();
+    public static HashMap<String, PettingJsonData> OFFSETS = new HashMap<>();
     public static final String MOD_ID = "frog-petting";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 

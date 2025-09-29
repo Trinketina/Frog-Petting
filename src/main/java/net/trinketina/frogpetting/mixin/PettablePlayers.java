@@ -1,4 +1,4 @@
-package net.trinketina.frogpetting.mixin.compat1215;
+package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;
@@ -12,7 +12,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.trinketina.frogpetting.FrogPettingModClient;
+import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.PettableInterface;
 import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,16 +31,12 @@ public abstract class PettablePlayers extends LivingEntity implements PettableIn
 
     //@Override public boolean uniqueRequirements(PlayerEntity player, Hand hand) {return ;}
     @Override public void uniqueInteraction(PlayerEntity player, Hand hand) {}
-    @Override public double getVerticalOffset() {
-        return vertical_particle_offset;
-    }
-    @Override public double getForwardOffset() {return default_forward_offset;}
 
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     public void onInteract(Entity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack itemStack = this.getStackInHand(hand);
-        if (entity.isPlayer() && itemStack.isEmpty() && !this.isSpectator() && !this.isSneaking()) {
-            FrogPettingModClient.LOGGER.info("trying to pet " + this.getType().toString());
+        if (entity.isPlayer() && itemStack.isEmpty() && !this.isSpectator() && !this.isSneaking() && !PettingConfig.IGNORED_MOBS.contains(this.getType().toString())) {
+            PettingClient.LOGGER.info("trying to pet " + this.getType().toString());
             if (this.age < last_pet + PettingConfig.COOLDOWN) {
                 return;
             }
@@ -52,16 +48,23 @@ public abstract class PettablePlayers extends LivingEntity implements PettableIn
             }*/
 
             Vec3d rotation = entity.getRotationVecClient();
-            entity.getWorld().addParticle(ParticleTypes.HEART,
-                    entity.getX()+Math.random()*.1 + (getForwardOffset() * rotation.getX()),
-                    entity.getY()+Math.random()*.5 + getVerticalOffset(),
-                    entity.getZ()+Math.random()*.1 + (getForwardOffset() * rotation.getZ()),
+            double forward_offset = default_forward_offset;
+            double vertical_offset = default_vertical_offset;
+            if (PettingClient.OFFSETS.containsKey("minecraft:player")) {
+                forward_offset = PettingClient.OFFSETS.get("minecraft:player").offset[0];
+                vertical_offset = PettingClient.OFFSETS.get("minecraft:player").offset[1];
+            }
+
+            this.getWorld().addParticleClient(ParticleTypes.HEART,
+                    this.getX()+Math.random()*.1 + (forward_offset * rotation.getX()),
+                    this.getY()+Math.random()*.5 + vertical_offset,
+                    this.getZ()+Math.random()*.1 + (forward_offset * rotation.getZ()),
                     0.0D, 0.2D, 0.0D);
 
             this.getWorld().sendEntityStatus(this, EntityStatuses.ADD_BREEDING_PARTICLES);
             last_pet = this.age;
 
-            FrogPettingModClient.LOGGER.info("success");
+            PettingClient.LOGGER.info("success");
         }
     }
 
