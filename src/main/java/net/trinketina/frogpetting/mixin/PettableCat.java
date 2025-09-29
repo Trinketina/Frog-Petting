@@ -21,8 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 @Mixin(CatEntity.class)
-public abstract class PettableCat
-    extends PettingMixin implements PettableInterface, Tameable {
+public abstract class PettableCat extends PettingMixin implements PettableInterface, Tameable {
 
 
     @Unique
