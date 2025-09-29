@@ -17,9 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 
 
 @Mixin(FrogEntity.class)
-public abstract class PettableFrog
-    extends PettingMixin
-        implements PettableInterface {
+public abstract class PettableFrog extends PettingMixin implements PettableInterface {
     @Unique
     protected double vertical_particle_offset = .5d;
 
