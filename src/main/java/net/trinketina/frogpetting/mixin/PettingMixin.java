@@ -2,8 +2,6 @@ package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.control.JumpControl;
-import net.minecraft.entity.ai.control.LookControl;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,7 +13,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.trinketina.frogpetting.FrogPettingModClient;
+import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.PettableInterface;
 import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
@@ -55,7 +53,7 @@ public abstract class PettingMixin
                 return;
             }
             if (PettingConfig.IGNORED_MOBS.contains(entity_string)) {
-                FrogPettingModClient.LOGGER.info("petting " + entity_string + " is ignored");
+                PettingClient.LOGGER.info("petting " + entity_string + " is ignored");
                 return;
             }
             if (!getWorld().isClient) {
@@ -63,18 +61,26 @@ public abstract class PettingMixin
                 cir.setReturnValue(ActionResult.SUCCESS);
                 return;
             }
-            FrogPettingModClient.LOGGER.info("trying to pet " + entity_string);
+            PettingClient.LOGGER.info("trying to pet " + entity_string);
             //runs the custom interactions, if any are present
             uniqueInteraction(player, hand);
             Vec3d rotation = this.getRotationVecClient();
+
+            double forward_offset = default_forward_offset;
+            double vertical_offset = default_vertical_offset;
+            if (PettingClient.OFFSETS.containsKey(entity_string)) {
+                forward_offset = PettingClient.OFFSETS.get(entity_string)[0];
+                vertical_offset = PettingClient.OFFSETS.get(entity_string)[1];
+            }
+
             this.getWorld().addParticleClient(ParticleTypes.HEART,
-                    this.getX()+Math.random()*.1 + (getForwardOffset() * rotation.getX()),
-                    this.getY()+Math.random()*.5 + getVerticalOffset(),
-                    this.getZ()+Math.random()*.1 + (getForwardOffset() * rotation.getZ()),
+                    this.getX()+Math.random()*.1 + (forward_offset * rotation.getX()),
+                    this.getY()+Math.random()*.5 + vertical_offset,
+                    this.getZ()+Math.random()*.1 + (forward_offset * rotation.getZ()),
                     0.0D, 0.2D, 0.0D);
             last_pet_age = this.age;
 
-            FrogPettingModClient.LOGGER.info("success");
+            PettingClient.LOGGER.info("success");
             cir.setReturnValue(ActionResult.SUCCESS);
         }
         //runs through the other interactions if petting fails

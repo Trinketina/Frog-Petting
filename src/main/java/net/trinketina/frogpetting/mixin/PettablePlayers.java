@@ -12,7 +12,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.trinketina.frogpetting.FrogPettingModClient;
+import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.PettableInterface;
 import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,7 +40,7 @@ public abstract class PettablePlayers extends LivingEntity implements PettableIn
     public void onInteract(Entity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack itemStack = this.getStackInHand(hand);
         if (entity.isPlayer() && itemStack.isEmpty() && !this.isSpectator() && !this.isSneaking() && !PettingConfig.IGNORED_MOBS.contains(this.getType().toString())) {
-            FrogPettingModClient.LOGGER.info("trying to pet " + this.getType().toString());
+            PettingClient.LOGGER.info("trying to pet " + this.getType().toString());
             if (this.age < last_pet + PettingConfig.COOLDOWN) {
                 return;
             }
@@ -61,7 +61,7 @@ public abstract class PettablePlayers extends LivingEntity implements PettableIn
             this.getWorld().sendEntityStatus(this, EntityStatuses.ADD_BREEDING_PARTICLES);
             last_pet = this.age;
 
-            FrogPettingModClient.LOGGER.info("success");
+            PettingClient.LOGGER.info("success");
         }
     }
 

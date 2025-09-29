@@ -15,13 +15,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
-			"net.trinketina.frogpetting.FrogPettingDataGen"
+			"net.trinketina.frogpetting.PettingDataGen"
 		],
 		"main": [
-          "net.trinketina.frogpetting.FrogPettingMod"
+			"net.trinketina.frogpetting.PettingMain"
 		],
 		"client": [
-			"net.trinketina.frogpetting.FrogPettingModClient"
+			"net.trinketina.frogpetting.PettingClient"
 		]
 	},
 	"mixins": [

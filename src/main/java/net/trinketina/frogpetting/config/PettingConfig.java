@@ -1,6 +1,6 @@
 package net.trinketina.frogpetting.config;
 import com.mojang.datafixers.util.Pair;
-import net.trinketina.frogpetting.FrogPettingMod;
+import net.trinketina.frogpetting.PettingMain;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +35,7 @@ public class PettingConfig {
         configs = new PettingConfigProvider();
         createConfigs();
 
-        CONFIG = SimpleConfig.of(FrogPettingMod.MOD_ID + "-config").provider(configs).request();
+        CONFIG = SimpleConfig.of(PettingMain.MOD_ID + "-config").provider(configs).request();
 
         assignConfigs();
     }
