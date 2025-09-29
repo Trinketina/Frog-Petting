@@ -29,7 +29,7 @@ bin/
 *.DS_Store
 
 # fabric
-
+src/main/generated/.cache/
 run/
 
 # java
