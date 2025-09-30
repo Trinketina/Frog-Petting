@@ -1,17 +1,13 @@
 package net.trinketina.frogpetting.mixin;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.state.EntityRenderState;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.trinketina.frogpetting.IPettingAnimationState;
 import net.trinketina.frogpetting.PettingAnimations;
-import net.trinketina.frogpetting.PettingClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -35,7 +31,7 @@ public abstract class PettingModelMixin<T extends EntityRenderState> extends Mod
             //PettingClient.LOGGER.info(entity_id);
 
             if (PettingAnimations.PETTING_ANIMATIONS.containsKey(entity_id)) {
-                this.animate(pettingRenderState.getPettingAnimationState(), PettingAnimations.PETTING_ANIMATIONS.get(entity_id), state.age);
+                this.animate(pettingRenderState.frog_Petting$getPettingAnimationState(), PettingAnimations.PETTING_ANIMATIONS.get(entity_id), state.age);
             }
             //state.entityType.toString();
             //this.animate(pettingRenderState.getPettingAnimationState(), TBD, state.age);

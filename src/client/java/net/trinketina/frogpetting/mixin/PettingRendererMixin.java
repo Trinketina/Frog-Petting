@@ -17,7 +17,7 @@ public abstract class PettingRendererMixin<T extends Entity, S extends EntityRen
             IPettingAnimationState pettingRenderState = (IPettingAnimationState) livingEntityRenderState;
             IPettingAnimationState pettingEntity = (IPettingAnimationState) livingEntity;
 
-            pettingRenderState.copyToPettingAnimationState(pettingEntity.getPettingAnimationState());
+            pettingRenderState.frog_Petting$copyToPettingAnimationState(pettingEntity.frog_Petting$getPettingAnimationState());
         }
     }
 }

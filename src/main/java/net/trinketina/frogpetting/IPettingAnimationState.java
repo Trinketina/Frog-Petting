@@ -4,13 +4,7 @@ import net.minecraft.entity.AnimationState;
 
 public interface IPettingAnimationState {
 
-    final AnimationState pettingAnimationState = new AnimationState();
+    void frog_Petting$copyToPettingAnimationState(AnimationState animationState);
 
-    default void copyToPettingAnimationState(AnimationState animationState) {
-        pettingAnimationState.copyFrom(animationState);
-    }
-
-    default AnimationState getPettingAnimationState() {
-        return pettingAnimationState;
-    }
+    AnimationState frog_Petting$getPettingAnimationState();
 }

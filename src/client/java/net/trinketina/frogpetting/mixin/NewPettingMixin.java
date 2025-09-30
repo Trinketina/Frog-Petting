@@ -23,6 +23,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class NewPettingMixin implements IPettingAnimationState {
+    @Unique
+    public final AnimationState pettingAnimationState = new AnimationState();
+
+    @Override public void frog_Petting$copyToPettingAnimationState(AnimationState animationState) {
+        pettingAnimationState.copyFrom(animationState);
+    }
+
+    @Override
+    public AnimationState frog_Petting$getPettingAnimationState() {
+        return pettingAnimationState;
+    }
     //@Shadow public abstract boolean hasStackEquipped(EquipmentSlot slot);
 
     @Unique
@@ -121,7 +132,7 @@ public abstract class NewPettingMixin implements IPettingAnimationState {
             //runs the custom interactions, if any are present
             //TODO:: re-implement unique interactions, through a data-driven means
             //uniqueInteraction(player, hand);
-            pettingAnimationState.start(this.age);
+            this.frog_Petting$getPettingAnimationState().start(this.age);
 
             Vec3d rotation = this.getRotationVecClient();
 
