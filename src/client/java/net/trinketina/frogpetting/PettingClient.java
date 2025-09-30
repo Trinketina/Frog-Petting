@@ -3,6 +3,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 import net.trinketina.frogpetting.config.PettingConfig;
+import net.trinketina.frogpetting.resourcegen.PettingJsonData;
+import net.trinketina.frogpetting.resourcegen.PettingResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +22,7 @@ public class PettingClient implements ClientModInitializer {
         PettingConfig.registerConfigs();
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new PettingResourceLoader());
+
 
     }
 }
