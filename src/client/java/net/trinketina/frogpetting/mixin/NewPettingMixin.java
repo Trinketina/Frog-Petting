@@ -1,6 +1,7 @@
 package net.trinketina.frogpetting.mixin;
 
-import net.minecraft.client.render.entity.EntityRenderer;
+import net.trinketina.frogpetting.IPettingAnimationState;
+import net.trinketina.frogpetting.PettingClient;
 import net.minecraft.entity.*;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,7 +11,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.config.PettingConfig;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,8 +19,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import software.bernie.geckolib.animatable.GeoAnimatable;
-import software.bernie.geckolib.animatable.processing.AnimationController;
 
 @Mixin(Entity.class)
 public abstract class NewPettingMixin implements IPettingAnimationState {

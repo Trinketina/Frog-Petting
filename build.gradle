@@ -35,6 +35,7 @@ loom {
     mods {
         "frog-petting" {
             sourceSet sourceSets.main
+            sourceSet sourceSets.client
         }
     }
 

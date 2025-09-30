@@ -1,11 +1,11 @@
-package net.trinketina.frogpetting.datagen;
+package net.trinketina.frogpetting.resourcegen;
 
+import net.trinketina.frogpetting.PettingClient;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec2f;
-import net.trinketina.frogpetting.PettingClient;
 
 public class PettingParticleOffsets {
     public static final ComponentType<Vec2f> PETTING_PARTICLE_OFFSET_COMPONENT = Registry.register(

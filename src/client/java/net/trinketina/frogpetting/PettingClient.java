@@ -2,11 +2,9 @@ package net.trinketina.frogpetting;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.util.math.Vec2f;
 import net.trinketina.frogpetting.config.PettingConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import software.bernie.geckolib.GeckoLibClient;
 
 import java.util.HashMap;
 

@@ -21,11 +21,15 @@
 			"net.trinketina.frogpetting.PettingMain"
 		],
 		"client": [
-			"net.trinketina.frogpetting.PettingClient"
+          "net.trinketina.frogpetting.PettingClient"
 		]
 	},
 	"mixins": [
-      "frog-petting.mixins.json"
+      "frog-petting.mixins.json",
+      {
+        "config": "frog-petting.client.mixins.json",
+        "environment": "client"
+      }
 	],
 	"depends": {
 		"fabricloader": ">=0.17.2",

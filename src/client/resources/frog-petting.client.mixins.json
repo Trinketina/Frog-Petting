@@ -2,8 +2,11 @@
 	"required": true,
 	"package": "net.trinketina.frogpetting.mixin",
 	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-	],
+	"client": [
+      "NewPettingMixin",
+      "PettingRenderStateMixin",
+      "PettingRendererMixin"
+    ],
 	"injectors": {
 		"defaultRequire": 1
 	},
