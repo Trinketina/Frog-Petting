@@ -2,24 +2,22 @@ package net.trinketina.frogpetting.resourcegen;
 
 import com.nimbusds.jose.shaded.gson.*;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
 import net.minecraft.client.render.entity.animation.Keyframe;
 import net.minecraft.client.render.entity.animation.Transformation;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
+import net.trinketina.frogpetting.PettingAnimations;
 import net.trinketina.frogpetting.PettingClient;
 import org.joml.Vector3f;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PettingResourceLoader implements SimpleSynchronousResourceReloadListener{
-    private static final Logger log = LoggerFactory.getLogger(PettingResourceLoader.class);
 
     @Override
     public Identifier getFabricId() {
@@ -43,7 +41,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 if (entity_namespace.isEmpty()) {
                     continue;
                 }
-                String entity = entity_namespace + ":" + id.getPath().substring(id.getPath().lastIndexOf("/") + 1, id.getPath().lastIndexOf(".json"));
+                String entity = "entity." + entity_namespace + "." + id.getPath().substring(id.getPath().lastIndexOf("/") + 1, id.getPath().lastIndexOf(".json"));
 
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -67,7 +65,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 if (entity_namespace.isEmpty()) {
                     continue;
                 }
-                String entity = entity_namespace + ":" + id.getPath().substring(id.getPath().lastIndexOf("/") + 1, id.getPath().lastIndexOf(".json"));
+                String entity = "entity." + entity_namespace + "." + id.getPath().substring(id.getPath().lastIndexOf("/") + 1, id.getPath().lastIndexOf(".json"));
 
                 JsonElement animation_json = JsonParser.parseReader(reader);
 
@@ -76,6 +74,8 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 JsonObject petting_animation = animations.getAsJsonObject("animation.petting");
                 JsonObject bones = petting_animation.getAsJsonObject("bones");
 
+                PettingAnimationData animation_data = new PettingAnimationData();
+                animation_data.animation_length = petting_animation.get("animation_length").getAsFloat();
                 //initialize bones
                 List<BoneAnimation> bone_animations = new ArrayList<>();
                 //iterate through the bones
@@ -87,7 +87,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                     PettingClient.LOGGER.info(bone_animation.bone_name);
 
                     //initialize keyframeEntry hashmap
-                    bone_animation.animated_elements = new HashMap<>();
+                    //bone_animation.animated_elements = new HashMap<>();
                     //iterate through keyframes
                     for (Map.Entry<String, JsonElement> modifierEntry : boneEntry.getValue().getAsJsonObject().entrySet()) {
                         String transformation_target_type = modifierEntry.getKey();
@@ -108,7 +108,9 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                                 continue;
                         }
 
-                        List<Keyframe> keyframes = new ArrayList<>();
+                        List<Keyframe> scale_keyframes = new ArrayList<>();
+                        List<Keyframe> rotate_keyframes = new ArrayList<>();
+                        List<Keyframe> translate_keyframes = new ArrayList<>();
                         for (Map.Entry<String, JsonElement> keyframeEntry : modifierEntry.getValue().getAsJsonObject().entrySet()) {
                             float keyframe_position = Float.parseFloat(keyframeEntry.getKey());
                             //PettingClient.LOGGER.info(keyframe_position);
@@ -123,6 +125,9 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                                 double z = Double.parseDouble(vector_values[2]);
 
                                 keyframe_vector = AnimationHelper.createScalingVector(x, y, z);
+
+                                Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                                scale_keyframes.add(keyframe);
                             }
                             else if (transformation_target == Transformation.Targets.ROTATE) {
                                 float x = Float.parseFloat(vector_values[0]);
@@ -130,6 +135,9 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                                 float z = Float.parseFloat(vector_values[2]);
 
                                 keyframe_vector = AnimationHelper.createRotationalVector(x, y, z);
+
+                                Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                                rotate_keyframes.add(keyframe);
                             }
                             else {
                                 float x = Float.parseFloat(vector_values[0]);
@@ -137,28 +145,45 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                                 float z = Float.parseFloat(vector_values[2]);
 
                                 keyframe_vector = AnimationHelper.createTranslationalVector(x, y, z);
+
+                                Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                                translate_keyframes.add(keyframe);
                             }
-
-                            Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
-
-                            //load keyframe
-                            keyframes.add(keyframe);
                             //PettingClient.LOGGER.info("[" + x + ", " + y + ", " + z + "]");
 
                             //TODO:: parse interpolation of keyframeEntry
                         }
 
-                        bone_animation.animated_elements.put(transformation_target, keyframes.toArray(new Keyframe[0]));
+                        List<AnimationElements> animation_elements = new ArrayList<>();
+                        if (!scale_keyframes.isEmpty()) {
+                            animation_elements.add(new AnimationElements(Transformation.Targets.SCALE, scale_keyframes.toArray(Keyframe[]::new)));
+                        }
+                        if (!rotate_keyframes.isEmpty()) {
+                            animation_elements.add(new AnimationElements(Transformation.Targets.ROTATE, rotate_keyframes.toArray(Keyframe[]::new)));
+                        }
+                        if (!translate_keyframes.isEmpty()) {
+                            animation_elements.add(new AnimationElements(Transformation.Targets.MOVE_ORIGIN, translate_keyframes.toArray(Keyframe[]::new)));
+                        }
+                        //AnimationElements animation_elements = new AnimationElements();
+
+                        bone_animation.animation_elements = animation_elements;
+
+                        bone_animations.add(bone_animation);
                     }
                 }
+                animation_data.bone_animations = bone_animations;
 
 
+
+
+
+                PettingAnimations.PETTING_ANIMATIONS.put(entity, buildAnimation(animation_data));
 
                 /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
                 PettingAnimationData animation_json = gson.fromJson(reader, PettingAnimationData.class);*/
 
-                //PettingClient.LOGGER.info(animation_json.bone_animations.getFirst().bone_name);
+                //PettingClient.LOGGER.info(animation_json.bone_animation.getFirst().bone_name);
 
                 //PettingClient.LOGGER.info(entity + " = [" + offset_json.offset[0] + ", " + offset_json.offset[1] + "]");
                 reader.close();
@@ -166,6 +191,24 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 PettingClient.LOGGER.error("Error occurred while loading resource json" + id.toString(), e);
             }
         }
+    }
+    private Animation buildAnimation(PettingAnimationData animation_data) {
+        float animation_length = animation_data.animation_length;
+        String current_bone_name = animation_data.bone_animations.getFirst().bone_name;
+        Transformation.Target current_transformation_target = animation_data.bone_animations.getFirst().animation_elements.getFirst().transformation_target;
+        Keyframe[] current_keyframes = animation_data.bone_animations.getFirst().animation_elements.getFirst().keyframes;
+
+        Animation.Builder animation_builder = Animation.Builder.create(animation_length);
+
+        for (BoneAnimation bone_animation : animation_data.bone_animations) {
+            for (AnimationElements animation_elements: bone_animation.animation_elements) {
+                animation_builder.addBoneAnimation(
+                        bone_animation.bone_name,
+                        new Transformation(animation_elements.transformation_target, animation_elements.keyframes));
+            }
+        }
+
+        return  animation_builder.build();
     }
 
 }

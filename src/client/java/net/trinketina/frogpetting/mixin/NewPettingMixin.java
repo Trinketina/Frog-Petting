@@ -13,6 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.trinketina.frogpetting.config.PettingConfig;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -44,6 +45,13 @@ public abstract class NewPettingMixin implements IPettingAnimationState {
             return super.interact(player, hand);
         }*/
 
+    @Shadow
+    @Final
+    private EntityType<?> type;
+
+    @Shadow
+    public abstract EntityType<?> getType();
+
     private boolean requireSneaking(String entity_id) {
         if (PettingClient.OFFSETS.containsKey(entity_id)) {
             if (PettingClient.OFFSETS.get(entity_id).require_crouching) {
@@ -72,10 +80,10 @@ public abstract class NewPettingMixin implements IPettingAnimationState {
 
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     public void onInteract(PlayerEntity player, Hand hand, CallbackInfoReturnable< ActionResult > cir) {
-        String entity_id = this.getSavedEntityId();
+        String entity_id = this.type.toString();
         ItemStack itemStack = player.getStackInHand(hand);
 
-        PettingClient.LOGGER.info("try pet");
+        //PettingClient.LOGGER.info("try pet" + this.type);
 
         if(itemStack.isEmpty()) {
             if (this.age < last_pet_age + PettingConfig.COOLDOWN) {
@@ -108,7 +116,7 @@ public abstract class NewPettingMixin implements IPettingAnimationState {
                 cir.setReturnValue(ActionResult.SUCCESS);
                 return;
             }
-            PettingClient.LOGGER.info("trying to pet " + entity_id);
+            //PettingClient.LOGGER.info("trying to pet " + entity_id);
 
             //runs the custom interactions, if any are present
             //TODO:: re-implement unique interactions, through a data-driven means

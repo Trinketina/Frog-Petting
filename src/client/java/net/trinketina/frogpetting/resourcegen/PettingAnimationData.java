@@ -5,5 +5,6 @@ import java.util.List;
 
 public class PettingAnimationData {
     //public String format_version;
+    public float animation_length;
     public List<BoneAnimation> bone_animations = new ArrayList<BoneAnimation>();
 }

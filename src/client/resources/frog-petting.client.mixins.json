@@ -5,7 +5,8 @@
 	"client": [
       "NewPettingMixin",
       "PettingRenderStateMixin",
-      "PettingRendererMixin"
+      "PettingRendererMixin",
+      "PettingModelMixin"
     ],
 	"injectors": {
 		"defaultRequire": 1
