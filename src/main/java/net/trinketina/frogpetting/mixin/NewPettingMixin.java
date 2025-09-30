@@ -1,5 +1,6 @@
 package net.trinketina.frogpetting.mixin;
 
+import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.*;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,14 +19,15 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.processing.AnimationController;
 
-@Mixin(value = Entity.class)
-public abstract class NewPettingMixin {
+@Mixin(Entity.class)
+public abstract class NewPettingMixin implements IPettingAnimationState {
     //@Shadow public abstract boolean hasStackEquipped(EquipmentSlot slot);
 
     @Unique
     protected int last_pet_age = -100;
-
 
 
     @Shadow @Nullable protected abstract String getSavedEntityId();
@@ -113,6 +115,8 @@ public abstract class NewPettingMixin {
             //runs the custom interactions, if any are present
             //TODO:: re-implement unique interactions, through a data-driven means
             //uniqueInteraction(player, hand);
+            pettingAnimationState.start(this.age);
+
             Vec3d rotation = this.getRotationVecClient();
 
             /*double forward_offset = default_forward_offset;

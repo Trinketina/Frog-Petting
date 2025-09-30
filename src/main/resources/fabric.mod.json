@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "frog-petting",
+	"id": "frog_petting",
 	"version": "${version}",
 	"name": "Pet Frogs and More!",
 	"description": "A mod that lets you squish and pet all the animals you could want!",
@@ -11,7 +11,7 @@
 		"homepage": "https://modrinth.com/mod/frog-petting/",
 		"sources": "https://github.com/Trinketina/Frog-Petting/"
 	},
-	"icon": "assets/frog-petting/icon.png",
+	"icon": "assets/frog_petting/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
@@ -31,6 +31,7 @@
 		"fabricloader": ">=0.17.2",
         "fabric-api": "*",
 		"minecraft": ">=1.21.5",
-		"java": ">=21"
+		"java": ">=21",
+		"geckolib": ">=5.1.0"
 	}
 }

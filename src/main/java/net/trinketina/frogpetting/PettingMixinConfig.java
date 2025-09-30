@@ -3,8 +3,6 @@ package net.trinketina.frogpetting;
 import java.util.List;
 import java.util.Set;
 
-import net.trinketina.frogpetting.utils.VersionUtils;
-
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -40,15 +38,6 @@ public class PettingMixinConfig implements IMixinConfigPlugin
             throw new IllegalArgumentException(
                     String.format("Invalid package for class \"%s\": Expected \"%s\", but found \"%s\".", targetClassName, MIXIN_PACKAGE, mixinClassName)
             );
-        }
-
-        if (!VersionUtils.shouldApplyCompatibilityMixin(mixinClassName))
-        {
-            return false;
-        }
-        String compat = "compat"+VersionUtils.MAJOR + VersionUtils.MINOR + VersionUtils.PATCH;
-        if (mixinClassName.contains(compat)) {
-            return  true;
         }
 
 
