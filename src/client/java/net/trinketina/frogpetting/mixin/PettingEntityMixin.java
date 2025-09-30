@@ -94,11 +94,9 @@ public abstract class PettingEntityMixin implements IPettingAnimationState {
         String entity_id = this.type.toString();
         ItemStack itemStack = player.getStackInHand(hand);
 
-        //PettingClient.LOGGER.info("try pet" + this.type);
-
         if(itemStack.isEmpty()) {
             if (this.age < last_pet_age + PettingConfig.COOLDOWN) {
-                PettingClient.LOGGER.info("cooldown");
+                //PettingClient.LOGGER.info("cooldown");
                 //cooldown not finished
                 return;
             }
@@ -118,7 +116,7 @@ public abstract class PettingEntityMixin implements IPettingAnimationState {
                 return;
             }
             if (PettingConfig.IGNORED_MOBS.contains(entity_id)) {
-                PettingClient.LOGGER.info("petting " + entity_id + " is ignored");
+                //PettingClient.LOGGER.info("petting " + entity_id + " is ignored");
                 // TODO:: swap to tags for this?
                 return;
             }
@@ -130,14 +128,12 @@ public abstract class PettingEntityMixin implements IPettingAnimationState {
             //PettingClient.LOGGER.info("trying to pet " + entity_id);
 
             //runs the custom interactions, if any are present
-            //TODO:: re-implement unique interactions, through a data-driven means
-            //uniqueInteraction(player, hand);
+            //TODO:: re-implement sound support
             this.frog_Petting$getPettingAnimationState().start(this.age);
+
 
             Vec3d rotation = this.getRotationVecClient();
 
-            /*double forward_offset = default_forward_offset;
-            double vertical_offset = default_vertical_offset;*/
             double forward_offset = 0.0;
             double vertical_offset = 0.5;
             if (PettingClient.OFFSETS.containsKey(entity_id)) {
@@ -152,7 +148,7 @@ public abstract class PettingEntityMixin implements IPettingAnimationState {
                     0.0D, 0.2D, 0.0D);
             last_pet_age = this.age;
 
-            PettingClient.LOGGER.info("success");
+            PettingClient.LOGGER.info("petted " + entity_id);
             cir.setReturnValue(ActionResult.SUCCESS);
         }
     }

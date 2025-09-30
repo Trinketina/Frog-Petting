@@ -10,6 +10,10 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.trinketina.frogpetting.PettingAnimations;
 import net.trinketina.frogpetting.PettingClient;
+import net.trinketina.frogpetting.resourcegen.jsondata.PettingAnimationData;
+import net.trinketina.frogpetting.resourcegen.jsondata.PettingBoneData;
+import net.trinketina.frogpetting.resourcegen.jsondata.PettingOffsetData;
+import net.trinketina.frogpetting.resourcegen.jsondata.PettingTransformationData;
 import org.joml.Vector3f;
 
 import java.io.BufferedReader;
@@ -45,7 +49,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
 
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-                PettingJsonData offset_json = gson.fromJson(reader, PettingJsonData.class);
+                PettingOffsetData offset_json = gson.fromJson(reader, PettingOffsetData.class);
 
                 PettingClient.OFFSETS.put(entity, offset_json);
 
@@ -77,10 +81,10 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 PettingAnimationData animation_data = new PettingAnimationData();
                 animation_data.animation_length = petting_animation.get("animation_length").getAsFloat();
                 //initialize bones
-                List<BoneAnimation> bone_animations = new ArrayList<>();
+                List<PettingBoneData> bone_animations = new ArrayList<>();
                 //iterate through the bones
                 for (Map.Entry<String, JsonElement> boneEntry : bones.entrySet()) {
-                    BoneAnimation bone_animation = new BoneAnimation();
+                    PettingBoneData bone_animation = new PettingBoneData();
 
                     //load bone_name
                     bone_animation.bone_name = boneEntry.getKey();
@@ -148,15 +152,15 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                         //AnimationElements animation_element = new AnimationElements();
 
                     }
-                    List<AnimationElement> animation_elements = new ArrayList<>();
+                    List<PettingTransformationData> animation_elements = new ArrayList<>();
                     if (!scale_keyframes.isEmpty()) {
-                        animation_elements.add(new AnimationElement(Transformation.Targets.SCALE, scale_keyframes.toArray(Keyframe[]::new)));
+                        animation_elements.add(new PettingTransformationData(Transformation.Targets.SCALE, scale_keyframes.toArray(Keyframe[]::new)));
                     }
                     if (!rotate_keyframes.isEmpty()) {
-                        animation_elements.add(new AnimationElement(Transformation.Targets.ROTATE, rotate_keyframes.toArray(Keyframe[]::new)));
+                        animation_elements.add(new PettingTransformationData(Transformation.Targets.ROTATE, rotate_keyframes.toArray(Keyframe[]::new)));
                     }
                     if (!translate_keyframes.isEmpty()) {
-                        animation_elements.add(new AnimationElement(Transformation.Targets.MOVE_ORIGIN, translate_keyframes.toArray(Keyframe[]::new)));
+                        animation_elements.add(new PettingTransformationData(Transformation.Targets.MOVE_ORIGIN, translate_keyframes.toArray(Keyframe[]::new)));
                     }
 
                     bone_animation.animation_elements = animation_elements;
@@ -186,8 +190,8 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
 
         Animation.Builder animation_builder = Animation.Builder.create(animation_length);
 
-        for (BoneAnimation bone_animation : animation_data.bone_animations) {
-            for (AnimationElement animation_element : bone_animation.animation_elements) {
+        for (PettingBoneData bone_animation : animation_data.bone_animations) {
+            for (PettingTransformationData animation_element : bone_animation.animation_elements) {
                 animation_builder = animation_builder.addBoneAnimation(
                         bone_animation.bone_name,
                         new Transformation(animation_element.transformation_target, animation_element.keyframes));
