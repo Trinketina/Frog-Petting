@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(EntityRenderState.class)
-public abstract class PettingRenderStateMixin implements IPettingAnimationState {
+public abstract class PettingEntityRenderStateMixin implements IPettingAnimationState {
     @Unique
     public final AnimationState pettingAnimationState = new AnimationState();
 

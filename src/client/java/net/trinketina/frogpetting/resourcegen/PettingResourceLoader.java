@@ -89,28 +89,15 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                     //initialize keyframeEntry hashmap
                     //bone_animation.animated_elements = new HashMap<>();
                     //iterate through keyframes
+                    List<Keyframe> scale_keyframes = new ArrayList<>();
+                    List<Keyframe> rotate_keyframes = new ArrayList<>();
+                    List<Keyframe> translate_keyframes = new ArrayList<>();
+
                     for (Map.Entry<String, JsonElement> modifierEntry : boneEntry.getValue().getAsJsonObject().entrySet()) {
                         String transformation_target_type = modifierEntry.getKey();
 
-                        Transformation.Target transformation_target;
-                        switch (transformation_target_type) {
-                            case "position":
-                                transformation_target = Transformation.Targets.MOVE_ORIGIN;
-                                break;
-                            case "rotation":
-                                transformation_target = Transformation.Targets.ROTATE;
-                                break;
-                            case "scale":
-                                transformation_target = Transformation.Targets.SCALE;
-                                break;
-                            default:
-                                //skip keyframeEntry if invalid target type
-                                continue;
-                        }
 
-                        List<Keyframe> scale_keyframes = new ArrayList<>();
-                        List<Keyframe> rotate_keyframes = new ArrayList<>();
-                        List<Keyframe> translate_keyframes = new ArrayList<>();
+
                         for (Map.Entry<String, JsonElement> keyframeEntry : modifierEntry.getValue().getAsJsonObject().entrySet()) {
                             float keyframe_position = Float.parseFloat(keyframeEntry.getKey());
                             //PettingClient.LOGGER.info(keyframe_position);
@@ -118,62 +105,64 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                             String vector_string = keyframeEntry.getValue().toString();
                             String[] vector_values = vector_string.substring(vector_string.indexOf("[") + 1, vector_string.indexOf("]")).split(",");
 
-                            Vector3f keyframe_vector;
-                            if (transformation_target == Transformation.Targets.SCALE) {
-                                double x = Double.parseDouble(vector_values[0]);
-                                double y = Double.parseDouble(vector_values[1]);
-                                double z = Double.parseDouble(vector_values[2]);
 
-                                keyframe_vector = AnimationHelper.createScalingVector(x, y, z);
-                                PettingClient.LOGGER.info("scale: [" + x + ", " + y + ", " + z + "]");
-                                Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
-                                scale_keyframes.add(keyframe);
-                            }
-                            else if (transformation_target == Transformation.Targets.ROTATE) {
-                                float x = Float.parseFloat(vector_values[0]);
-                                float y = Float.parseFloat(vector_values[1]);
-                                float z = Float.parseFloat(vector_values[2]);
+                            float x = Float.parseFloat(vector_values[0]);
+                            float y = Float.parseFloat(vector_values[1]);
+                            float z = Float.parseFloat(vector_values[2]);
 
-                                keyframe_vector = AnimationHelper.createRotationalVector(x, y, z);
-                                PettingClient.LOGGER.info("rotate: [" + x + ", " + y + ", " + z + "]");
-                                Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
-                                rotate_keyframes.add(keyframe);
-                            }
-                            else {
-                                float x = Float.parseFloat(vector_values[0]);
-                                float y = Float.parseFloat(vector_values[1]);
-                                float z = Float.parseFloat(vector_values[2]);
-
-                                keyframe_vector = AnimationHelper.createTranslationalVector(x, y, z);
-                                PettingClient.LOGGER.info("translate: [" + x + ", " + y + ", " + z + "]");
-                                Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
-                                translate_keyframes.add(keyframe);
+                            Transformation.Target transformation_target;
+                            Vector3f keyframe_vector = new Vector3f(x, y, z);
+                            Keyframe keyframe;
+                            switch (transformation_target_type) {
+                                case "position":
+                                    transformation_target = Transformation.Targets.MOVE_ORIGIN;
+                                    keyframe_vector = AnimationHelper.createTranslationalVector(x, y, z);
+                                    keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                                    translate_keyframes.add(keyframe);
+                                    PettingClient.LOGGER.info("position: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
+                                    break;
+                                case "rotation":
+                                    transformation_target = Transformation.Targets.ROTATE;
+                                    keyframe_vector = AnimationHelper.createRotationalVector(x, y, z);
+                                    keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                                    rotate_keyframes.add(keyframe);
+                                    PettingClient.LOGGER.info("rotation: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
+                                    break;
+                                case "scale":
+                                    transformation_target = Transformation.Targets.SCALE;
+                                    keyframe_vector = AnimationHelper.createScalingVector(x, y, z);
+                                    keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                                    scale_keyframes.add(keyframe);
+                                    PettingClient.LOGGER.info("scale: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
+                                    break;
+                                default:
+                                    //skip keyframeEntry if invalid target type
+                                    continue;
                             }
                             //PettingClient.LOGGER.info("[" + x + ", " + y + ", " + z + "]");
 
                             //TODO:: parse interpolation of keyframeEntry
                         }
 
-                        List<AnimationElements> animation_elements = new ArrayList<>();
-                        if (!scale_keyframes.isEmpty()) {
-                            animation_elements.add(new AnimationElements(Transformation.Targets.SCALE, scale_keyframes.toArray(Keyframe[]::new)));
-                        }
-                        if (!rotate_keyframes.isEmpty()) {
-                            animation_elements.add(new AnimationElements(Transformation.Targets.ROTATE, rotate_keyframes.toArray(Keyframe[]::new)));
-                        }
-                        if (!translate_keyframes.isEmpty()) {
-                            animation_elements.add(new AnimationElements(Transformation.Targets.MOVE_ORIGIN, translate_keyframes.toArray(Keyframe[]::new)));
-                        }
-                        //AnimationElements animation_elements = new AnimationElements();
 
-                        bone_animation.animation_elements = animation_elements;
+                        //AnimationElements animation_element = new AnimationElements();
 
-                        bone_animations.add(bone_animation);
                     }
+                    List<AnimationElement> animation_elements = new ArrayList<>();
+                    if (!scale_keyframes.isEmpty()) {
+                        animation_elements.add(new AnimationElement(Transformation.Targets.SCALE, scale_keyframes.toArray(Keyframe[]::new)));
+                    }
+                    if (!rotate_keyframes.isEmpty()) {
+                        animation_elements.add(new AnimationElement(Transformation.Targets.ROTATE, rotate_keyframes.toArray(Keyframe[]::new)));
+                    }
+                    if (!translate_keyframes.isEmpty()) {
+                        animation_elements.add(new AnimationElement(Transformation.Targets.MOVE_ORIGIN, translate_keyframes.toArray(Keyframe[]::new)));
+                    }
+
+                    bone_animation.animation_elements = animation_elements;
+                    bone_animations.add(bone_animation);
                 }
                 animation_data.bone_animations = bone_animations;
-
-
 
 
 
@@ -194,18 +183,15 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
     }
     private Animation buildAnimation(PettingAnimationData animation_data) {
         float animation_length = animation_data.animation_length;
-        String current_bone_name = animation_data.bone_animations.getFirst().bone_name;
-        Transformation.Target current_transformation_target = animation_data.bone_animations.getFirst().animation_elements.getFirst().transformation_target;
-        Keyframe[] current_keyframes = animation_data.bone_animations.getFirst().animation_elements.getFirst().keyframes;
 
         Animation.Builder animation_builder = Animation.Builder.create(animation_length);
 
         for (BoneAnimation bone_animation : animation_data.bone_animations) {
-            for (AnimationElements animation_elements: bone_animation.animation_elements) {
-                animation_builder.addBoneAnimation(
+            for (AnimationElement animation_element : bone_animation.animation_elements) {
+                animation_builder = animation_builder.addBoneAnimation(
                         bone_animation.bone_name,
-                        new Transformation(animation_elements.transformation_target, animation_elements.keyframes));
-                //PettingClient.LOGGER.info("Added animation to " + bone_animation.bone_name + ": " + animation_elements.transformation_target.toString());
+                        new Transformation(animation_element.transformation_target, animation_element.keyframes));
+                //PettingClient.LOGGER.info("Added animation to " + bone_animation.bone_name + ": " + animation_element.keyframes[1]);
             }
         }
 

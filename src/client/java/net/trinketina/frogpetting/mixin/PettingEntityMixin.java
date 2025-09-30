@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class NewPettingMixin implements IPettingAnimationState {
+public abstract class PettingEntityMixin implements IPettingAnimationState {
     @Unique
     public final AnimationState pettingAnimationState = new AnimationState();
 

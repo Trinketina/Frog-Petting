@@ -13,12 +13,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Mixin(EntityModel.class)
-public abstract class PettingModelMixin<T extends EntityRenderState> extends Model {
+public abstract class PettingEntityModelMixin<T extends EntityRenderState> extends Model {
 
-    public PettingModelMixin(ModelPart root, Function<Identifier, RenderLayer> layerFactory) {
+    public PettingEntityModelMixin(ModelPart root, Function<Identifier, RenderLayer> layerFactory) {
         super(root, layerFactory);
     }
 
@@ -32,6 +33,15 @@ public abstract class PettingModelMixin<T extends EntityRenderState> extends Mod
 
             if (PettingAnimations.PETTING_ANIMATIONS.containsKey(entity_id)) {
                 this.animate(pettingRenderState.frog_Petting$getPettingAnimationState(), PettingAnimations.PETTING_ANIMATIONS.get(entity_id), state.age);
+
+                //tries to make sure all elements of the animation are visible for its duration.
+                //not always effective if an entity is setting that part invisible every tick (frogs)
+                for (String bone_name : PettingAnimations.PETTING_ANIMATIONS.get(entity_id).boneAnimations().keySet()) {
+                    Optional<ModelPart> part = this.getPart(bone_name);
+                    if (part.isPresent() && pettingRenderState.frog_Petting$getPettingAnimationState().isRunning()) {
+                        part.get().visible = true;
+                    }
+                }
             }
             //state.entityType.toString();
             //this.animate(pettingRenderState.getPettingAnimationState(), TBD, state.age);

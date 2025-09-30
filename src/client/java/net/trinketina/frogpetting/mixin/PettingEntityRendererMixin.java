@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityRenderer.class)
-public abstract class PettingRendererMixin<T extends Entity, S extends EntityRenderState> {
+public abstract class PettingEntityRendererMixin<T extends Entity, S extends EntityRenderState> {
     @Inject(method = "updateRenderState", at = @At("RETURN"))
     private void onUpdateRenderState(T livingEntity, S livingEntityRenderState, float f, CallbackInfo ci) {
         if (livingEntityRenderState instanceof IPettingAnimationState && livingEntity instanceof IPettingAnimationState) {
