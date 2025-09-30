@@ -125,7 +125,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                                 double z = Double.parseDouble(vector_values[2]);
 
                                 keyframe_vector = AnimationHelper.createScalingVector(x, y, z);
-
+                                PettingClient.LOGGER.info("scale: [" + x + ", " + y + ", " + z + "]");
                                 Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
                                 scale_keyframes.add(keyframe);
                             }
@@ -135,7 +135,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                                 float z = Float.parseFloat(vector_values[2]);
 
                                 keyframe_vector = AnimationHelper.createRotationalVector(x, y, z);
-
+                                PettingClient.LOGGER.info("rotate: [" + x + ", " + y + ", " + z + "]");
                                 Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
                                 rotate_keyframes.add(keyframe);
                             }
@@ -145,7 +145,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                                 float z = Float.parseFloat(vector_values[2]);
 
                                 keyframe_vector = AnimationHelper.createTranslationalVector(x, y, z);
-
+                                PettingClient.LOGGER.info("translate: [" + x + ", " + y + ", " + z + "]");
                                 Keyframe keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
                                 translate_keyframes.add(keyframe);
                             }
@@ -205,7 +205,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 animation_builder.addBoneAnimation(
                         bone_animation.bone_name,
                         new Transformation(animation_elements.transformation_target, animation_elements.keyframes));
-                PettingClient.LOGGER.info("Added animation to " + bone_animation.bone_name + ": " + animation_elements.transformation_target.toString());
+                //PettingClient.LOGGER.info("Added animation to " + bone_animation.bone_name + ": " + animation_elements.transformation_target.toString());
             }
         }
 

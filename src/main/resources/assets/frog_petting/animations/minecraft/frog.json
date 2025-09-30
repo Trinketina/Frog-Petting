@@ -18,19 +18,30 @@
 					}
 				},
 				"eyes": {
-					"position": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.25": {
-							"vector": [0, -1.5, 0],
-							"easing": "easeOutExpo"
-						},
-						"0.5": {
-							"vector": [0, 0, 0]
-						}
-					}
-				},
+                    "scale": {
+                        "0.0": {
+                            "vector": [1, 1, 1]
+                        },
+                        "0.25": {
+                            "vector": [0.99, 0.99, 0.99]
+                        },
+                        "0.5": {
+                            "vector": [1, 1, 1]
+                        }
+                    },
+                    "position": {
+                        "0.0": {
+                            "vector": [0, 0, 0]
+                        },
+                        "0.25": {
+                            "vector": [0, -1.5, 0],
+                            "easing": "easeOutExpo"
+                        },
+                        "0.5": {
+                            "vector": [0, 0, 0]
+                        }
+                    }
+                },
 				"tongue": {
 					"position": {
 						"0.0": {
