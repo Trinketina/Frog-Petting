@@ -205,6 +205,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 animation_builder.addBoneAnimation(
                         bone_animation.bone_name,
                         new Transformation(animation_elements.transformation_target, animation_elements.keyframes));
+                PettingClient.LOGGER.info("Added animation to " + bone_animation.bone_name + ": " + animation_elements.transformation_target.toString());
             }
         }
 
