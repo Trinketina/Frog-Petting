@@ -21,23 +21,6 @@ import java.util.Map;
 
 public class AnimationDataReader {
 
-    public static Animation buildAnimation(AnimationData animation_data) {
-        float animation_length = animation_data.animation_length;
-
-        Animation.Builder animation_builder = Animation.Builder.create(animation_length);
-
-        for (AnimationBoneData bone_animation : animation_data.bone_animations) {
-            for (BoneTransformationData animation_element : bone_animation.transformation_animations) {
-                animation_builder = animation_builder.addBoneAnimation(
-                        bone_animation.bone_name,
-                        new Transformation(animation_element.transformation_target, animation_element.keyframes));
-                //PettingClient.LOGGER.info("Added animation to " + bone_animation.bone_name + ": " + animation_element.keyframes[1]);
-            }
-        }
-
-        return  animation_builder.build();
-    }
-
     public static AnimationData readAnimation(BufferedReader reader) throws IOException {
 
         JsonElement animation_json = JsonParser.parseReader(reader);
@@ -50,12 +33,12 @@ public class AnimationDataReader {
         AnimationData animation_data = new AnimationData();
         animation_data.animation_length = petting_animation.get("animation_length").getAsFloat();
 
+        //loop through and read the bone data
         animation_data.bone_animations = readBones(bones);
 
         return animation_data;
     }
-
-    public static List<AnimationBoneData> readBones(JsonObject bones) {
+    static List<AnimationBoneData> readBones(JsonObject bones) {
         //initialize bones
         List<AnimationBoneData> bone_animations = new ArrayList<>();
 
@@ -63,28 +46,20 @@ public class AnimationDataReader {
         for (Map.Entry<String, JsonElement> boneEntry : bones.entrySet()) {
             AnimationBoneData bone_animation = new AnimationBoneData();
 
-            //load bone_name
             bone_animation.bone_name = boneEntry.getKey();
             PettingClient.LOGGER.info(bone_animation.bone_name);
 
-            //initialize keyframeEntry hashmap
-            //iterate through keyframes
-                    /*List<Keyframe> scale_keyframes = new ArrayList<>();
-                    List<Keyframe> rotate_keyframes = new ArrayList<>();
-                    List<Keyframe> translate_keyframes = new ArrayList<>();*/
-            //List<PettingTransformationsData> animation_elements = new ArrayList<>();
-
-
-
-
+            //loop through and read the transformation data
             bone_animation.transformation_animations = readTransformations(boneEntry.getValue());
             bone_animations.add(bone_animation);
         }
         return bone_animations;
     }
-    public static List<BoneTransformationData> readTransformations(JsonElement bone_data) {
+    static List<BoneTransformationData> readTransformations(JsonElement bone_data) {
+        //initialize transformation data
         List<BoneTransformationData> transformations = new ArrayList<>();
 
+        //iterate through the transformation types present
         for (Map.Entry<String, JsonElement> transformationEntry : bone_data.getAsJsonObject().entrySet()) {
             String transformation_target_type = transformationEntry.getKey();
             Transformation.Target transformation_target;
@@ -102,29 +77,33 @@ public class AnimationDataReader {
                     //skip loading the keyframes if invalid target type
                     continue;
             }
+
+            //loop through and read the keyframe data
             Keyframe[] keyframes = readKeyframes(transformationEntry.getValue(), transformation_target_type).toArray(new Keyframe[0]);
             BoneTransformationData transformation_data = new BoneTransformationData(transformation_target, keyframes);
-
             transformations.add(transformation_data);
         }
         return transformations;
     }
-    public static List<Keyframe> readKeyframes(JsonElement keyframe_data, String transformation_target_type) {
+    static List<Keyframe> readKeyframes(JsonElement keyframe_data, String transformation_target_type) {
+        //initialize keyframes array
         List<Keyframe> keyframes = new ArrayList<>();
 
+        //iterate through each keyframe
         for (Map.Entry<String, JsonElement> keyframeEntry : keyframe_data.getAsJsonObject().entrySet()) {
+            //TODO:: parse interpolation of keyframeEntry
+
             float keyframe_position = Float.parseFloat(keyframeEntry.getKey());
-            //PettingClient.LOGGER.info(keyframe_position);
 
             String vector_string = keyframeEntry.getValue().toString();
             String[] vector_values = vector_string.substring(vector_string.indexOf("[") + 1, vector_string.indexOf("]")).split(",");
-
 
             float x = Float.parseFloat(vector_values[0]);
             float y = Float.parseFloat(vector_values[1]);
             float z = Float.parseFloat(vector_values[2]);
 
 
+            //create the keyframe, depending on what type of transformation it is
             Vector3f keyframe_vector = new Vector3f(x, y, z);
             Keyframe keyframe;
             switch (transformation_target_type) {
@@ -148,11 +127,27 @@ public class AnimationDataReader {
                     continue;
             }
             keyframes.add(keyframe);
-
             //PettingClient.LOGGER.info("[" + x + ", " + y + ", " + z + "]");
-            //TODO:: parse interpolation of keyframeEntry
+
         }
 
         return keyframes;
+    }
+
+    public static Animation buildAnimation(AnimationData animation_data) {
+        float animation_length = animation_data.animation_length;
+
+        Animation.Builder animation_builder = Animation.Builder.create(animation_length);
+
+        for (AnimationBoneData bone_animation : animation_data.bone_animations) {
+            for (BoneTransformationData animation_element : bone_animation.transformation_animations) {
+                animation_builder = animation_builder.addBoneAnimation(
+                        bone_animation.bone_name,
+                        new Transformation(animation_element.transformation_target, animation_element.keyframes));
+                //PettingClient.LOGGER.info("Added animation to " + bone_animation.bone_name + ": " + animation_element.keyframes[1]);
+            }
+        }
+
+        return  animation_builder.build();
     }
 }
