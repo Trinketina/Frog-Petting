@@ -68,7 +68,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
     private void loadAnimations(ResourceManager manager) {
         PettingData.PETTING_ANIMATIONS.clear();
         for (Identifier id : manager.findResources("animations", path -> path.toString().endsWith(".json")).keySet()) {
-            PettingClient.LOGGER.info(id.getPath());
+            //PettingClient.LOGGER.info(id.getPath());
             try (BufferedReader reader = manager.getResource(id).get().getReader()) {
                 //animations should be formatted like [animations/mod_id/entity_id.json]
                 String entity_id = getEntityType(id);

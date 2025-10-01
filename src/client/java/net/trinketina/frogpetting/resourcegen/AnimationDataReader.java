@@ -47,7 +47,7 @@ public class AnimationDataReader {
             AnimationBoneData bone_animation = new AnimationBoneData();
 
             bone_animation.bone_name = boneEntry.getKey();
-            PettingClient.LOGGER.info(bone_animation.bone_name);
+            //PettingClient.LOGGER.info(bone_animation.bone_name);
 
             //loop through and read the transformation data
             bone_animation.transformation_animations = readTransformations(boneEntry.getValue());

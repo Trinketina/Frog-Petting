@@ -41,7 +41,7 @@ public class PettingConfig {
     }
 
     private static void createConfigs() {
-        configs.addKeyValuePair(new Pair<>("cooldown", 5), "petting cooldown in ticks");
+        configs.addKeyValuePair(new Pair<>("cooldown", 10), "petting cooldown in ticks");
         configs.addLine();
         configs.addComment("how squishy is the slime when pet");
         configs.addKeyValuePair(new Pair<>("slime-squishiness", -.8f), "recommended range: -2 to 2");
