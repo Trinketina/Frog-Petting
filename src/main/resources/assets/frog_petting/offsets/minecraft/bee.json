@@ -2,5 +2,6 @@
   "offset": [
     0.0,
     0.4
-  ]
+  ],
+  "sound_event_id": "minecraft:entity.bee.pollinate"
 }

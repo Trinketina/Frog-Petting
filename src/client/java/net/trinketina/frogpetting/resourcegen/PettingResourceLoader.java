@@ -2,9 +2,12 @@ package net.trinketina.frogpetting.resourcegen;
 
 import com.nimbusds.jose.shaded.gson.*;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.trinketina.frogpetting.PettingAnimations;
+import net.trinketina.frogpetting.PettingData;
 import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.resourcegen.jsondata.PettingOffsetData;
 import net.trinketina.frogpetting.resourcegen.jsondata.AnimationData;
@@ -24,6 +27,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
         loadOffsets(manager);
         loadAnimations(manager);
 
+        //Registry.register(Registries.SOUND_EVENT, )
     }
 
     private String getEntityType(Identifier id) {
@@ -42,6 +46,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
 
     }
     private void loadOffsets(ResourceManager manager) {
+        PettingData.OFFSETS.clear();
         for (Identifier id : manager.findResources("offsets", path -> path.toString().endsWith(".json")).keySet()) {
             //PettingClient.LOGGER.info(id.getPath());
             try (BufferedReader reader = manager.getResource(id).get().getReader()) {
@@ -53,7 +58,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
 
                 PettingOffsetData offset_json = gson.fromJson(reader, PettingOffsetData.class);
 
-                PettingClient.OFFSETS.put(entity, offset_json);
+                PettingData.OFFSETS.put(entity, offset_json);
 
             } catch (Exception e) {
                 PettingClient.LOGGER.error("Error occurred while loading resource json" + id.toString(), e);
@@ -61,6 +66,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
         }
     }
     private void loadAnimations(ResourceManager manager) {
+        PettingData.PETTING_ANIMATIONS.clear();
         for (Identifier id : manager.findResources("animations", path -> path.toString().endsWith(".json")).keySet()) {
             PettingClient.LOGGER.info(id.getPath());
             try (BufferedReader reader = manager.getResource(id).get().getReader()) {
@@ -69,7 +75,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
 
 
                 AnimationData animation_data = AnimationDataReader.readAnimation(reader);
-                PettingAnimations.PETTING_ANIMATIONS.put(entity_id, AnimationDataReader.buildAnimation(animation_data));
+                PettingData.PETTING_ANIMATIONS.put(entity_id, AnimationDataReader.buildAnimation(animation_data));
                 //PettingClient.LOGGER.info("Added animation for: " + entity_id);
 
             } catch (Exception e) {
@@ -77,5 +83,28 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
             }
         }
     }
+
+/*    private void loadSounds(ResourceManager manager) {
+        PettingData.PETTING_SOUNDS.clear();
+
+        for (Identifier id : manager.findResources("sounds", path -> path.toString().endsWith(".json")).keySet()) {
+            //PettingClient.LOGGER.info(id.getPath());
+            try (BufferedReader reader = manager.getResource(id).get().getReader()) {
+                //sounds should be formatted like [sounds/mod_id/entity_id.json]
+
+                String entity = getEntityType(id);
+
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+                SoundEvent sound_event = gson.fromJson(reader, SoundEvent.class);
+
+                PettingData.PETTING_SOUNDS.put(entity, sound_event);
+
+            } catch (Exception e) {
+                PettingClient.LOGGER.error("Error occurred while loading resource json" + id.toString(), e);
+            }
+        }
+
+    }*/
 }
 

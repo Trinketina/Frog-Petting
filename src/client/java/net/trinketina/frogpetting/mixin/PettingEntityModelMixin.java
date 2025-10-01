@@ -7,13 +7,12 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.util.Identifier;
 import net.trinketina.frogpetting.IPettingAnimationState;
-import net.trinketina.frogpetting.PettingAnimations;
+import net.trinketina.frogpetting.PettingData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Optional;
 import java.util.function.Function;
 
 @Mixin(EntityModel.class)
@@ -29,8 +28,8 @@ public abstract class PettingEntityModelMixin<T extends EntityRenderState> exten
             IPettingAnimationState pettingRenderState = (IPettingAnimationState) state;
             String entity_id = state.entityType.toString();
 
-            if (PettingAnimations.PETTING_ANIMATIONS.containsKey(entity_id)) {
-                this.animate(pettingRenderState.frog_Petting$getPettingAnimationState(), PettingAnimations.PETTING_ANIMATIONS.get(entity_id), state.age);
+            if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id)) {
+                this.animate(pettingRenderState.frog_Petting$getPettingAnimationState(), PettingData.PETTING_ANIMATIONS.get(entity_id), state.age);
             }
         }
     }

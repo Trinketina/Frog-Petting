@@ -6,7 +6,8 @@
       "PettingEntityMixin",
       "PettingEntityRenderStateMixin",
       "PettingEntityRendererMixin",
-      "PettingEntityModelMixin"
+      "PettingEntityModelMixin",
+      "PettingMobEntityMixin"
     ],
 	"injectors": {
 		"defaultRequire": 1
