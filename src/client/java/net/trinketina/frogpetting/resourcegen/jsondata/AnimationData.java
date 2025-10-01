@@ -3,7 +3,7 @@ package net.trinketina.frogpetting.resourcegen.jsondata;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PettingAnimationData {
+public class AnimationData {
     public float animation_length;
-    public List<PettingBoneData> bone_animations = new ArrayList<PettingBoneData>();
+    public List<AnimationBoneData> bone_animations = new ArrayList<AnimationBoneData>();
 }
