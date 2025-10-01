@@ -2,5 +2,6 @@
   "offset": [
     1.0,
     1.5
-  ]
+  ],
+  "sound_event_id": "minecraft:entity.polar_bear.ambient_baby"
 }

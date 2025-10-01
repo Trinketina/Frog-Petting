@@ -2,5 +2,6 @@
   "offset": [
     1.8,
     1.4
-  ]
+  ],
+  "sound_event_id": "minecraft:entity.sniffer.happy"
 }
