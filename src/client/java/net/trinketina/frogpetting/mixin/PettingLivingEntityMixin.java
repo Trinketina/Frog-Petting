@@ -2,6 +2,7 @@ package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.entity.*;
 import net.minecraft.entity.passive.AbstractHorseEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.VehicleEntity;
 import net.minecraft.item.ItemStack;
@@ -38,6 +39,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
         return pettingAnimationState;
     }
 
+    @Unique
     private boolean requireSneaking(String entity_id) {
         if (PettingData.OFFSETS.containsKey(entity_id)) {
             if (PettingData.OFFSETS.get(entity_id).require_crouching) {
@@ -50,8 +52,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
                 return true;
             }
         }
-        if (((Entity)(Object)this) instanceof LivingEntity) {
-            LivingEntity living_entity = ((LivingEntity)(Object)this);
+        if (((Entity)(Object)this) instanceof LivingEntity living_entity) {
             if (living_entity.hasStackEquipped(EquipmentSlot.SADDLE)) {
                 //require sneaking when saddle is equipped
                 return true;
@@ -82,7 +83,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
             // TODO:: swap to tags for this?
             return ActionResult.PASS;
         }
-        if (!(this instanceof Leashable) && !PettingData.OFFSETS.containsKey(entity_id)) {
+        if (!((LivingEntity)(Object)this instanceof PassiveEntity) && !PettingData.OFFSETS.containsKey(entity_id)) {
             //skip if the entity is hostile and not in the offsets
             //WARN:: might be clientside only for the added offsets. might need to rely on tags for that
             return ActionResult.PASS;
@@ -95,6 +96,12 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
         } else if (player.isSneaking()) {
             //if sneaking is not required, and the player is sneaking, don't pet
             return ActionResult.PASS;
+        }
+        if (this instanceof Leashable leashable) {
+            if (leashable.isLeashed()) {
+                //don't pet if leash is attached
+                return ActionResult.PASS;
+            }
         }
 
         if (!getWorld().isClient) {
