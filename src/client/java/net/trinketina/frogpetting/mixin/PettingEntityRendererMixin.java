@@ -1,17 +1,39 @@
 package net.trinketina.frogpetting.mixin;
 
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.state.EntityRenderState;
+import net.minecraft.client.render.entity.state.LivingEntityRenderState;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.trinketina.frogpetting.IPettingAnimationState;
+import net.trinketina.frogpetting.IPettingModel;
+import net.trinketina.frogpetting.PettingClient;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(EntityRenderer.class)
-public abstract class PettingEntityRendererMixin<T extends Entity, S extends EntityRenderState> {
-    @Inject(method = "updateRenderState", at = @At("RETURN"))
+@Mixin(LivingEntityRenderer.class)
+public abstract class PettingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>> {
+
+    @Shadow
+    protected M model;
+
+    @Inject(method="render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/LivingEntityRenderer;getRenderLayer(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;ZZZ)Lnet/minecraft/client/render/RenderLayer;"))
+    private void onRender(S livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+        if (this.model instanceof IPettingModel) {
+
+            IPettingModel pettingModel = ((IPettingModel) this.model);
+            pettingModel.setPettingAnimation(livingEntityRenderState);
+        }
+    }
+
+    @Inject(method = "updateRenderState*", at = @At("HEAD"))
     private void onUpdateRenderState(T livingEntity, S livingEntityRenderState, float f, CallbackInfo ci) {
         if (livingEntityRenderState instanceof IPettingAnimationState && livingEntity instanceof IPettingAnimationState) {
             IPettingAnimationState pettingRenderState = (IPettingAnimationState) livingEntityRenderState;
@@ -20,4 +42,6 @@ public abstract class PettingEntityRendererMixin<T extends Entity, S extends Ent
             pettingRenderState.frog_Petting$copyToPettingAnimationState(pettingEntity.frog_Petting$getPettingAnimationState());
         }
     }
+
+
 }
