@@ -83,7 +83,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
             // TODO:: swap to tags for this?
             return ActionResult.PASS;
         }
-        if (!((LivingEntity)(Object)this instanceof PassiveEntity) && !PettingData.OFFSETS.containsKey(entity_id)) {
+        if ((!((LivingEntity)(Object)this instanceof PassiveEntity) || (this instanceof InteractionObserver) ) && !PettingData.OFFSETS.containsKey(entity_id)) {
             //skip if the entity is hostile and not in the offsets
             //WARN:: might be clientside only for the added offsets. might need to rely on tags for that
             return ActionResult.PASS;
