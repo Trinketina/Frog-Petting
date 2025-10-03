@@ -1,7 +1,8 @@
 package net.trinketina.frogpetting;
 
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 
 public interface IPettingModel {
-    void frog_Petting$setPettingAnimation(LivingEntityRenderState state);
+    void frog_Petting$setPettingAngles(EntityRenderState state);
+    void frog_Petting$setPettingAngles();
 }

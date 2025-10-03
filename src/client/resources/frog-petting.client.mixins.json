@@ -8,7 +8,8 @@
       "PettingEntityRendererMixin",
       "PettingEntityModelMixin",
       "PettingMobEntityMixin",
-      "PettingLivingEntityMixin"
+      "PettingLivingEntityMixin",
+      "PettingModelMixin"
     ],
 	"injectors": {
 		"defaultRequire": 1

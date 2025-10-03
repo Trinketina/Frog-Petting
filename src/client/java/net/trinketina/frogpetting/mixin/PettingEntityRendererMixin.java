@@ -1,13 +1,10 @@
 package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.trinketina.frogpetting.IPettingAnimationState;
 import net.trinketina.frogpetting.IPettingModel;
@@ -22,12 +19,12 @@ public abstract class PettingEntityRendererMixin<T extends LivingEntity, S exten
     @Shadow
     protected M model;
 
-    @Inject(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/EntityModel;setAngles(Lnet/minecraft/client/render/entity/state/EntityRenderState;)V", shift =  At.Shift.AFTER, ordinal = 0))
+    /*@Inject(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/EntityModel;setAngles(Lnet/minecraft/client/render/entity/state/EntityRenderState;)V", shift =  At.Shift.AFTER, ordinal = 0))
     private void render(S livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         if (this.model instanceof IPettingModel pettingModel) {
-            pettingModel.frog_Petting$setPettingAnimation(livingEntityRenderState);
+            pettingModel.frog_Petting$setPettingAngles(livingEntityRenderState);
         }
-    }
+    }*/
 
     @Inject(method = "updateRenderState*", at = @At("RETURN"))
     private void onUpdateRenderState(T livingEntity, S livingEntityRenderState, float f, CallbackInfo ci) {
