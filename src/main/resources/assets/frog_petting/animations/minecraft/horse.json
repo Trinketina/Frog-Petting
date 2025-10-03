@@ -1,0 +1,37 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.petting": {
+			"animation_length": 0.875,
+			"bones": {
+				"head_parts": {
+					"position": {
+                      "0.0": {
+                        "vector": [0, 0, 0]
+                      },
+                      "0.5": {
+                        "vector": [0, 5, 0]
+                      },
+                      "1.0": {
+                        "vector": [0, 0, 0]
+                      }
+					}
+				},
+				"body": {
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [0, -5, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}
