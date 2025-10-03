@@ -85,6 +85,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
         }
         if ((!((LivingEntity)(Object)this instanceof PassiveEntity) || (this instanceof InteractionObserver) ) && !PettingData.OFFSETS.containsKey(entity_id)) {
             //skip if the entity is hostile and not in the offsets
+            //also skips if the entity is a villager, TODO:: maybe move to requireSneaking instead?
             //WARN:: might be clientside only for the added offsets. might need to rely on tags for that
             return ActionResult.PASS;
         }
