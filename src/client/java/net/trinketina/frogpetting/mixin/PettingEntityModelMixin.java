@@ -38,27 +38,8 @@ public abstract class PettingEntityModelMixin<T extends EntityRenderState> exten
         }
     }
 
-    @Override
-    public void frog_Petting$setPettingAngles(EntityRenderState renderState) {
-        if (renderState instanceof IPettingAnimationState pettingRenderState) {
-            String entity_id = renderState.entityType.toString();
-
-            if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id)) {
-                this.animate(pettingRenderState.frog_Petting$getPettingAnimationState(), PettingData.PETTING_ANIMATIONS.get(entity_id), renderState.age);
-            }
-        }
-    }
-
     @Inject(method = "setAngles", at = @At(value = "RETURN"))
     private void onSetAngles(T state, CallbackInfo ci) {
         this.pettingState = state;
-        /*if (state instanceof IPettingAnimationState) {
-            IPettingAnimationState pettingRenderState = (IPettingAnimationState) state;
-            String entity_id = state.entityType.toString();
-
-            if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id)) {
-                this.animate(pettingRenderState.frog_Petting$getPettingAnimationState(), PettingData.PETTING_ANIMATIONS.get(entity_id), state.age);
-            }
-        }*/
     }
 }
