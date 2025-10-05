@@ -21,13 +21,13 @@ import java.util.Map;
 
 public class AnimationDataReader {
 
-    public static AnimationData readAnimation(BufferedReader reader) throws IOException {
+    public static AnimationData readAnimation(BufferedReader reader, String animation_name) throws IOException {
 
         JsonElement animation_json = JsonParser.parseReader(reader);
 
         JsonObject root = animation_json.getAsJsonObject();
         JsonObject animations = root.getAsJsonObject("animations");
-        JsonObject petting_animation = animations.getAsJsonObject("animation.petting");
+        JsonObject petting_animation = animations.getAsJsonObject(animation_name);
         JsonObject bones = petting_animation.getAsJsonObject("bones");
 
         AnimationData animation_data = new AnimationData();
@@ -43,14 +43,14 @@ public class AnimationDataReader {
         List<AnimationBoneData> bone_animations = new ArrayList<>();
 
         //iterate through the bones
-        for (Map.Entry<String, JsonElement> boneEntry : bones.entrySet()) {
+        for (Map.Entry<String, JsonElement> bone_entry : bones.entrySet()) {
             AnimationBoneData bone_animation = new AnimationBoneData();
 
-            bone_animation.bone_name = boneEntry.getKey();
+            bone_animation.bone_name = bone_entry.getKey();
             //PettingClient.LOGGER.info(bone_animation.bone_name);
 
             //loop through and read the transformation data
-            bone_animation.transformation_animations = readTransformations(boneEntry.getValue());
+            bone_animation.transformation_animations = readTransformations(bone_entry.getValue());
             bone_animations.add(bone_animation);
         }
         return bone_animations;
@@ -93,42 +93,46 @@ public class AnimationDataReader {
         for (Map.Entry<String, JsonElement> keyframeEntry : keyframe_data.getAsJsonObject().entrySet()) {
             //TODO:: parse interpolation of keyframeEntry
 
-            float keyframe_position = Float.parseFloat(keyframeEntry.getKey());
+            //catch any errors for specific keyframes, don't throw out entire animation
+            try {
+                float keyframe_position = Float.parseFloat(keyframeEntry.getKey());
 
-            String vector_string = keyframeEntry.getValue().toString();
-            String[] vector_values = vector_string.substring(vector_string.indexOf("[") + 1, vector_string.indexOf("]")).split(",");
+                String vector_string = keyframeEntry.getValue().toString();
+                String[] vector_values = vector_string.substring(vector_string.indexOf("[") + 1, vector_string.indexOf("]")).split(",");
 
-            float x = Float.parseFloat(vector_values[0]);
-            float y = Float.parseFloat(vector_values[1]);
-            float z = Float.parseFloat(vector_values[2]);
+                float x = Float.parseFloat(vector_values[0]);
+                float y = Float.parseFloat(vector_values[1]);
+                float z = Float.parseFloat(vector_values[2]);
 
 
-            //create the keyframe, depending on what type of transformation it is
-            Vector3f keyframe_vector = new Vector3f(x, y, z);
-            Keyframe keyframe;
-            switch (transformation_target_type) {
-                case "position":
-                    keyframe_vector = AnimationHelper.createTranslationalVector(x, y, z);
-                    keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
-                    //PettingClient.LOGGER.info("position: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
-                    break;
-                case "rotation":
-                    keyframe_vector = AnimationHelper.createRotationalVector(x, y, z);
-                    keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
-                    //PettingClient.LOGGER.info("rotation: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
-                    break;
-                case "scale":
-                    keyframe_vector = AnimationHelper.createScalingVector(x, y, z);
-                    keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
-                    //PettingClient.LOGGER.info("scale: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
-                    break;
-                default:
-                    //skip keyframe if invalid target type, should never default but just in case
-                    continue;
+                //create the keyframe, depending on what type of transformation it is
+                Vector3f keyframe_vector = new Vector3f(x, y, z);
+                Keyframe keyframe;
+                switch (transformation_target_type) {
+                    case "position":
+                        keyframe_vector = AnimationHelper.createTranslationalVector(x, y, z);
+                        keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                        //PettingClient.LOGGER.info("position: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
+                        break;
+                    case "rotation":
+                        keyframe_vector = AnimationHelper.createRotationalVector(x, y, z);
+                        keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                        //PettingClient.LOGGER.info("rotation: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
+                        break;
+                    case "scale":
+                        keyframe_vector = AnimationHelper.createScalingVector(x, y, z);
+                        keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                        //PettingClient.LOGGER.info("scale: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
+                        break;
+                    default:
+                        //skip keyframe if invalid target type, should never default but just in case
+                        continue;
+                }
+                keyframes.add(keyframe);
+            } catch (Exception e) {
+                PettingClient.LOGGER.error("error reading keyframe: " + e.getMessage());
             }
-            keyframes.add(keyframe);
             //PettingClient.LOGGER.info("[" + x + ", " + y + ", " + z + "]");
-
         }
 
         return keyframes;

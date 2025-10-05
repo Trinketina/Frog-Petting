@@ -16,6 +16,8 @@ import java.io.BufferedReader;
 
 public class PettingResourceLoader implements SimpleSynchronousResourceReloadListener{
 
+    public static String animation_name = "animation.petting";
+
     @Override
     public Identifier getFabricId() {
         return Identifier.of("frog-petting", "offsets");
@@ -74,7 +76,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 String entity_id = getEntityType(id);
 
 
-                AnimationData animation_data = AnimationDataReader.readAnimation(reader);
+                AnimationData animation_data = AnimationDataReader.readAnimation(reader, animation_name);
                 PettingData.PETTING_ANIMATIONS.put(entity_id, AnimationDataReader.buildAnimation(animation_data));
                 //PettingClient.LOGGER.info("Added animation for: " + entity_id);
 
