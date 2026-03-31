@@ -72,7 +72,6 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
     public InteractionResult frog_Petting$pettingInteract(Player player, InteractionHand hand) {
         String entity_id = this.getType().toString();
         ItemStack itemStack = player.getItemInHand(hand);
-        PettingMain.LOGGER.info("petting" + entity_id);
 
         if (!itemStack.isEmpty()) {
             return InteractionResult.PASS;

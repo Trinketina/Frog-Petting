@@ -21,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PettingModelMixin<S> implements IPettingModel {
     @Unique
     private S pettingState;
-
     @Override
     public boolean frog_Petting$tryGenerateKeyframeAnimation(String entity_id) {
         try {
@@ -32,7 +31,7 @@ public abstract class PettingModelMixin<S> implements IPettingModel {
             }
             return false;
         } catch (Exception e){
-            PettingClient.LOGGER.warn("Could not generate aniamtion for " + entity_id + ": " + e);
+            PettingClient.LOGGER.warn("Could not generate animation for " + entity_id + ": " + e);
         }
         return false;
     }
@@ -53,17 +52,16 @@ public abstract class PettingModelMixin<S> implements IPettingModel {
         }
     }
 
-    // TODO(Ravel): target method render with the signature not found
-    // TODO(Ravel): target method render with the signature not found
-    @Inject(method = "renderToBuffer", at = @At("HEAD"))
+    @Inject(method = "Lnet/minecraft/client/model/Model;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V", at = @At("HEAD"))
     public final void renderToBuffer(final PoseStack poseStack, final VertexConsumer buffer, final int lightCoords, final int overlayCoords, final int color, CallbackInfo ci) {
         this.frog_Petting$setPettingAngles();
     }
-
     @Inject(method = "setupAnim", at = @At(value = "RETURN"))
     private void onSetupAnim(S state, CallbackInfo ci) {
         this.pettingState = state;
+        //frog_Petting$setPettingAngles();
     }
+
 
     @Shadow public abstract void setupAnim(final S state);
     @Shadow protected ModelPart root;
