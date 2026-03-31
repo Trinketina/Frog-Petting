@@ -22,10 +22,8 @@ public abstract class PettingEntityRendererMixin<T extends LivingEntity, S exten
             pettingModel.frog_Petting$setPettingAngles(livingEntityRenderState);
         }
     }*/
-
-    // TODO(Ravel): wildcard and regex target are not supported
-// TODO(Ravel): wildcard and regex target are not supported
-    @Inject(method = "extractRenderState*", at = @At("RETURN"))
+    
+    @Inject(method = "extractRenderState*", at = @At("HEAD"))
     private void onExtractRenderState(T livingEntity, S livingEntityRenderState, float partialTicks, CallbackInfo ci) {
         if (livingEntityRenderState instanceof IPettingAnimationState pettingRenderState && livingEntity instanceof IPettingAnimationState pettingEntity) {
 

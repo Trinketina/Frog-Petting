@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.Unique;
 // TODO(Ravel): can not resolve target class LivingEntity
 // TODO(Ravel): can not resolve target class LivingEntity
 @Mixin(LivingEntity.class)
-public abstract class PettingLivingEntityMixin extends AbstractHorse implements IPettitngInteract, IPettingAnimationState, IPettingSound {
+public abstract class PettingLivingEntityMixin extends Entity implements IPettitngInteract, IPettingAnimationState, IPettingSound {
 
     @Unique
     public final AnimationState pettingAnimationState = new AnimationState();
@@ -28,7 +28,7 @@ public abstract class PettingLivingEntityMixin extends AbstractHorse implements 
     @Unique
     protected int last_pet_age = -100;
 
-    protected PettingLivingEntityMixin(EntityType<? extends AbstractHorse> type, Level level) {
+    public PettingLivingEntityMixin(EntityType<?> type, Level level) {
         super(type, level);
     }
 
@@ -61,7 +61,7 @@ public abstract class PettingLivingEntityMixin extends AbstractHorse implements 
                 return true;
             }
         }
-        if (((AbstractHorse)(Object)this) instanceof AbstractHorse) {
+        if (((Object)this) instanceof AbstractHorse) {
             return true;
         }
 
@@ -72,11 +72,12 @@ public abstract class PettingLivingEntityMixin extends AbstractHorse implements 
     public InteractionResult frog_Petting$pettingInteract(Player player, InteractionHand hand) {
         String entity_id = this.getType().toString();
         ItemStack itemStack = player.getItemInHand(hand);
+        PettingMain.LOGGER.info("petting" + entity_id);
 
         if (!itemStack.isEmpty()) {
             return InteractionResult.PASS;
         }
-        if (this.age < last_pet_age + PettingConfig.COOLDOWN) {
+        if (this.tickCount < last_pet_age + PettingConfig.COOLDOWN) {
             //PettingClient.LOGGER.info("cooldown");
             //cooldown not finished
             return InteractionResult.PASS;
@@ -109,7 +110,7 @@ public abstract class PettingLivingEntityMixin extends AbstractHorse implements 
         }
 
         if (!level().isClientSide()) {
-            this.last_pet_age = this.age;
+            this.last_pet_age = this.tickCount;
             //cir.setReturnValue(ActionResult.SUCCESS);
             return InteractionResult.SUCCESS;
         }
@@ -125,7 +126,7 @@ public abstract class PettingLivingEntityMixin extends AbstractHorse implements 
             this.level().playLocalSound(this, this.frog_Petting$getPettingAmbientSound(), SoundSource.AMBIENT, this.frog_Petting$getPettingSoundVolume(), this.frog_Petting$getPettingSoundPitch(this.random));
             //PettingClient.LOGGER.info("sound id: " + this.frog_Petting$getPettingAmbientSound().id());
         }
-        this.frog_Petting$getPettingAnimationState().start(this.age);
+        this.frog_Petting$getPettingAnimationState().start(this.tickCount);
 
 
         Vec3 rotation = this.getForward();
@@ -142,7 +143,7 @@ public abstract class PettingLivingEntityMixin extends AbstractHorse implements 
                 this.getY() + Math.random() * .5 + vertical_offset,
                 this.getZ() + Math.random() * .1 + (forward_offset * rotation.z()),
                 0.0D, 0.2D, 0.0D);
-        last_pet_age = this.age;
+        last_pet_age = this.tickCount;
 
         PettingClient.LOGGER.info("petted " + entity_id);
         //cir.setReturnValue(ActionResult.SUCCESS);

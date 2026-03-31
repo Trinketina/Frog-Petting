@@ -13,5 +13,6 @@ import java.util.Map;
 @Environment(EnvType.CLIENT)
 public class PettingData {
     public static final Map<String, AnimationDefinition> PETTING_ANIMATIONS = new HashMap<>();
+    public static final Map<String, KeyframeAnimation> PETTING_KEYFRAMES = new HashMap<>();
     public static final Map<String, PettingOffsetData> OFFSETS = new HashMap<>();
 }
