@@ -1,9 +1,9 @@
 package net.trinketina.frogpetting;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.registry.Registries;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.sounds.SoundEvent;
 import net.trinketina.frogpetting.config.PettingConfig;
 import net.trinketina.frogpetting.resourcegen.jsondata.PettingOffsetData;
 import net.trinketina.frogpetting.resourcegen.PettingResourceLoader;
@@ -22,7 +22,7 @@ public class PettingClient implements ClientModInitializer {
         LOGGER.info("Croaking Frogs please wait...");
         PettingConfig.registerConfigs();
 
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new PettingResourceLoader());
+        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new PettingResourceLoader());
 
 
     }

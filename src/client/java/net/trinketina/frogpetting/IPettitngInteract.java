@@ -1,9 +1,10 @@
 package net.trinketina.frogpetting;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 
 public interface IPettitngInteract {
-    default ActionResult frog_Petting$pettingInteract(PlayerEntity player, Hand hand) {return ActionResult.PASS;}
+    default InteractionResult frog_Petting$pettingInteract(Player player, InteractionHand hand) {return InteractionResult.PASS;}
 }

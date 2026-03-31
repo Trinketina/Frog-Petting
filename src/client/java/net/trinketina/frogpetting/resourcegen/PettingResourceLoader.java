@@ -1,12 +1,10 @@
 package net.trinketina.frogpetting.resourcegen;
 
-import com.nimbusds.jose.shaded.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.trinketina.frogpetting.PettingData;
 import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.resourcegen.jsondata.PettingOffsetData;
@@ -14,23 +12,23 @@ import net.trinketina.frogpetting.resourcegen.jsondata.AnimationData;
 
 import java.io.BufferedReader;
 
-public class PettingResourceLoader implements SimpleSynchronousResourceReloadListener{
+public class PettingResourceLoader implements SimpleSynchronousResourceReloadListener {
 
     public static String animation_name = "animation.petting";
 
     @Override
     public Identifier getFabricId() {
-        return Identifier.of("frog-petting", "offsets");
+        return Identifier.tryBuild("frog-petting", "offsets");
     }
 
-    @Override
+    /*@Override
     public void reload(ResourceManager manager) {
         PettingClient.LOGGER.info(getFabricId().toString());
         loadOffsets(manager);
         loadAnimations(manager);
 
         //Registry.register(Registries.SOUND_EVENT, )
-    }
+    }*/
 
     private String getEntityType(Identifier id) {
         int index_first_slash = id.getPath().indexOf("/");
@@ -49,9 +47,9 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
     }
     private void loadOffsets(ResourceManager manager) {
         PettingData.OFFSETS.clear();
-        for (Identifier id : manager.findResources("offsets", path -> path.toString().endsWith(".json")).keySet()) {
+        for (Identifier id : manager.listResources("offsets", path -> path.toString().endsWith(".json")).keySet()) {
             //PettingClient.LOGGER.info(id.getPath());
-            try (BufferedReader reader = manager.getResource(id).get().getReader()) {
+            try (BufferedReader reader = manager.getResource(id).get().openAsReader()) {
                 //offsets should be formatted like [offsets/mod_id/entity_id.json]
 
                 String entity = getEntityType(id);
@@ -69,9 +67,9 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
     }
     private void loadAnimations(ResourceManager manager) {
         PettingData.PETTING_ANIMATIONS.clear();
-        for (Identifier id : manager.findResources("animations", path -> path.toString().endsWith(".json")).keySet()) {
+        for (Identifier id : manager.listResources("animations", path -> path.toString().endsWith(".json")).keySet()) {
             //PettingClient.LOGGER.info(id.getPath());
-            try (BufferedReader reader = manager.getResource(id).get().getReader()) {
+            try (BufferedReader reader = manager.getResource(id).get().openAsReader()) {
                 //animations should be formatted like [animations/mod_id/entity_id.json]
                 String entity_id = getEntityType(id);
 
@@ -84,6 +82,13 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 PettingClient.LOGGER.error("Error occurred while loading resource json" + id.toString(), e);
             }
         }
+    }
+
+    @Override
+    public void onResourceManagerReload(ResourceManager resourceManager) {
+        PettingClient.LOGGER.info(getFabricId().toString());
+        loadOffsets(resourceManager);
+        loadAnimations(resourceManager);
     }
 
 /*    private void loadSounds(ResourceManager manager) {

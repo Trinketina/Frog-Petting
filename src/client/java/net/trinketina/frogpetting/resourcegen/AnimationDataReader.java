@@ -1,12 +1,12 @@
 package net.trinketina.frogpetting.resourcegen;
 
-import com.nimbusds.jose.shaded.gson.JsonElement;
-import com.nimbusds.jose.shaded.gson.JsonObject;
-import com.nimbusds.jose.shaded.gson.JsonParser;
-import net.minecraft.client.render.entity.animation.Animation;
-import net.minecraft.client.render.entity.animation.AnimationHelper;
-import net.minecraft.client.render.entity.animation.Keyframe;
-import net.minecraft.client.render.entity.animation.Transformation;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.client.animation.KeyframeAnimations;
+import net.minecraft.client.animation.Keyframe;
+import net.minecraft.client.animation.AnimationChannel;
 import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.resourcegen.jsondata.AnimationData;
 import net.trinketina.frogpetting.resourcegen.jsondata.AnimationBoneData;
@@ -62,16 +62,16 @@ public class AnimationDataReader {
         //iterate through the transformation types present
         for (Map.Entry<String, JsonElement> transformationEntry : bone_data.getAsJsonObject().entrySet()) {
             String transformation_target_type = transformationEntry.getKey();
-            Transformation.Target transformation_target;
+            AnimationChannel.Target transformation_target;
             switch (transformation_target_type) {
                 case "position":
-                    transformation_target = Transformation.Targets.MOVE_ORIGIN;
+                    transformation_target = AnimationChannel.Targets.POSITION;
                     break;
                 case "rotation":
-                    transformation_target = Transformation.Targets.ROTATE;
+                    transformation_target = AnimationChannel.Targets.ROTATION;
                     break;
                 case "scale":
-                    transformation_target = Transformation.Targets.SCALE;
+                    transformation_target = AnimationChannel.Targets.SCALE;
                     break;
                 default:
                     //skip loading the keyframes if invalid target type
@@ -110,18 +110,18 @@ public class AnimationDataReader {
                 Keyframe keyframe;
                 switch (transformation_target_type) {
                     case "position":
-                        keyframe_vector = AnimationHelper.createTranslationalVector(x, y, z);
-                        keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                        keyframe_vector = KeyframeAnimations.posVec(x, y, z);
+                        keyframe = new Keyframe(keyframe_position, keyframe_vector, AnimationChannel.Interpolations.LINEAR);
                         //PettingClient.LOGGER.info("position: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
                         break;
                     case "rotation":
-                        keyframe_vector = AnimationHelper.createRotationalVector(x, y, z);
-                        keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                        keyframe_vector = KeyframeAnimations.degreeVec(x, y, z);
+                        keyframe = new Keyframe(keyframe_position, keyframe_vector, AnimationChannel.Interpolations.LINEAR);
                         //PettingClient.LOGGER.info("rotation: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
                         break;
                     case "scale":
-                        keyframe_vector = AnimationHelper.createScalingVector(x, y, z);
-                        keyframe = new Keyframe(keyframe_position, keyframe_vector, Transformation.Interpolations.LINEAR);
+                        keyframe_vector = KeyframeAnimations.scaleVec(x, y, z);
+                        keyframe = new Keyframe(keyframe_position, keyframe_vector, AnimationChannel.Interpolations.LINEAR);
                         //PettingClient.LOGGER.info("scale: [" + keyframe_vector.x + ", " + keyframe_vector.y + ", " + keyframe_vector.z + "]");
                         break;
                     default:
@@ -138,16 +138,16 @@ public class AnimationDataReader {
         return keyframes;
     }
 
-    public static Animation buildAnimation(AnimationData animation_data) {
+    public static AnimationDefinition buildAnimation(AnimationData animation_data) {
         float animation_length = animation_data.animation_length;
 
-        Animation.Builder animation_builder = Animation.Builder.create(animation_length);
+        AnimationDefinition.Builder animation_builder = AnimationDefinition.Builder.withLength(animation_length);
 
         for (AnimationBoneData bone_animation : animation_data.bone_animations) {
             for (BoneTransformationData animation_element : bone_animation.transformation_animations) {
-                animation_builder = animation_builder.addBoneAnimation(
+                animation_builder = animation_builder.addAnimation(
                         bone_animation.bone_name,
-                        new Transformation(animation_element.transformation_target, animation_element.keyframes));
+                        new AnimationChannel(animation_element.transformation_target, animation_element.keyframes));
                 //PettingClient.LOGGER.info("Added animation to " + bone_animation.bone_name + ": " + animation_element.keyframes[1]);
             }
         }

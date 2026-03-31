@@ -7,7 +7,7 @@
       "PettingEntityRenderStateMixin",
       "PettingEntityRendererMixin",
       "PettingEntityModelMixin",
-      "PettingMobEntityMixin",
+      "PettingMobMixin",
       "PettingLivingEntityMixin",
       "PettingModelMixin"
     ],

@@ -1,9 +1,9 @@
 package net.trinketina.frogpetting.mixin;
 
-import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.world.entity.LivingEntity;
 import net.trinketina.frogpetting.IPettingAnimationState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,8 +23,10 @@ public abstract class PettingEntityRendererMixin<T extends LivingEntity, S exten
         }
     }*/
 
-    @Inject(method = "updateRenderState*", at = @At("RETURN"))
-    private void onUpdateRenderState(T livingEntity, S livingEntityRenderState, float f, CallbackInfo ci) {
+    // TODO(Ravel): wildcard and regex target are not supported
+// TODO(Ravel): wildcard and regex target are not supported
+    @Inject(method = "extractRenderState*", at = @At("RETURN"))
+    private void onExtractRenderState(T livingEntity, S livingEntityRenderState, float partialTicks, CallbackInfo ci) {
         if (livingEntityRenderState instanceof IPettingAnimationState pettingRenderState && livingEntity instanceof IPettingAnimationState pettingEntity) {
 
             pettingRenderState.frog_Petting$copyToPettingAnimationState(pettingEntity.frog_Petting$getPettingAnimationState());
