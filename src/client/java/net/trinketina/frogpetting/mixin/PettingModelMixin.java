@@ -1,6 +1,5 @@
 package net.trinketina.frogpetting.mixin;
 
-import net.minecraft.client.animation.KeyframeAnimation;
 import net.minecraft.client.model.Model;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -38,14 +37,15 @@ public abstract class PettingModelMixin<S> implements IPettingModel {
 
     @Override
     public void frog_Petting$setPettingAngles() {
-        if (this.pettingState instanceof IPettingAnimationState pettingRenderState && pettingState instanceof EntityRenderState renderstate) {
+        if (this.pettingState instanceof IPettingAnimationState pettingRenderState && pettingState instanceof EntityRenderState renderState) {
             this.setupAnim(this.pettingState);
-            String entity_id = renderstate.entityType.toString();
+            if (renderState.entityType == null) return;
+            String entity_id = renderState.entityType.toString();
 
             if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id)) {
                 frog_Petting$tryGenerateKeyframeAnimation(entity_id);
                 if (PettingData.PETTING_KEYFRAMES.containsKey(entity_id)) {
-                    PettingData.PETTING_KEYFRAMES.get(entity_id).apply(pettingRenderState.frog_Petting$getPettingAnimationState(), renderstate.ageInTicks);
+                    PettingData.PETTING_KEYFRAMES.get(entity_id).apply(pettingRenderState.frog_Petting$getPettingAnimationState(), renderState.ageInTicks);
                 }
                 //this.animate(pettingRenderState.frog_Petting$getPettingAnimationState(), PettingData.PETTING_ANIMATIONS.get(entity_id), pettingState.age);
             }
