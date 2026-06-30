@@ -16,7 +16,6 @@ import java.io.BufferedReader;
 public class PettingResourceLoader implements SimpleSynchronousResourceReloadListener {
 
     public static String animation_name = "animation.petting";
-    public static String animation_render_layer_name = "animation.petting.render_layer";
 
     @Override
     public Identifier getFabricId() {
@@ -76,8 +75,12 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
                 String entity_id = getEntityType(id);
 
                 AnimationData animation_data = AnimationDataReader.readAnimation(reader, animation_name);
-                PettingData.PETTING_ANIMATIONS.put(entity_id, AnimationDataReader.buildAnimation(animation_data));
-
+                if (animation_data == null) {
+                    PettingClient.LOGGER.error("Error occurred while loading animation: " + animation_name + " for " + entity_id);
+                }
+                else {
+                    PettingData.PETTING_ANIMATIONS.put(entity_id, AnimationDataReader.buildAnimation(animation_data));
+                }
                 //PettingClient.LOGGER.info("Added animation for: " + entity_id);
 
             } catch (Exception e) {

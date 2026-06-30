@@ -13,6 +13,7 @@ import net.trinketina.frogpetting.resourcegen.jsondata.AnimationData;
 import net.trinketina.frogpetting.resourcegen.jsondata.AnimationBoneData;
 import net.trinketina.frogpetting.resourcegen.jsondata.BoneTransformationData;
 import org.joml.Vector3f;
+import org.jspecify.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +29,12 @@ public class AnimationDataReader {
 
         JsonObject root = animation_json.getAsJsonObject();
         JsonObject animations = root.getAsJsonObject("animations");
+
         JsonObject petting_animation = animations.getAsJsonObject(animation_name);
+        if (petting_animation == null)  {
+            PettingClient.LOGGER.error("Animation '" + animation_name + "' not found");
+            return null;
+        }
         JsonObject bones = petting_animation.getAsJsonObject("bones");
 
         AnimationData animation_data = new AnimationData();
@@ -80,9 +86,12 @@ public class AnimationDataReader {
             }
 
             //loop through and read the keyframe data
-            Keyframe[] keyframes = readKeyframes(transformationEntry.getValue(), transformation_target_type).toArray(new Keyframe[0]);
-            BoneTransformationData transformation_data = new BoneTransformationData(transformation_target, keyframes);
-            transformations.add(transformation_data);
+            List<Keyframe> keyframes_list = readKeyframes(transformationEntry.getValue(), transformation_target_type);
+            if (keyframes_list != null) {
+                Keyframe[] keyframes = keyframes_list.toArray(new Keyframe[0]);
+                BoneTransformationData transformation_data = new BoneTransformationData(transformation_target, keyframes);
+                transformations.add(transformation_data);
+            }
         }
         return transformations;
     }
@@ -132,6 +141,7 @@ public class AnimationDataReader {
                 keyframes.add(keyframe);
             } catch (Exception e) {
                 PettingClient.LOGGER.error("error reading keyframe: " + e.getMessage());
+                return null;
             }
             //PettingClient.LOGGER.info("[" + x + ", " + y + ", " + z + "]");
         }
