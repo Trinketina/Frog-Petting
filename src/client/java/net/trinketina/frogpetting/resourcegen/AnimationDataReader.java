@@ -3,11 +3,12 @@ package net.trinketina.frogpetting.resourcegen;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.AnimationChannel;
 import net.trinketina.frogpetting.PettingClient;
+import net.trinketina.frogpetting.animation.Animation;
+import net.trinketina.frogpetting.animation.Transformation;
 import net.trinketina.frogpetting.resourcegen.jsondata.AnimationData;
 import net.trinketina.frogpetting.resourcegen.jsondata.AnimationBoneData;
 import net.trinketina.frogpetting.resourcegen.jsondata.BoneTransformationData;
@@ -62,16 +63,16 @@ public class AnimationDataReader {
         //iterate through the transformation types present
         for (Map.Entry<String, JsonElement> transformationEntry : bone_data.getAsJsonObject().entrySet()) {
             String transformation_target_type = transformationEntry.getKey();
-            AnimationChannel.Target transformation_target;
+            Transformation.Target transformation_target;
             switch (transformation_target_type) {
                 case "position":
-                    transformation_target = AnimationChannel.Targets.POSITION;
+                    transformation_target = Transformation.Targets.POSITION;
                     break;
                 case "rotation":
-                    transformation_target = AnimationChannel.Targets.ROTATION;
+                    transformation_target = Transformation.Targets.ROTATION;
                     break;
                 case "scale":
-                    transformation_target = AnimationChannel.Targets.SCALE;
+                    transformation_target = Transformation.Targets.SCALE;
                     break;
                 default:
                     //skip loading the keyframes if invalid target type
@@ -138,16 +139,16 @@ public class AnimationDataReader {
         return keyframes;
     }
 
-    public static AnimationDefinition buildAnimation(AnimationData animation_data) {
+    public static Animation buildAnimation(AnimationData animation_data) {
         float animation_length = animation_data.animation_length;
 
-        AnimationDefinition.Builder animation_builder = AnimationDefinition.Builder.withLength(animation_length);
+        Animation.Builder animation_builder = Animation.Builder.create(animation_length);
 
         for (AnimationBoneData bone_animation : animation_data.bone_animations) {
             for (BoneTransformationData animation_element : bone_animation.transformation_animations) {
-                animation_builder = animation_builder.addAnimation(
+                animation_builder = animation_builder.addBoneTransformation(
                         bone_animation.bone_name,
-                        new AnimationChannel(animation_element.transformation_target, animation_element.keyframes));
+                        new Transformation(animation_element.transformation_target, animation_element.keyframes));
                 //PettingClient.LOGGER.info("Added animation to " + bone_animation.bone_name + ": " + animation_element.keyframes[1]);
             }
         }

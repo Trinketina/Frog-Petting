@@ -20,12 +20,12 @@ public abstract class PettingEntityRendererMixin<T extends LivingEntity, S exten
     @Shadow
     protected M model;
 
-    @Inject(method = "submit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;setupAnim(Ljava/lang/Object;)V", shift =  At.Shift.AFTER, ordinal = 0))
+    /*@Inject(method = "submit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;setupAnim(Ljava/lang/Object;)V", shift =  At.Shift.AFTER, ordinal = 0))
     private void render(final S state, final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final CameraRenderState camera, CallbackInfo ci) {
         if (this.model instanceof IPettingModel pettingModel) {
             pettingModel.frog_Petting$setPettingAngles();
         }
-    }
+    }*/
     
     @Inject(method = "extractRenderState*", at = @At("RETURN"))
     private void onExtractRenderState(T livingEntity, S livingEntityRenderState, float partialTicks, CallbackInfo ci) {

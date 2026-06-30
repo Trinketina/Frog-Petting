@@ -7,6 +7,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.trinketina.frogpetting.PettingData;
 import net.trinketina.frogpetting.PettingClient;
+import net.trinketina.frogpetting.animation.Animation;
 import net.trinketina.frogpetting.resourcegen.jsondata.PettingOffsetData;
 import net.trinketina.frogpetting.resourcegen.jsondata.AnimationData;
 

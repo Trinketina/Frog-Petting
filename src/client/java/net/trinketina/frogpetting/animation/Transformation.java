@@ -38,8 +38,8 @@ public record Transformation(Transformation.Target target, Keyframe... keyframes
     }
 
     public static class Targets {
-        public static final Transformation.Target MOVE_ORIGIN = ModelPart::offsetPos;
-        public static final Transformation.Target ROTATE = ModelPart::offsetRotation;
+        public static final Transformation.Target POSITION = ModelPart::offsetPos;
+        public static final Transformation.Target ROTATION = ModelPart::offsetRotation;
         public static final Transformation.Target SCALE = ModelPart::offsetScale;
     }
 }

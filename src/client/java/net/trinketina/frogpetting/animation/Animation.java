@@ -1,14 +1,16 @@
 package net.trinketina.frogpetting.animation;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public record Animation(float lengthS, boolean looping, Map<String, List<Transformation>> boneTransformations) {
     public static class Builder {
-        private float lengthS;
+        private final float lengthS;
         private boolean looping;
-        private Map<String, List<Transformation>> boneTransformations;
+        private final Map<String, List<Transformation>> boneTransformations = new HashMap<>();
 
         public static Animation.Builder create(float lengthS) {
             return new Animation.Builder(lengthS);
@@ -23,8 +25,8 @@ public record Animation(float lengthS, boolean looping, Map<String, List<Transfo
             return this;
         }
 
-        public Animation.Builder boneTransformations(Map<String, List<Transformation>> boneTransformations) {
-            this.boneTransformations = boneTransformations;
+        public Animation.Builder addBoneTransformation(String name, Transformation transformation) {
+            ((List<Transformation>)this.boneTransformations.computeIfAbsent(name, namex -> new ArrayList<Transformation>())).add(transformation);
             return this;
         }
 

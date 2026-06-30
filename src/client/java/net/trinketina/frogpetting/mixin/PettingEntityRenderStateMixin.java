@@ -19,4 +19,9 @@ public abstract class PettingEntityRenderStateMixin implements IPettingAnimation
     public AnimationState frog_Petting$getPettingAnimationState() {
         return pettingAnimationState;
     }
+
+    @Override
+    public EntityRenderState frog_Petting$getEntityRenderState() {
+        return (EntityRenderState)(Object)this;
+    }
 }

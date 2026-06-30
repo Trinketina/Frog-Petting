@@ -1,5 +1,6 @@
 package net.trinketina.frogpetting;
 
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.entity.AnimationState;
 
 public interface IPettingAnimationState {
@@ -7,4 +8,6 @@ public interface IPettingAnimationState {
     void frog_Petting$copyToPettingAnimationState(net.minecraft.world.entity.AnimationState animationState);
 
     AnimationState frog_Petting$getPettingAnimationState();
+
+    EntityRenderState frog_Petting$getEntityRenderState();
 }

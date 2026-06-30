@@ -5,10 +5,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.world.entity.AnimationState;
 import net.trinketina.frogpetting.IPettingAnimationState;
 import net.trinketina.frogpetting.IPettingModel;
 import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.PettingData;
+import net.trinketina.frogpetting.animation.AnimationHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -22,33 +24,20 @@ public abstract class PettingModelMixin<S> implements IPettingModel {
     private S pettingState;
     @Override
     public boolean frog_Petting$tryGenerateKeyframeAnimation(String entity_id) {
-        try {
-            if (!PettingData.PETTING_ANIMATIONS.containsKey(entity_id)) return false;
-            if (!PettingData.PETTING_KEYFRAMES.containsKey(entity_id) || PettingData.PETTING_KEYFRAMES.get(entity_id) == null) {
-                PettingData.PETTING_KEYFRAMES.put(entity_id, PettingData.PETTING_ANIMATIONS.get(entity_id).bake(this.root));
-                return true;
-            }
-            return false;
-        } catch (Exception e){
-            PettingClient.LOGGER.warn("Could not generate animation for " + entity_id + ": " + e);
-        }
         return false;
     }
 
     @Override
     public void frog_Petting$setPettingAngles() {
-        if (this.pettingState instanceof IPettingAnimationState pettingRenderState && pettingState instanceof EntityRenderState renderState) {
+        if (this.pettingState instanceof IPettingAnimationState pettingAnimationState) {
             this.setupAnim(this.pettingState);
-            if (renderState.entityType == null) return;
-            String entity_id = renderState.entityType.toString();
+            String entity_id = pettingAnimationState.frog_Petting$getEntityRenderState().entityType.toString();
 
-            if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id)) {
-                frog_Petting$tryGenerateKeyframeAnimation(entity_id);
-                if (PettingData.PETTING_KEYFRAMES.containsKey(entity_id)) {
-                    PettingData.PETTING_KEYFRAMES.get(entity_id).apply(pettingRenderState.frog_Petting$getPettingAnimationState(), renderState.ageInTicks);
-                }
-                //this.animate(pettingRenderState.frog_Petting$getPettingAnimationState(), PettingData.PETTING_ANIMATIONS.get(entity_id), pettingState.age);
+            if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id) && pettingAnimationState.frog_Petting$getPettingAnimationState().isStarted()) {
+                AnimationHandler.animate((Model)(Object)this, PettingData.PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(),  pettingAnimationState.frog_Petting$getPettingAnimationState().getTimeInMillis(pettingAnimationState.frog_Petting$getEntityRenderState().ageInTicks));
             }
+            //this.setupAnim(this.pettingState);
+            //		animationState.run(state -> AnimationHelper.animate(this, animation, (long)((float)state.getTimeInMilliseconds(age) * speedMultiplier), 1.0F, ANIMATION_VEC));
         }
     }
 
@@ -59,6 +48,7 @@ public abstract class PettingModelMixin<S> implements IPettingModel {
     @Inject(method = "setupAnim", at = @At(value = "RETURN"))
     private void onSetupAnim(S state, CallbackInfo ci) {
         this.pettingState = state;
+
         //frog_Petting$setPettingAngles();
     }
 
