@@ -4,11 +4,8 @@ import net.minecraft.client.model.Model;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.world.entity.AnimationState;
 import net.trinketina.frogpetting.IPettingAnimationState;
 import net.trinketina.frogpetting.IPettingModel;
-import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.PettingData;
 import net.trinketina.frogpetting.animation.AnimationHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,9 +25,8 @@ public abstract class PettingModelMixin<S> implements IPettingModel {
     }
 
     @Override
-    public void frog_Petting$setPettingAngles() {
+    public void frog_Petting$setPettingAnim() {
         if (this.pettingState instanceof IPettingAnimationState pettingAnimationState) {
-            this.setupAnim(this.pettingState);
             String entity_id = pettingAnimationState.frog_Petting$getEntityRenderState().entityType.toString();
 
             if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id) && pettingAnimationState.frog_Petting$getPettingAnimationState().isStarted()) {
@@ -43,7 +39,7 @@ public abstract class PettingModelMixin<S> implements IPettingModel {
 
     @Inject(method = "Lnet/minecraft/client/model/Model;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V", at = @At("HEAD"))
     public final void renderToBuffer(final PoseStack poseStack, final VertexConsumer buffer, final int lightCoords, final int overlayCoords, final int color, CallbackInfo ci) {
-        this.frog_Petting$setPettingAngles();
+        this.frog_Petting$setPettingAnim();
     }
     @Inject(method = "setupAnim", at = @At(value = "RETURN"))
     private void onSetupAnim(S state, CallbackInfo ci) {

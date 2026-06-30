@@ -144,7 +144,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
                 0.0D, 0.2D, 0.0D);
         last_pet_age = this.tickCount;
 
-        PettingClient.LOGGER.info("petted " + entity_id + ", animation: " + PettingData.OFFSETS.containsKey(entity_id));
+        PettingClient.LOGGER.info("petted " + entity_id);
         //cir.setReturnValue(ActionResult.SUCCESS);
         return InteractionResult.SUCCESS;
     }
