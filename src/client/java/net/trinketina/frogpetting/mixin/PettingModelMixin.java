@@ -27,8 +27,10 @@ public abstract class PettingModelMixin<S> implements IPettingModel<S> {
     @Override
     public void frog_Petting$setPettingAnim() {
         if (this.pettingState instanceof IPettingAnimationState pettingAnimationState) {
+            if (pettingState == null || pettingAnimationState == null ||  pettingAnimationState.frog_Petting$getEntityRenderState() == null) {
+                return;
+            }
             String entity_id = pettingAnimationState.frog_Petting$getEntityRenderState().entityType.toString();
-
             if (pettingAnimationState.frog_Petting$getPettingAnimationState().isStarted()) {
                 if (pettingAnimationState.frog_Petting$isBaby() && PettingData.BABY_PETTING_ANIMATIONS.containsKey(entity_id)) {
                     AnimationHandler.animate((Model)(Object)this, PettingData.BABY_PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(),  pettingAnimationState.frog_Petting$getPettingAnimationState().getTimeInMillis(pettingAnimationState.frog_Petting$getEntityRenderState().ageInTicks));
