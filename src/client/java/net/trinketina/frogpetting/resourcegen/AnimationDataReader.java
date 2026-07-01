@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class AnimationDataReader {
 
-    public static AnimationData readAnimation(BufferedReader reader, String animation_name) throws IOException {
+    public static AnimationData readAnimation(BufferedReader reader, String animation_name, boolean is_necessary) throws IOException {
 
         JsonElement animation_json = JsonParser.parseReader(reader);
 
@@ -32,7 +32,8 @@ public class AnimationDataReader {
 
         JsonObject petting_animation = animations.getAsJsonObject(animation_name);
         if (petting_animation == null)  {
-            PettingClient.LOGGER.error("Animation '" + animation_name + "' not found");
+            if (is_necessary)
+                PettingClient.LOGGER.error("Animation '" + animation_name + "' not found");
             return null;
         }
         JsonObject bones = petting_animation.getAsJsonObject("bones");

@@ -5,7 +5,11 @@ import net.minecraft.world.entity.AnimationState;
 
 public interface IPettingAnimationState {
 
-    void frog_Petting$copyToPettingAnimationState(net.minecraft.world.entity.AnimationState animationState);
+    default boolean frog_Petting$isBaby() {
+        return false;
+    }
+
+    void frog_Petting$copyToPettingAnimationState(AnimationState animationState);
 
     AnimationState frog_Petting$getPettingAnimationState();
 

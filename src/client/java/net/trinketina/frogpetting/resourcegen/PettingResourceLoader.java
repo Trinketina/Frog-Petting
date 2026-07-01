@@ -12,10 +12,9 @@ import net.trinketina.frogpetting.resourcegen.jsondata.PettingOffsetData;
 import net.trinketina.frogpetting.resourcegen.jsondata.AnimationData;
 
 import java.io.BufferedReader;
+import java.util.Map;
 
 public class PettingResourceLoader implements SimpleSynchronousResourceReloadListener {
-
-    public static String animation_name = "animation.petting";
 
     @Override
     public Identifier getFabricId() {
@@ -66,25 +65,29 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
             }
         }
     }
-    private void loadAnimations(ResourceManager manager) {
-        PettingData.PETTING_ANIMATIONS.clear();
+    private void loadAnimations(ResourceManager manager, String animation_name, Map<String, Animation> animations, boolean is_necessary) {
+        animations.clear();
+
         for (Identifier id : manager.listResources("animations", path -> path.toString().endsWith(".json")).keySet()) {
             //PettingClient.LOGGER.info(id.getPath());
             try (BufferedReader reader = manager.getResource(id).get().openAsReader()) {
                 //animations should be formatted like [animations/mod_id/entity_id.json]
                 String entity_id = getEntityType(id);
 
-                AnimationData animation_data = AnimationDataReader.readAnimation(reader, animation_name);
+                AnimationData animation_data = AnimationDataReader.readAnimation(reader, animation_name, is_necessary);
                 if (animation_data == null) {
-                    PettingClient.LOGGER.error("Error occurred while loading animation: " + animation_name + " for " + entity_id);
+                    if (is_necessary)
+                        PettingClient.LOGGER.warn("Error occurred while loading animation: " + animation_name + " for " + entity_id);
                 }
                 else {
-                    PettingData.PETTING_ANIMATIONS.put(entity_id, AnimationDataReader.buildAnimation(animation_data));
+                    animations.put(entity_id, AnimationDataReader.buildAnimation(animation_data));
                 }
+
                 //PettingClient.LOGGER.info("Added animation for: " + entity_id);
 
             } catch (Exception e) {
-                PettingClient.LOGGER.error("Error occurred while loading resource json" + id.toString(), e);
+                if (is_necessary)
+                    PettingClient.LOGGER.error("Error occurred while loading resource json" + id.toString(), e);
             }
         }
     }
@@ -93,7 +96,10 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
     public void onResourceManagerReload(ResourceManager resourceManager) {
         PettingClient.LOGGER.info(getFabricId().toString());
         loadOffsets(resourceManager);
-        loadAnimations(resourceManager);
+
+        PettingClient.LOGGER.info("loading animations");
+        loadAnimations(resourceManager, "animation.petting", PettingData.PETTING_ANIMATIONS, true);
+        loadAnimations(resourceManager, "animation.petting.baby", PettingData.BABY_PETTING_ANIMATIONS, false);
     }
 
 /*    private void loadSounds(ResourceManager manager) {

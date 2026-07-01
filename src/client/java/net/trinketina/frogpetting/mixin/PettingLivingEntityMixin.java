@@ -14,12 +14,16 @@ import net.minecraft.world.level.Level;
 import net.trinketina.frogpetting.*;
 import net.trinketina.frogpetting.config.PettingConfig;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 // TODO(Ravel): can not resolve target class LivingEntity
 // TODO(Ravel): can not resolve target class LivingEntity
 @Mixin(LivingEntity.class)
 public abstract class PettingLivingEntityMixin extends Entity implements IPettitngInteract, IPettingAnimationState, IPettingSound {
+
+    @Shadow
+    public abstract boolean isBaby();
 
     @Unique
     public final AnimationState pettingAnimationState = new AnimationState();
@@ -133,8 +137,14 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
         double forward_offset = 0.0;
         double vertical_offset = 0.5;
         if (PettingData.OFFSETS.containsKey(entity_id)) {
-            forward_offset = PettingData.OFFSETS.get(entity_id).offset[0];
-            vertical_offset = PettingData.OFFSETS.get(entity_id).offset[1];
+            if (isBaby() && PettingData.OFFSETS.get(entity_id).baby_offset != null  ) {
+                forward_offset = PettingData.OFFSETS.get(entity_id).baby_offset[0];
+                vertical_offset = PettingData.OFFSETS.get(entity_id).baby_offset[1];
+            }
+            else {
+                forward_offset = PettingData.OFFSETS.get(entity_id).offset[0];
+                vertical_offset = PettingData.OFFSETS.get(entity_id).offset[1];
+            }
         }
 
         this.level().addParticle(ParticleTypes.HEART,

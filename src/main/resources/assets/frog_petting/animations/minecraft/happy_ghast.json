@@ -40,6 +40,24 @@
 					}
 				}
 			}
+		},
+		"animation.petting.baby": {
+			"animation_length": 0.75,
+			"bones": {
+				"body": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.25": {
+							"vector": [0.8, 0.8, 0.8]
+						},
+						"0.5": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			}
 		}
 	}
 }

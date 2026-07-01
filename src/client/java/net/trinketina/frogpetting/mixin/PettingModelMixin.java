@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Model.class)
-public abstract class PettingModelMixin<S> implements IPettingModel {
+public abstract class PettingModelMixin<S> implements IPettingModel<S> {
     @Unique
     private S pettingState;
     @Override
@@ -29,9 +29,16 @@ public abstract class PettingModelMixin<S> implements IPettingModel {
         if (this.pettingState instanceof IPettingAnimationState pettingAnimationState) {
             String entity_id = pettingAnimationState.frog_Petting$getEntityRenderState().entityType.toString();
 
-            if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id) && pettingAnimationState.frog_Petting$getPettingAnimationState().isStarted()) {
-                AnimationHandler.animate((Model)(Object)this, PettingData.PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(),  pettingAnimationState.frog_Petting$getPettingAnimationState().getTimeInMillis(pettingAnimationState.frog_Petting$getEntityRenderState().ageInTicks));
+            if (pettingAnimationState.frog_Petting$getPettingAnimationState().isStarted()) {
+                if (pettingAnimationState.frog_Petting$isBaby() && PettingData.BABY_PETTING_ANIMATIONS.containsKey(entity_id)) {
+                    AnimationHandler.animate((Model)(Object)this, PettingData.BABY_PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(),  pettingAnimationState.frog_Petting$getPettingAnimationState().getTimeInMillis(pettingAnimationState.frog_Petting$getEntityRenderState().ageInTicks));
+                }
+                else if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id)) {
+                    AnimationHandler.animate((Model)(Object)this, PettingData.PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(),  pettingAnimationState.frog_Petting$getPettingAnimationState().getTimeInMillis(pettingAnimationState.frog_Petting$getEntityRenderState().ageInTicks));
+                }
             }
+
+
             //this.setupAnim(this.pettingState);
             //		animationState.run(state -> AnimationHelper.animate(this, animation, (long)((float)state.getTimeInMilliseconds(age) * speedMultiplier), 1.0F, ANIMATION_VEC));
         }
