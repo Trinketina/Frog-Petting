@@ -1,7 +1,4 @@
 {
-  "offset": [
-    0.0,
-    0.4
-  ],
-  "sound_event_id": "minecraft:entity.slime.squish"
+  "offset": [0.0, 1],
+  "baby_offset": [0.0, 0.5]
 }
