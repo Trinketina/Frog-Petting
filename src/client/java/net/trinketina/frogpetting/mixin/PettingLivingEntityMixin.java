@@ -105,12 +105,6 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
             //if sneaking is not required, and the player is sneaking, don't pet
             return InteractionResult.PASS;
         }
-        if (this instanceof Leashable leashable) {
-            if (leashable.isLeashed()) {
-                //don't pet if leash is attached
-                return InteractionResult.PASS;
-            }
-        }
 
         if (!level().isClientSide()) {
             this.last_pet_age = this.tickCount;
