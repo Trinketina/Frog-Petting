@@ -15,19 +15,31 @@
 	"icon": "assets/frog-petting/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-          "net.trinketina.frogpetting.FrogPettingMod"
-		],
-		"client": [
-			"net.trinketina.frogpetting.FrogPettingModClient"
-		]
+      "fabric-datagen": [
+        "net.trinketina.frogpetting.PettingDataGen"
+      ],
+      "main": [
+        "net.trinketina.frogpetting.PettingMain"
+      ],
+      "client": [
+        "net.trinketina.frogpetting.PettingClient"
+      ],
+      "modmenu": [
+        "net.trinketina.frogpetting.config.PettingModMenu"
+      ]
 	},
-	"mixins": [
-      "frog-petting.json"
-	],
+    "mixins": [
+      "frog-petting.mixins.json",
+      {
+        "config": "frog-petting.client.mixins.json",
+        "environment": "client"
+      }
+  ],
 	"depends": {
 		"fabricloader": ">=0.15.11",
 		"minecraft": ">=1.21 <=1.21.1",
+        "fabric-api": "*",
+        "cloth-config": "*",
 		"java": ">=21"
 	}
 }
