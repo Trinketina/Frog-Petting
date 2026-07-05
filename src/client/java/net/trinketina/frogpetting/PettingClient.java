@@ -37,7 +37,7 @@ public class PettingClient implements ClientModInitializer {
                 new KeyMapping(
                         "key."+PettingClient.MOD_ID+".pet",
                         InputConstants.Type.KEYSYM,
-                        GLFW.GLFW_KEY_F,
+                        GLFW.GLFW_KEY_Z,
                         PettingClient.PETTING_CATEGORY
                 )
         );
