@@ -27,6 +27,9 @@ repositories {
             includeGroup('software.bernie.geckolib')
         }
     }
+    maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://maven.terraformersmc.com/releases/" }
+
 }
 
 loom {
@@ -54,6 +57,11 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+    // Cloth Config API
+    implementation "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
+    //Mod Menu
+    implementation "com.terraformersmc:modmenu:${mod_menu_version}"
 }
 
 processResources {

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class PettingEntityMixin implements IPettitngInteract {
-    @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
+    /*@Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     public void onInteract(final Player player, final InteractionHand hand, final Vec3 location, CallbackInfoReturnable<InteractionResult> cir) {
 
         InteractionResult pettingResult = this.frog_Petting$pettingInteract(player, hand);
@@ -23,5 +23,5 @@ public abstract class PettingEntityMixin implements IPettitngInteract {
         else {
             cir.setReturnValue(pettingResult);
         }
-    }
+    }*/
 }

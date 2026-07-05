@@ -9,7 +9,8 @@
       "PettingMobMixin",
       "PettingLivingEntityMixin",
       "PettingLivingEntityRenderStateMixin",
-      "PettingModelMixin"
+      "PettingModelMixin",
+      "GameModeMixin"
     ],
 	"injectors": {
 		"defaultRequire": 1
