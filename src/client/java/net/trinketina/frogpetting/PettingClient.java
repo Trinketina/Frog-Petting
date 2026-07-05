@@ -42,6 +42,7 @@ public class PettingClient implements ClientModInitializer {
                 )
         );
 
+        //Keybind initialization
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (PettingData.PET_KEYBIND.consumeClick()) {
                 PettingClient.LOGGER.info("PRESSED");

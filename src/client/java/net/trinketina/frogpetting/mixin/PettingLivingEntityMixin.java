@@ -77,8 +77,24 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
         String entity_id = this.getType().toString();
         ItemStack itemStack = player.getItemInHand(hand);
 
-        if (!itemStack.isEmpty()) {
-            return InteractionResult.PASS;
+        if (!fromKeybind) {
+            if (!itemStack.isEmpty()) {
+                return InteractionResult.PASS;
+            }
+            if (requireSneaking(entity_id)) {
+                if (!player.isCrouching()) {
+                    //if sneaking is required, and player is not sneaking, don't pet
+                    return InteractionResult.PASS;
+                }
+            } else if (player.isCrouching()) {
+                //if sneaking is not required, and the player is sneaking, don't pet
+                return InteractionResult.PASS;
+            }
+            if (this instanceof Leashable leashable) {
+                if (leashable.getLeashHolder() == player) {
+                    return InteractionResult.PASS;
+                }
+            }
         }
         if (this.tickCount < last_pet_age + PettingConfig.CONFIG.COOLDOWN) {
             //PettingClient.LOGGER.info("cooldown");
@@ -96,42 +112,24 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
             //WARN:: might be clientside only for the added offsets. might need to rely on tags for that
             return InteractionResult.PASS;
         }
-        if (requireSneaking(entity_id)) {
-            if (!player.isCrouching()) {
-                //if sneaking is required, and player is not sneaking, don't pet
-                return InteractionResult.PASS;
-            }
-        } else if (player.isCrouching()) {
-            //if sneaking is not required, and the player is sneaking, don't pet
-            return InteractionResult.PASS;
-        }
-        if (this instanceof Leashable leashable) {
-            if (leashable.getLeashHolder() == player) {
-                return InteractionResult.PASS;
-            }
-        }
-
-
         if (!level().isClientSide()) {
             this.last_pet_age = this.tickCount;
             //cir.setReturnValue(ActionResult.SUCCESS);
             return InteractionResult.SUCCESS;
         }
-        //PettingClient.LOGGER.info("trying to pet " + entity_id);
 
         //runs the custom interactions, if any are present
-        //TODO:: re-implement sound support
 
+        // plays a sound, if available
         if (this.frog_Petting$getPettingSound(entity_id) != null) {
-            //this.level().playSoundFromEntityClient((AbstractHorse) (Object) this, this.frog_Petting$getPettingSound(entity_id), SoundSource.AMBIENT, this.frog_Petting$getPettingSoundVolume(), this.frog_Petting$getPettingSoundPitch(this.random));
             this.level().playLocalSound(this, this.frog_Petting$getPettingSound(entity_id), SoundSource.AMBIENT, frog_Petting$getPettingSoundVolume(), frog_Petting$getPettingSoundPitch(this.random));
         } else if (this.frog_Petting$getPettingAmbientSound() != null) {
             this.level().playLocalSound(this, this.frog_Petting$getPettingAmbientSound(), SoundSource.AMBIENT, this.frog_Petting$getPettingSoundVolume(), this.frog_Petting$getPettingSoundPitch(this.random));
-            //PettingClient.LOGGER.info("sound id: " + this.frog_Petting$getPettingAmbientSound().id());
         }
         this.frog_Petting$getPettingAnimationState().start(this.tickCount);
 
 
+        // generates the particle position
         Vec3 rotation = this.getForward();
 
         double forward_offset = 0.0;
@@ -147,6 +145,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
             }
         }
 
+        //generates the particle
         this.level().addParticle(ParticleTypes.HEART,
                 this.getX() + Math.random() * .1 + (forward_offset * rotation.x),
                 this.getY() + Math.random() * .5 + vertical_offset,

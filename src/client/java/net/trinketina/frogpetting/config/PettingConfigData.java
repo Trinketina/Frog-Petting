@@ -10,10 +10,11 @@ import java.util.List;
 public class PettingConfigData implements ConfigData {
 
     @ConfigEntry.Gui.PrefixText()
-    public int COOLDOWN = 5;
+    public int COOLDOWN = 10;
+    @ConfigEntry.Gui.Tooltip
     public List<String> IGNORED_MOBS = new ArrayList<>();
 
-    @ConfigEntry.Gui.PrefixText()
-    public boolean ENABLE_KEYBIND = false;
+    @ConfigEntry.Gui.Tooltip()
+    public boolean DISABLE_RIGHT_CLICK_PET = false;
 
 }

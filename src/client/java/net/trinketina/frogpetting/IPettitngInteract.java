@@ -5,6 +5,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -16,10 +17,14 @@ public interface IPettitngInteract {
             Entity entity = entityHit.getEntity();
 
             if (minecraft.player.isWithinEntityInteractionRange(entity, 0.0) && entity instanceof IPettitngInteract pettable) {
-                InteractionResult result = pettable.frog_Petting$pettingInteract(minecraft.player, InteractionHand.MAIN_HAND, false);
-                
+                InteractionResult result = pettable.frog_Petting$pettingInteract(minecraft.player, InteractionHand.MAIN_HAND, true);
+
                 if (result == InteractionResult.SUCCESS) {
-                    minecraft.player.swing(InteractionHand.MAIN_HAND);
+                    InteractionResult.Success success = (InteractionResult.Success)result;
+                    if (minecraft.player.getMainHandItem() == ItemStack.EMPTY) {
+                        minecraft.player.swing(InteractionHand.MAIN_HAND);
+                    }
+                    //minecraft.player.swing(InteractionHand.MAIN_HAND);
                 }
             }
         }
