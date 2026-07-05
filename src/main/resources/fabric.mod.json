@@ -14,15 +14,18 @@
 	"icon": "assets/frog_petting/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"fabric-datagen": [
-			"net.trinketina.frogpetting.PettingDataGen"
-		],
+        "fabric-datagen": [
+          "net.trinketina.frogpetting.PettingDataGen"
+        ],
 		"main": [
 			"net.trinketina.frogpetting.PettingMain"
 		],
 		"client": [
           "net.trinketina.frogpetting.PettingClient"
-		]
+		],
+        "modmenu": [
+          "net.trinketina.frogpetting.config.PettingModMenu"
+        ]
 	},
 	"mixins": [
       "frog-petting.mixins.json",

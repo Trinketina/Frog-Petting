@@ -73,19 +73,19 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
     }
 
     @Override
-    public InteractionResult frog_Petting$pettingInteract(Player player, InteractionHand hand) {
+    public InteractionResult frog_Petting$pettingInteract(Player player, InteractionHand hand, boolean fromKeybind) {
         String entity_id = this.getType().toString();
         ItemStack itemStack = player.getItemInHand(hand);
 
         if (!itemStack.isEmpty()) {
             return InteractionResult.PASS;
         }
-        if (this.tickCount < last_pet_age + PettingConfig.COOLDOWN) {
+        if (this.tickCount < last_pet_age + PettingConfig.CONFIG.COOLDOWN) {
             //PettingClient.LOGGER.info("cooldown");
             //cooldown not finished
             return InteractionResult.PASS;
         }
-        if (PettingConfig.IGNORED_MOBS.contains(entity_id)) {
+        if (PettingConfig.CONFIG.IGNORED_MOBS.contains(entity_id)) {
             //PettingClient.LOGGER.info("petting " + entity_id + " is ignored");
             // TODO:: swap to tags for this?
             return InteractionResult.PASS;
