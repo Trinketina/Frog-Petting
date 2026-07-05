@@ -4,8 +4,8 @@ import net.minecraft.client.model.Model;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.geom.ModelPart;
-import net.trinketina.frogpetting.IPettingAnimationState;
-import net.trinketina.frogpetting.IPettingModel;
+import net.trinketina.frogpetting.interfaces.IPettingAnimationState;
+import net.trinketina.frogpetting.interfaces.IPettingModel;
 import net.trinketina.frogpetting.PettingData;
 import net.trinketina.frogpetting.animation.AnimationHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,10 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PettingModelMixin<S> implements IPettingModel<S> {
     @Unique
     private S pettingState;
-    @Override
-    public boolean frog_Petting$tryGenerateKeyframeAnimation(String entity_id) {
-        return false;
-    }
 
     @Override
     public void frog_Petting$setPettingAnim() {
@@ -39,10 +35,6 @@ public abstract class PettingModelMixin<S> implements IPettingModel<S> {
                     AnimationHandler.animate((Model)(Object)this, PettingData.PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(),  pettingAnimationState.frog_Petting$getPettingAnimationState().getTimeInMillis(pettingAnimationState.frog_Petting$getEntityRenderState().ageInTicks));
                 }
             }
-
-
-            //this.setupAnim(this.pettingState);
-            //		animationState.run(state -> AnimationHelper.animate(this, animation, (long)((float)state.getTimeInMilliseconds(age) * speedMultiplier), 1.0F, ANIMATION_VEC));
         }
     }
 
@@ -53,11 +45,5 @@ public abstract class PettingModelMixin<S> implements IPettingModel<S> {
     @Inject(method = "setupAnim", at = @At(value = "RETURN"))
     private void onSetupAnim(S state, CallbackInfo ci) {
         this.pettingState = state;
-
-        //frog_Petting$setPettingAngles();
     }
-
-
-    @Shadow public abstract void setupAnim(final S state);
-    @Shadow protected ModelPart root;
 }

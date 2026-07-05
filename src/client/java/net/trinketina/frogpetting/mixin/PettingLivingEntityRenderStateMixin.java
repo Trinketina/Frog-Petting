@@ -1,8 +1,7 @@
 package net.trinketina.frogpetting.mixin;
 
-import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.trinketina.frogpetting.IPettingAnimationState;
+import net.trinketina.frogpetting.interfaces.IPettingAnimationState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

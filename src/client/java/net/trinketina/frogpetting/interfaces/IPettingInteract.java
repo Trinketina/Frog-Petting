@@ -1,4 +1,4 @@
-package net.trinketina.frogpetting;
+package net.trinketina.frogpetting.interfaces;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
@@ -9,22 +9,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
-public interface IPettitngInteract {
+public interface IPettingInteract {
 
     default void TryInteractPet(Minecraft minecraft) {
-        if (minecraft.hitResult != null && minecraft.hitResult.getType() == HitResult.Type.ENTITY) {
+        if (minecraft.player != null && minecraft.hitResult != null && minecraft.hitResult.getType() == HitResult.Type.ENTITY) {
             EntityHitResult entityHit = (EntityHitResult)minecraft.hitResult;
             Entity entity = entityHit.getEntity();
 
-            if (minecraft.player.isWithinEntityInteractionRange(entity, 0.0) && entity instanceof IPettitngInteract pettable) {
+            if (minecraft.player.isWithinEntityInteractionRange(entity, 0.0) && entity instanceof IPettingInteract pettable) {
                 InteractionResult result = pettable.frog_Petting$pettingInteract(minecraft.player, InteractionHand.MAIN_HAND, true);
 
                 if (result == InteractionResult.SUCCESS) {
-                    InteractionResult.Success success = (InteractionResult.Success)result;
                     if (minecraft.player.getMainHandItem() == ItemStack.EMPTY) {
                         minecraft.player.swing(InteractionHand.MAIN_HAND);
                     }
-                    //minecraft.player.swing(InteractionHand.MAIN_HAND);
                 }
             }
         }

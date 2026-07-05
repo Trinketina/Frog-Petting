@@ -14,9 +14,6 @@
 	"icon": "assets/frog_petting/icon.png",
 	"environment": "*",
 	"entrypoints": {
-        "fabric-datagen": [
-          "net.trinketina.frogpetting.PettingDataGen"
-        ],
 		"main": [
 			"net.trinketina.frogpetting.PettingMain"
 		],

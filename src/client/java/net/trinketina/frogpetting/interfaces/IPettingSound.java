@@ -1,8 +1,9 @@
-package net.trinketina.frogpetting;
+package net.trinketina.frogpetting.interfaces;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
+import net.trinketina.frogpetting.PettingData;
 
 public interface IPettingSound {
     default SoundEvent frog_Petting$getPettingSound(String entity_id) {
@@ -22,6 +23,5 @@ public interface IPettingSound {
     }
     default float frog_Petting$getPettingSoundPitch(RandomSource random) {
         return (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F;
-        //return  (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F;
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.trinketina.frogpetting.IPettingSound;
+import net.trinketina.frogpetting.interfaces.IPettingSound;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

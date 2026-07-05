@@ -6,12 +6,13 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.trinketina.frogpetting.config.PettingConfig;
 import net.trinketina.frogpetting.config.PettingConfigData;
-import net.trinketina.frogpetting.mixin.GameModeMixin;
+import net.trinketina.frogpetting.interfaces.IPettingInteract;
 import net.trinketina.frogpetting.resourcegen.PettingResourceLoader;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
@@ -25,7 +26,8 @@ public class PettingClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         LOGGER.info("Croaking Frogs please wait...");
-        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new PettingResourceLoader());
+
+        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(Identifier.tryBuild("frog-petting", "data"), new PettingResourceLoader());
 
         //Config Setup
         AutoConfig.register(PettingConfigData.class, GsonConfigSerializer::new);
@@ -45,8 +47,7 @@ public class PettingClient implements ClientModInitializer {
         //Keybind initialization
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (PettingData.PET_KEYBIND.consumeClick()) {
-                PettingClient.LOGGER.info("PRESSED");
-                if (client.player instanceof IPettitngInteract pettable) {
+                if (client.player instanceof IPettingInteract pettable) {
                     pettable.TryInteractPet(client);
                 }
             }

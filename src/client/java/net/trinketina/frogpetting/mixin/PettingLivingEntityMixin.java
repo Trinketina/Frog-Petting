@@ -13,14 +13,16 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.trinketina.frogpetting.*;
 import net.trinketina.frogpetting.config.PettingConfig;
+import net.trinketina.frogpetting.interfaces.IPettingAnimationState;
+import net.trinketina.frogpetting.interfaces.IPettingInteract;
+import net.trinketina.frogpetting.interfaces.IPettingSound;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-// TODO(Ravel): can not resolve target class LivingEntity
-// TODO(Ravel): can not resolve target class LivingEntity
+
 @Mixin(LivingEntity.class)
-public abstract class PettingLivingEntityMixin extends Entity implements IPettitngInteract, IPettingAnimationState, IPettingSound {
+public abstract class PettingLivingEntityMixin extends Entity implements IPettingInteract, IPettingAnimationState, IPettingSound {
 
     @Shadow
     public abstract boolean isBaby();
@@ -50,12 +52,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
     private boolean requireSneaking(String entity_id) {
         if (PettingData.OFFSETS.containsKey(entity_id)) {
             if (PettingData.OFFSETS.get(entity_id).require_crouching) {
-                PettingClient.LOGGER.info("need to be sneaking");
-                //entity data requires sneaking
-                //likely client side only?
-                //WARN:: might still send petting request to server
-                //TODO:: maybe make require crouching a config for specific entities rather than a resource value?
-                //TODO:: or make it a tag
+                //if entity data requires sneaking
                 return true;
             }
         }
@@ -66,6 +63,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
             }
         }
         if (((Object)this) instanceof AbstractHorse) {
+            //default to requiring sneaking for horse-likes
             return true;
         }
 
@@ -77,6 +75,7 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
         String entity_id = this.getType().toString();
         ItemStack itemStack = player.getItemInHand(hand);
 
+        //only run extra checks if the player is interacting with right-click
         if (!fromKeybind) {
             if (!itemStack.isEmpty()) {
                 return InteractionResult.PASS;
@@ -91,30 +90,27 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
                 return InteractionResult.PASS;
             }
             if (this instanceof Leashable leashable) {
+                //if the player is holding the leash of an entity
                 if (leashable.getLeashHolder() == player) {
                     return InteractionResult.PASS;
                 }
             }
         }
         if (this.tickCount < last_pet_age + PettingConfig.CONFIG.COOLDOWN) {
-            //PettingClient.LOGGER.info("cooldown");
             //cooldown not finished
             return InteractionResult.PASS;
         }
         if (PettingConfig.CONFIG.IGNORED_MOBS.contains(entity_id)) {
             //PettingClient.LOGGER.info("petting " + entity_id + " is ignored");
-            // TODO:: swap to tags for this?
             return InteractionResult.PASS;
         }
         if ((!((LivingEntity)(Object)this instanceof AgeableMob) || ((LivingEntity)(Object)this instanceof AbstractVillager) ) && !PettingData.OFFSETS.containsKey(entity_id)) {
             //skip if the entity is hostile and not in the offsets
-            //also skips if the entity is a villager, TODO:: maybe move to requireSneaking instead?
-            //WARN:: might be clientside only for the added offsets. might need to rely on tags for that
+            //also skips if the entity is a villager and not in the offset
             return InteractionResult.PASS;
         }
         if (!level().isClientSide()) {
             this.last_pet_age = this.tickCount;
-            //cir.setReturnValue(ActionResult.SUCCESS);
             return InteractionResult.SUCCESS;
         }
 
@@ -154,7 +150,6 @@ public abstract class PettingLivingEntityMixin extends Entity implements IPettit
         last_pet_age = this.tickCount;
 
         PettingClient.LOGGER.info("petted " + entity_id);
-        //cir.setReturnValue(ActionResult.SUCCESS);
         return InteractionResult.SUCCESS;
     }
 }

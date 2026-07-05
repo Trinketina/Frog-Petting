@@ -1,4 +1,4 @@
-package net.trinketina.frogpetting;
+package net.trinketina.frogpetting.interfaces;
 
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.entity.AnimationState;
