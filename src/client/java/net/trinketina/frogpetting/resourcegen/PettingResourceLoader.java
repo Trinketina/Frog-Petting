@@ -87,7 +87,7 @@ public class PettingResourceLoader implements ResourceManagerReloadListener {
 
         PettingClient.LOGGER.info("loading animations");
         loadAnimations(resourceManager, "animation.petting", PettingData.PETTING_ANIMATIONS, true);
-        loadAnimations(resourceManager, "animation.petting.baby", PettingData.BABY_PETTING_ANIMATIONS, false);
+        loadAnimations(resourceManager, "animation.petting_baby", PettingData.BABY_PETTING_ANIMATIONS, false);
     }
 
 /*    private void loadSounds(ResourceManager manager) {
