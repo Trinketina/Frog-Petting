@@ -1,0 +1,11 @@
+{
+  "offset": [
+    0.0,
+    0.5
+  ],
+  "baby_offset": [
+    0.0,
+    0.25
+  ],
+  "sound_event_id": "minecraft:entity.rabbit.jump"
+}

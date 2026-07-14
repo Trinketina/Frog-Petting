@@ -13,8 +13,6 @@ import net.trinketina.frogpetting.resourcegen.jsondata.AnimationData;
 import net.trinketina.frogpetting.resourcegen.jsondata.AnimationBoneData;
 import net.trinketina.frogpetting.resourcegen.jsondata.BoneTransformationData;
 import org.joml.Vector3f;
-import org.jspecify.annotations.Nullable;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;

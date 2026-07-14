@@ -1,6 +1,6 @@
 package net.trinketina.frogpetting;
 
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.KeyMapping;
 import net.trinketina.frogpetting.animation.Animation;
 import net.trinketina.frogpetting.resourcegen.jsondata.PettingOffsetData;
 
@@ -13,5 +13,5 @@ public class PettingData {
 
     public static final Map<String, PettingOffsetData> OFFSETS = new HashMap<>();
 
-    public static KeyBinding PET_KEYBIND;
+    public static KeyMapping PET_KEYBIND;
 }

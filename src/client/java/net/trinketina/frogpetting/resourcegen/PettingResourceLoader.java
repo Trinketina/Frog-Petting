@@ -3,7 +3,7 @@ package net.trinketina.frogpetting.resourcegen;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.trinketina.frogpetting.PettingData;
 import net.trinketina.frogpetting.PettingClient;
@@ -17,8 +17,8 @@ import java.util.Map;
 public class PettingResourceLoader implements SimpleSynchronousResourceReloadListener {
 
     @Override
-    public Identifier getFabricId() {
-        return Identifier.tryBuild("frog-petting", "offsets");
+    public ResourceLocation getFabricId() {
+        return ResourceLocation.tryBuild("frog-petting", "offsets");
     }
 
     /*@Override
@@ -30,7 +30,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
         //Registry.register(Registries.SOUND_EVENT, )
     }*/
 
-    private String getEntityType(Identifier id) {
+    private String getEntityType(ResourceLocation id) {
         int index_first_slash = id.getPath().indexOf("/");
         int  index_last_slash = id.getPath().lastIndexOf("/");
         if (index_first_slash == index_last_slash) {
@@ -47,7 +47,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
     }
     private void loadOffsets(ResourceManager manager) {
         PettingData.OFFSETS.clear();
-        for (Identifier id : manager.listResources("offsets", path -> path.toString().endsWith(".json")).keySet()) {
+        for (ResourceLocation id : manager.listResources("offsets", path -> path.toString().endsWith(".json")).keySet()) {
             //PettingClient.LOGGER.info(id.getPath());
             try (BufferedReader reader = manager.getResource(id).get().openAsReader()) {
                 //offsets should be formatted like [offsets/mod_id/entity_id.json]
@@ -68,7 +68,7 @@ public class PettingResourceLoader implements SimpleSynchronousResourceReloadLis
     private void loadAnimations(ResourceManager manager, String animation_name, Map<String, Animation> animations, boolean is_necessary) {
         animations.clear();
 
-        for (Identifier id : manager.listResources("animations", path -> path.toString().endsWith(".json")).keySet()) {
+        for (ResourceLocation id : manager.listResources("animations", path -> path.toString().endsWith(".json")).keySet()) {
             //PettingClient.LOGGER.info(id.getPath());
             try (BufferedReader reader = manager.getResource(id).get().openAsReader()) {
                 //animations should be formatted like [animations/mod_id/entity_id.json]

@@ -1,28 +1,29 @@
 package net.trinketina.frogpetting.interfaces;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public interface IPettingInteract {
 
-    default void TryInteractPet(MinecraftClient minecraft) {
-        if (minecraft.crosshairTarget != null && minecraft.crosshairTarget.getType() == HitResult.Type.ENTITY) {
-            EntityHitResult entityHit = (EntityHitResult)minecraft.crosshairTarget;
+    default void TryInteractPet(Minecraft minecraft) {
+        if (minecraft.hitResult != null && minecraft.hitResult.getType() == HitResult.Type.ENTITY) {
+            EntityHitResult entityHit = (EntityHitResult)minecraft.hitResult;
             Entity entity = entityHit.getEntity();
 
             assert minecraft.player != null;
             if (minecraft.player.canInteractWithEntity(entity, 0.0) && entity instanceof IPettingInteract pettable) {
-                ActionResult result = pettable.frog_Petting$pettingInteract(minecraft.player, Hand.MAIN_HAND, true);
+                InteractionResult result = pettable.frog_Petting$pettingInteract(minecraft.player, InteractionHand.MAIN_HAND, true);
 
-                if (result == ActionResult.SUCCESS) {
-                    if (minecraft.player.getActiveItem() == ItemStack.EMPTY) {
-                        minecraft.player.swingHand(Hand.MAIN_HAND);
+                if (result == InteractionResult.SUCCESS) {
+                    if (minecraft.player.getMainHandItem() == ItemStack.EMPTY) {
+                        minecraft.player.swing(InteractionHand.MAIN_HAND);
                     }
                     //minecraft.player.swing(InteractionHand.MAIN_HAND);
                 }
@@ -30,5 +31,5 @@ public interface IPettingInteract {
         }
     }
 
-    default ActionResult frog_Petting$pettingInteract(PlayerEntity player, Hand hand, boolean fromKeybind) {return ActionResult.PASS;}
+    default InteractionResult frog_Petting$pettingInteract(Player player, InteractionHand hand, boolean fromKeybind) {return InteractionResult.PASS;}
 }

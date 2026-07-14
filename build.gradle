@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.11-SNAPSHOT'
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -21,6 +21,8 @@ repositories {
     maven { url "https://maven.shedaniel.me/" }
     //Mod Menu API
     maven { url "https://maven.terraformersmc.com/releases/" }
+    // Modrinth
+    maven{url "https://api.modrinth.com/maven"}
 }
 
 loom {
@@ -33,16 +35,11 @@ loom {
         }
     }
 }
-fabricApi {
-    configureDataGeneration {
-        client = true
-    }
-}
 
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 
@@ -53,14 +50,20 @@ dependencies {
     modImplementation "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
     //Mod Menu API
     modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
+    //ETF API
+    modImplementation "maven.modrinth:entitytexturefeatures:${project.etf_version}"
+    //EMF API
+    modImplementation "maven.modrinth:entity-model-features:${project.emf_version}"
+
 }
 
 processResources {
-	inputs.property "version", project.version
+    def version = project.version
+    inputs.property "version", version
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
+    filesMatching("fabric.mod.json") {
+        expand "version": version
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {

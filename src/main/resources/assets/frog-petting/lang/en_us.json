@@ -1,0 +1,12 @@
+{
+  "key.category.frog_petting.petting": "Pet Frogs and More",
+  "key.frog_petting.pet": "Pet an Entity",
+
+  "text.autoconfig.frog_petting.title": "Pet Frogs & More Config",
+  "text.autoconfig.frog_petting.option.COOLDOWN.@PrefixText": "Petting Config",
+  "text.autoconfig.frog_petting.option.COOLDOWN": "Petting Cooldown (in Ticks)",
+  "text.autoconfig.frog_petting.option.IGNORED_MOBS": "Entities that Ignore Pets",
+  "text.autoconfig.frog_petting.option.IGNORED_MOBS.@Tooltip": "formatted `entity.mod.entity_name`, e.g. `entity.minecraft.horse`",
+  "text.autoconfig.frog_petting.option.DISABLE_RIGHT_CLICK_PET": "Disable Right-Click-To-Pet",
+  "text.autoconfig.frog_petting.option.DISABLE_RIGHT_CLICK_PET.@Tooltip": "if true, you can only pet using the keybind"
+}

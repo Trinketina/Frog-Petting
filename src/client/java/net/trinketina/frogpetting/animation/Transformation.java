@@ -1,8 +1,8 @@
 package net.trinketina.frogpetting.animation;
 
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.animation.Keyframe;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.animation.Keyframe;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.util.Mth;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
@@ -25,9 +25,9 @@ public record Transformation(Transformation.Target target, Keyframe... keyframes
             Vector3fc vector3f3 = keyframes[end].target();
             Vector3fc vector3f4 = keyframes[Math.min(keyframes.length - 1, end + 1)].target();
             dest.set(
-                    MathHelper.catmullRom(delta, vector3f.x(), vector3f2.x(), vector3f3.x(), vector3f4.x()) * scale,
-                    MathHelper.catmullRom(delta, vector3f.y(), vector3f2.y(), vector3f3.y(), vector3f4.y()) * scale,
-                    MathHelper.catmullRom(delta, vector3f.z(), vector3f2.z(), vector3f3.z(), vector3f4.z()) * scale
+                    Mth.catmullrom(delta, vector3f.x(), vector3f2.x(), vector3f3.x(), vector3f4.x()) * scale,
+                    Mth.catmullrom(delta, vector3f.y(), vector3f2.y(), vector3f3.y(), vector3f4.y()) * scale,
+                    Mth.catmullrom(delta, vector3f.z(), vector3f2.z(), vector3f3.z(), vector3f4.z()) * scale
             );
             return dest;
         };
@@ -38,8 +38,8 @@ public record Transformation(Transformation.Target target, Keyframe... keyframes
     }
 
     public static class Targets {
-        public static final Transformation.Target POSITION = ModelPart::translate;
-        public static final Transformation.Target ROTATION = ModelPart::rotate;
-        public static final Transformation.Target SCALE = ModelPart::scale;
+        public static final Transformation.Target POSITION = ModelPart::offsetPos;
+        public static final Transformation.Target ROTATION = ModelPart::offsetRotation;
+        public static final Transformation.Target SCALE = ModelPart::offsetScale;
     }
 }

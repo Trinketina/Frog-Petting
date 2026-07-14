@@ -1,25 +1,31 @@
 package net.trinketina.frogpetting.animation;
 
+import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.model.Model;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.animation.Keyframe;
-import net.minecraft.client.render.entity.model.SinglePartEntityModel;
-import net.minecraft.entity.AnimationState;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.AnimationState;
+import net.trinketina.frogpetting.PettingClient;
 import org.joml.Vector3f;
+import traben.entity_model_features.models.IEMFModel;
 
 import java.util.List;
 import java.util.Map;
 
 public class AnimationHandler {
-    public static void animate(Model model, Animation animation, AnimationState animationState, long current_time) {
+    public static void animate(IEMFModel model, Animation animation, AnimationState animationState, long current_time) {
+        PettingClient.LOGGER.info("trying to animate " + (model instanceof IEMFModel) );
         float running_time = getRunningSeconds(animation, current_time);
         Vector3f scratch_vector = new Vector3f();
 
         animate(model, animation, running_time, 1.0f, scratch_vector);
+
+        if (running_time > animation.lengthS()) {
+            animationState.stop();
+        }
     }
 
-    public static void animate(Model model, Animation animation, float running_time, float scale, Vector3f position) {
+    public static void animate(IEMFModel model, Animation animation, float running_time, float scale, Vector3f position) {
         //float running_seconds = getRunningSeconds(animation, running_time);
 
         for (Map.Entry<String, List<Transformation>> entry : animation.boneTransformations().entrySet()) {
@@ -28,16 +34,16 @@ public class AnimationHandler {
 
             ModelPart part = null;
             try {
-                if (model instanceof SinglePartEntityModel<?> animatable) {
-                    part = animatable.getPart().getChild(key);
-                }
+                PettingClient.LOGGER.info("animating " + key + " " + model.emf$getEMFRootModel().vanillaRoot);
+                part = model.emf$getEMFRootModel().vanillaRoot.getChild(key);
             }
             catch (Exception e) {}
 
             if (part != null) {
+                PettingClient.LOGGER.info("part not null");
                 for ( var transformation : transformations ) {
                     Keyframe[] keyframes = transformation.keyframes();
-                    int i = Math.max(0, MathHelper.binarySearch(0, keyframes.length, index -> running_time <= keyframes[index].timestamp()) - 1);
+                    int i = Math.max(0, Mth.binarySearch(0, keyframes.length, index -> running_time <= keyframes[index].timestamp()) - 1);
 
                     int j = Math.min(keyframes.length - 1, i + 1);
                     Keyframe keyframe = keyframes[i];
@@ -45,7 +51,7 @@ public class AnimationHandler {
                     float h = running_time - keyframe.timestamp();
                     float k;
                     if (j != i) {
-                        k = MathHelper.clamp(h / (keyframe2.timestamp() - keyframe.timestamp()), 0.0F, 1.0F);
+                        k = Mth.clamp(h / (keyframe2.timestamp() - keyframe.timestamp()), 0.0F, 1.0F);
                     } else {
                         k = 0.0F;
                     }

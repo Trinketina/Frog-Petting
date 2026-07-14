@@ -1,13 +1,13 @@
 package net.trinketina.frogpetting;
+import com.mojang.blaze3d.platform.InputConstants;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.resource.ResourceType;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.server.packs.PackType;
 import net.trinketina.frogpetting.config.PettingConfig;
 import net.trinketina.frogpetting.config.PettingConfigData;
 import net.trinketina.frogpetting.interfaces.IPettingInteract;
@@ -19,12 +19,12 @@ import org.slf4j.LoggerFactory;
 public class PettingClient implements ClientModInitializer {
     public static final String MOD_ID = "frog_petting";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    //public static ControlsListWidget.KeyBindingEntry PETTING_CATEGORY;
+    //public static KeyMapping PETTING_CATEGORY;
 
     @Override
     public void onInitializeClient() {
         LOGGER.info("Croaking Frogs please wait...");
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new PettingResourceLoader());
+        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new PettingResourceLoader());
 
         //Config Setup
         AutoConfig.register(PettingConfigData.class, GsonConfigSerializer::new);
@@ -32,10 +32,11 @@ public class PettingClient implements ClientModInitializer {
 
         //Keybind setup
 
+        //PETTING_CATEGORY = KeyMapping.createNameSupplier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "petting"));
         PettingData.PET_KEYBIND = KeyBindingHelper.registerKeyBinding(
-                new KeyBinding(
+                new KeyMapping(
                         "key."+PettingClient.MOD_ID+".pet",
-                        InputUtil.Type.KEYSYM,
+                        InputConstants.Type.KEYSYM,
                         GLFW.GLFW_KEY_Z,
                         MOD_ID + ".petting"
                 )
@@ -43,8 +44,7 @@ public class PettingClient implements ClientModInitializer {
 
         //Keybind initialization
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (PettingData.PET_KEYBIND.isPressed()) {
-                PettingClient.LOGGER.info("PRESSED");
+            if (PettingData.PET_KEYBIND.isDown()) {
                 if (client.player instanceof IPettingInteract pettable) {
                     pettable.TryInteractPet(client);
                 }

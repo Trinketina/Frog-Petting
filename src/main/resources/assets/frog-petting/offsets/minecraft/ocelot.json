@@ -1,0 +1,11 @@
+{
+  "offset": [
+    0.0,
+    0.4
+  ],
+  "baby_offset": [
+    0.0,
+    0.2
+  ],
+  "sound_event_id": "minecraft:entity.bee.pollinate"
+}
