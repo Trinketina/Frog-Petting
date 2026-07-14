@@ -16,6 +16,10 @@ public class AnimationHandler {
         Vector3f scratch_vector = new Vector3f();
 
         animate(model, animation, running_time, 1.0f, scratch_vector);
+
+        if (current_time > animation.lengthS()) {
+            animationState.stop();
+        }
     }
 
     public static void animate(Model model, Animation animation, float running_time, float scale, Vector3f position) {
