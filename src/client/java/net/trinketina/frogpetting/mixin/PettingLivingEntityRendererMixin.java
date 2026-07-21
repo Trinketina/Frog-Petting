@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.world.entity.LivingEntity;
-import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.interfaces.IContextModelRootProvider;
 import net.trinketina.frogpetting.interfaces.IPettingModel;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,18 +40,13 @@ public abstract class PettingLivingEntityRendererMixin<T extends LivingEntity, M
         }
     }
 
-    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;setupAnim(Lnet/minecraft/world/entity/Entity;FFFFF)V", ordinal = 0))
+    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;prepareMobModel(Lnet/minecraft/world/entity/Entity;FFF)V", ordinal = 0))
     private void pettingRenderResetPose(T livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
         if (this.model instanceof IPettingModel pettingModel) {
-            pettingModel.frog_petting$ResetPose();
+            pettingModel.frog_petting$resetPose();
         }
     }
-   /* @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V", shift = At.Shift.AFTER, ordinal = 0))
-    private void pettingRenderToBuffer(T livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-        if (this.model instanceof IPettingModel pettingModel) {
-            pettingModel.frog_Petting$setPettingAnim();
-        }
-    }*/
+
 
     protected PettingLivingEntityRendererMixin(EntityRendererProvider.Context context) {
         super(context);

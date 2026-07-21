@@ -2,6 +2,7 @@ package net.trinketina.frogpetting.mixin;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -12,6 +13,7 @@ import net.trinketina.frogpetting.animation.AnimationHandler;
 import net.trinketina.frogpetting.interfaces.IPettingAnimationState;
 import net.trinketina.frogpetting.interfaces.IPettingModel;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,13 +26,15 @@ public abstract class PettingEntityModelMixin<T extends Entity> extends Model im
     @Unique
     private T petting_entity;
 
+
     public PettingEntityModelMixin(Function<ResourceLocation, RenderType> function) {
         super(function);
     }
 
-
     @Override
     public void frog_Petting$setPettingAnim(LivingEntity entity, float entity_bob) {
+
+
         if (entity instanceof IPettingAnimationState pettingAnimationState) {
             if (entity == null || entity.getType() == null) {
                 return;
@@ -50,6 +54,11 @@ public abstract class PettingEntityModelMixin<T extends Entity> extends Model im
 
     }
 
+   /* @Override
+    public void frog_petting$resetPose() {
+        this.frog_petting$getModelRoot().getAllParts().forEach(ModelPart::resetPose);
+        prepareMobModel();
+    }*/
 
 
     @Inject(method = "prepareMobModel", at = @At("HEAD"))

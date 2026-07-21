@@ -14,6 +14,6 @@ public interface IPettingModel<S> {
 
     Optional<ModelPart> frog_petting$getAnyDescendantWithName(String string);
 
-    void frog_petting$ResetPose();
+    void frog_petting$resetPose();
 
 }

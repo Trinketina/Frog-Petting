@@ -20,14 +20,14 @@ public class PettingModelMixin<T extends Entity> implements IPettingModel<T>  {
     @Unique
     ModelPart pettingModelRoot = null;
 
-
     /*@Inject(method = "renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V", at = @At("HEAD"))
     public final void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, CallbackInfo ci) {
-        //this.frog_Petting$setPettingAnim();
+        this.frog_Petting$setPettingAnim();
     }*/
 
     @Override
-    public void frog_Petting$setPettingAnim(LivingEntity entity, float entity_bob) {}
+    public void frog_Petting$setPettingAnim(LivingEntity entity, float entity_bob) {
+    }
 
     @Override
     public ModelPart frog_petting$getModelRoot() {
@@ -45,7 +45,7 @@ public class PettingModelMixin<T extends Entity> implements IPettingModel<T>  {
     }
 
     @Override
-    public void frog_petting$ResetPose() {
+    public void frog_petting$resetPose() {
         this.pettingModelRoot.getAllParts().forEach(ModelPart::resetPose);
     }
 }
