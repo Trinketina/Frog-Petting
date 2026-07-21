@@ -17,7 +17,7 @@ public class AnimationHandler {
 
         animate(model, animation, running_time, 1.0f, scratch_vector);
 
-        if (current_time > animation.lengthS()) {
+        if (running_time > animation.lengthS()) {
             animationState.stop();
         }
     }
