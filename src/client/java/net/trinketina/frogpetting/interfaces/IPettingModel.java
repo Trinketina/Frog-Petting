@@ -6,7 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.Optional;
 
 public interface IPettingModel<S> {
-    void frog_Petting$setPettingAnim(LivingEntity entity);
+    void frog_Petting$setPettingAnim(LivingEntity entity, float entity_bob);
 
     ModelPart frog_petting$getModelRoot();
 

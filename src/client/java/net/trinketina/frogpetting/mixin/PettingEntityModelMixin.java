@@ -30,7 +30,7 @@ public abstract class PettingEntityModelMixin<T extends Entity> extends Model im
 
 
     @Override
-    public void frog_Petting$setPettingAnim(LivingEntity entity) {
+    public void frog_Petting$setPettingAnim(LivingEntity entity, float entity_bob) {
         if (entity instanceof IPettingAnimationState pettingAnimationState) {
             if (entity == null || entity.getType() == null) {
                 return;
@@ -38,7 +38,7 @@ public abstract class PettingEntityModelMixin<T extends Entity> extends Model im
             String entity_id = entity.getType().toString();
 
             if (pettingAnimationState.frog_Petting$getPettingAnimationState().isStarted()) {
-                pettingAnimationState.frog_Petting$getPettingAnimationState().updateTime(entity.tickCount, 1.0F);
+                pettingAnimationState.frog_Petting$getPettingAnimationState().updateTime(entity_bob, 1.0F);
                 if (pettingAnimationState.frog_Petting$isBaby() && PettingData.BABY_PETTING_ANIMATIONS.containsKey(entity_id)) {
                     AnimationHandler.animate(this, PettingData.BABY_PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(), pettingAnimationState.frog_Petting$getPettingAnimationState().getAccumulatedTime());
                 }

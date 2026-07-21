@@ -32,10 +32,13 @@ public abstract class PettingLivingEntityRendererMixin<T extends LivingEntity, M
     @Shadow
     protected M model;
 
+    @Shadow
+    protected abstract float getBob(T livingEntity, float f);
+
     @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;setupAnim(Lnet/minecraft/world/entity/Entity;FFFFF)V", shift = At.Shift.AFTER, ordinal = 0))
     private void pettingRenderAnim(T livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
         if (this.model instanceof IPettingModel pettingModel) {
-            pettingModel.frog_Petting$setPettingAnim(livingEntity);
+            pettingModel.frog_Petting$setPettingAnim(livingEntity, this.getBob(livingEntity, g));
         }
     }
 

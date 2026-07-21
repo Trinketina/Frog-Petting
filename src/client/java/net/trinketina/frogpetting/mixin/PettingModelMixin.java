@@ -27,7 +27,7 @@ public class PettingModelMixin<T extends Entity> implements IPettingModel<T>  {
     }*/
 
     @Override
-    public void frog_Petting$setPettingAnim(LivingEntity entity) {}
+    public void frog_Petting$setPettingAnim(LivingEntity entity, float entity_bob) {}
 
     @Override
     public ModelPart frog_petting$getModelRoot() {
