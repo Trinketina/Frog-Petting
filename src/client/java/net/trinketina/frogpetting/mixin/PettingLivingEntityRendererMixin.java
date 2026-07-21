@@ -24,7 +24,6 @@ public abstract class PettingLivingEntityRendererMixin<T extends LivingEntity, M
     public void onInit(EntityRendererProvider.Context context, EntityModel entityModel, float f, CallbackInfo ci) {
         if (context instanceof IContextModelRootProvider rootProvider && entityModel instanceof IPettingModel pettingModel) {
             pettingModel.frog_petting$setModelRoot(rootProvider.getRoot());
-            PettingClient.LOGGER.info("Root Established");
         }
     }
 
