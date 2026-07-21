@@ -6,41 +6,49 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.AnimationState;
 import net.trinketina.frogpetting.PettingClient;
+import net.trinketina.frogpetting.interfaces.IPettingModel;
 import org.joml.Vector3f;
-import traben.entity_model_features.models.IEMFModel;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AnimationHandler {
-    public static void animate(IEMFModel model, Animation animation, AnimationState animationState, long current_time) {
-        PettingClient.LOGGER.info("trying to animate " + (model instanceof IEMFModel) );
-        float running_time = getRunningSeconds(animation, current_time);
-        Vector3f scratch_vector = new Vector3f();
+    private static final Vector3f ANIMATION_VECTOR_CACHE = new Vector3f();
 
-        animate(model, animation, running_time, 1.0f, scratch_vector);
+
+    public static void animate(Model model, Animation animation, AnimationState animationState, long current_time) {
+        float running_time = getRunningSeconds(animation, current_time);
+        //Vector3f scratch_vector = new Vector3f();
+
+        animate(model, animation, running_time, 1.0f, ANIMATION_VECTOR_CACHE);
 
         if (running_time > animation.lengthS()) {
             animationState.stop();
         }
     }
 
-    public static void animate(IEMFModel model, Animation animation, float running_time, float scale, Vector3f position) {
+    public static void animate(Model model, Animation animation, float running_time, float scale, Vector3f position) {
         //float running_seconds = getRunningSeconds(animation, running_time);
 
         for (Map.Entry<String, List<Transformation>> entry : animation.boneTransformations().entrySet()) {
             String key = entry.getKey();
             List<Transformation> transformations = entry.getValue();
 
-            ModelPart part = null;
+            AtomicReference<ModelPart> part = new AtomicReference<>();
             try {
-                PettingClient.LOGGER.info("animating " + key + " " + model.emf$getEMFRootModel().vanillaRoot);
-                part = model.emf$getEMFRootModel().vanillaRoot.getChild(key);
+                if (model instanceof IPettingModel<?> pettingModel) {
+                    Optional<ModelPart> optional = pettingModel.frog_petting$getAnyDescendantWithName(key);
+                    optional.ifPresent(part::set);
+                }
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+                //PettingClient.LOGGER.info(e.getMessage());
+            }
 
-            if (part != null) {
-                PettingClient.LOGGER.info("part not null");
+            if (part.get() != null) {
+
                 for ( var transformation : transformations ) {
                     Keyframe[] keyframes = transformation.keyframes();
                     int i = Math.max(0, Mth.binarySearch(0, keyframes.length, index -> running_time <= keyframes[index].timestamp()) - 1);
@@ -57,7 +65,7 @@ public class AnimationHandler {
                     }
 
                     keyframe2.interpolation().apply(position, k, keyframes, i, j, scale);
-                    transformation.target().apply(part, position);
+                    transformation.target().apply(part.get(), position);
                 }
             }
         }

@@ -5,6 +5,7 @@ import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.trinketina.frogpetting.PettingClient;
 import net.trinketina.frogpetting.PettingData;
 import net.trinketina.frogpetting.animation.AnimationHandler;
@@ -15,8 +16,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import traben.entity_model_features.mixin.mixins.MixinModel;
-import traben.entity_model_features.models.IEMFModel;
 
 import java.util.function.Function;
 
@@ -31,20 +30,20 @@ public abstract class PettingEntityModelMixin<T extends Entity> extends Model im
 
 
     @Override
-    public void frog_Petting$setPettingAnim() {
-        if (this.petting_entity instanceof IPettingAnimationState pettingAnimationState && this instanceof IEMFModel emfModel) {
-            if (petting_entity == null || petting_entity.getType() == null) {
+    public void frog_Petting$setPettingAnim(LivingEntity entity) {
+        if (entity instanceof IPettingAnimationState pettingAnimationState) {
+            if (entity == null || entity.getType() == null) {
                 return;
             }
-            String entity_id = petting_entity.getType().toString();
+            String entity_id = entity.getType().toString();
 
             if (pettingAnimationState.frog_Petting$getPettingAnimationState().isStarted()) {
-                pettingAnimationState.frog_Petting$getPettingAnimationState().updateTime(petting_entity.tickCount, 1.0F);
+                pettingAnimationState.frog_Petting$getPettingAnimationState().updateTime(entity.tickCount, 1.0F);
                 if (pettingAnimationState.frog_Petting$isBaby() && PettingData.BABY_PETTING_ANIMATIONS.containsKey(entity_id)) {
-                    AnimationHandler.animate(emfModel, PettingData.BABY_PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(), pettingAnimationState.frog_Petting$getPettingAnimationState().getAccumulatedTime());
+                    AnimationHandler.animate(this, PettingData.BABY_PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(), pettingAnimationState.frog_Petting$getPettingAnimationState().getAccumulatedTime());
                 }
                 else if (PettingData.PETTING_ANIMATIONS.containsKey(entity_id)) {
-                    AnimationHandler.animate(emfModel, PettingData.PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(), pettingAnimationState.frog_Petting$getPettingAnimationState().getAccumulatedTime());
+                    AnimationHandler.animate(this, PettingData.PETTING_ANIMATIONS.get(entity_id), pettingAnimationState.frog_Petting$getPettingAnimationState(), pettingAnimationState.frog_Petting$getPettingAnimationState().getAccumulatedTime());
                 }
             }
         }

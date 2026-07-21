@@ -1,6 +1,7 @@
 package net.trinketina.frogpetting;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.world.entity.EntityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,5 +15,6 @@ public class PettingMain implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		//LOGGER.info("Croaking Frogs please wait...");
-	}
+
+    }
 }

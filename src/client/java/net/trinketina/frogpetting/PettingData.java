@@ -1,6 +1,8 @@
 package net.trinketina.frogpetting;
 
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.resources.ResourceLocation;
 import net.trinketina.frogpetting.animation.Animation;
 import net.trinketina.frogpetting.resourcegen.jsondata.PettingOffsetData;
 
