@@ -16,4 +16,6 @@ public class PettingData {
     public static final Map<String, PettingOffsetData> OFFSETS = new HashMap<>();
 
     public static KeyMapping PET_KEYBIND;
+
+    public static ModelPart LAST_CREATED_ROOT;
 }

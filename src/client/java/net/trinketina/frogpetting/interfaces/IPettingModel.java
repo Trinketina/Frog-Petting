@@ -1,12 +1,15 @@
 package net.trinketina.frogpetting.interfaces;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.Optional;
 
 public interface IPettingModel<S> {
-    void frog_Petting$setPettingAnim(LivingEntity entity, float entity_bob);
+    void frog_Petting$setPettingAnim(Entity entity, float entity_bob, boolean isLayer);
+
+    //void prepareAnim(LivingEntity entity, float entity_bob);
 
     ModelPart frog_petting$getModelRoot();
 
