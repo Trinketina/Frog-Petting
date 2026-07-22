@@ -20,7 +20,7 @@ repositories {
     //Cloth Config API
     maven { url "https://maven.shedaniel.me/" }
     //Mod Menu API
-    maven { url "https://maven.terraformersmc.com/releases/" }
+    //maven { url "https://maven.terraformersmc.com/releases/" }
     // Modrinth
     maven{url "https://api.modrinth.com/maven"}
 }
