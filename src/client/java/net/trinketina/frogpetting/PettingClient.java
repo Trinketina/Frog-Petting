@@ -14,7 +14,6 @@ import net.trinketina.frogpetting.config.PettingConfig;
 import net.trinketina.frogpetting.config.PettingConfigData;
 import net.trinketina.frogpetting.interfaces.IPettingInteract;
 import net.trinketina.frogpetting.resourcegen.PettingResourceLoader;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +37,8 @@ public class PettingClient implements ClientModInitializer {
         PettingData.PET_KEYBIND = KeyMappingHelper.registerKeyMapping(
                 new KeyMapping(
                         "key."+PettingClient.MOD_ID+".pet",
-                        InputConstants.Type.KEYSYM,
-                        GLFW.GLFW_KEY_Z,
+                        InputConstants.Type.KEYBOARD,
+                        InputConstants.KEY_Z,
                         PettingClient.PETTING_CATEGORY
                 )
         );

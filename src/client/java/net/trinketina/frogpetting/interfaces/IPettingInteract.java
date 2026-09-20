@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -21,7 +22,7 @@ public interface IPettingInteract {
 
                 if (result == InteractionResult.SUCCESS) {
                     if (minecraft.player.getMainHandItem() == ItemStack.EMPTY) {
-                        minecraft.player.swing(InteractionHand.MAIN_HAND);
+                        minecraft.player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
                     }
                 }
             }
